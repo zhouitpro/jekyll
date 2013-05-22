@@ -1,0 +1,62 @@
+---
+layout: post
+title: Drupal 配合Git 搭建你的服务器环境
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+如果你在本地做开发，本地添加文章。但是你需要的随时你都可以方便地更新你服务器上网站的文件和数据库.那么你可以考虑一下。
+
+你的基本条件：
+
+<strong>1. 服务器是你的</strong>
+
+<strong>2. 你装了GIT和drush</strong>
+
+&nbsp;
+<h2>首先使用GIT把自己的服务器环境搭建起来</h2>
+&nbsp;
+
+&nbsp;
+<pre># mkdir -p /var/repos/mysite.git     //创建git目录
+# cd /var/repos/mysite.git
+# git init --bare                    //创建一个裸仓库
+# cd hooks
+# vim post-receive                   //创建钩子文件</pre>
+写入以下内容 /var/www/mysite 你的网站目录
+<pre>#!/bin/sh
+webdir=/var/www/mysite/
+GIT_WORK_TREE=$webdir git checkout -f
+cd $webdir
+./restore.sh   #这个脚本是你后续要调整你网站的脚本，包括数据库更新。模块禁用</pre>
+还要给钩子文件加上执行权限
+<pre># chmod +x post-receive</pre>
+<h2>你的本地环境</h2>
+首先先将你的服务器的仓库地址添加到你本地
+<pre>git remote add origin root@youserver.com:/var/repos/mysite.git</pre>
+创建一个升级脚本.放在根目录. 而且你要确保.sites/private 是你的私有目录。否则别人会把你数据库下载走
+<pre>vim upgrade.sh
+
+#!/bin/bash
+
+#先导出数据库
+mysqldump -uroot -proot drupal &gt; ./sites/private/drupal.sql
+
+#添加和提交并且push
+git add ./sites/private/drupal_blog.sql
+now=$(date +%Y-%m-%d-%H-%M-%S)
+git commit -m "Mysql back $now"
+git push origin master -f</pre>
+最后来写你的后续操作脚本
+<pre>#!/bin/bash
+#首先还原你的数据库
+mysql -udrupal -p"服务器数据库密码" drupal &lt; ./sites/private/drupal.sql
+drush cc all   #清空缓存
+#为了安全起见，删除数据库文件
+rm .sites/private/drupal.sql
+drush pm-disable devel -y  #禁用不要的模块，你可以写更多的操作
+#更多需要在这里写脚本来完成你的工作。基本drush什么都可以做</pre>

@@ -1,0 +1,57 @@
+---
+layout: post
+title: GIT 变基,git rebase
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+把两个提交合并成一个提交:
+比如现在有提交:
+a
+b
+c
+d
+e
+我需要将c和b合并成b
+首先切换到c前面
+<pre>
+git rebase -i d^
+</pre>
+
+将c行的pick 修改成s, 保存退出，第一个是无法修改成s的。因为一般是前面为s的往上合并
+
+<h2>修改提交</h2>
+你要修改哪一个.你获取他下一个哈希值.
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+$git rebase -i 哈希值
+
+//在你要修改提交前把pick改成edit.保存退出
+//接下来运行git commit --amend进入修改状态
+$git commit --amend
+
+//修改完成后运行
+$git rebase --continue
+
+</pre>
+
+<h2>丢弃提交</h2>
+此方法是丢弃某次提交前的所有提交。
+比如有提交
+a
+b
+c
+d
+e
+f
+如果你想丢弃的是c提前前面的所有提交:
+<pre>
+git cat-file -p d^{tree} 查看c的树
+git  echo "new d" | git commit-tree d^{tree}  在d树上创建一个新的提交,运行这条命令会生成一个哈希值：
+比如生成的是: 88ed926d05d38869c101d90ce34609a21f0faa01
+来进行变基操作
+git rebase --onto 88ed926d05d3 d^ master
+</pre>

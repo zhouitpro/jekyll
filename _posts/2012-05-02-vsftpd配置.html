@@ -1,0 +1,24 @@
+---
+layout: post
+title: vsftpd配置
+tags:
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+anonymous_enable=NO 是否允许匿名ftp,如否则选择NO 
+
+local_enable=YES 是否允许本地用户登录 
+
+配置用户登陆在主目录下面
+
+chroot_local_user=YES  如果设定为YES，那么所有的本机的使用者都可以切换到根目录以外的数据夹。必须为YES才有效果 
+chroot_list_enable=YES （据说这句写不写无所谓，本人没有尝试）
+chroot_list_file=/etc/vsftpd/chroot_list
+
+cat /dev/null > /etc/vsftpd/chroot_list
+
+凡是在chroot_list里面的用户都是受限制的登陆，但是这个文件必须存在，所以可以创建为空

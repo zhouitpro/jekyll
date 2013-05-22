@@ -1,0 +1,18 @@
+---
+layout: post
+title: 恢复reset删除的提交
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">└──&gt; git reflog 
+dedb3dc HEAD@{4}: checkout: moving from master to dedb3dc63f413ed6eeba8082b7e93ad136b16d0d^0
+a5c8652 HEAD@{5}: commit: my push
+73a0325 HEAD@{6}: HEAD^: updating HEAD
+4b19d45 HEAD@{7}: HEAD~1: updating HEAD</pre>
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">git reset HEAD@{7}   //恢复到{7}
+git rebase 73a0325   //恢复到哈希值为73a0325</pre>

@@ -1,0 +1,16 @@
+---
+layout: post
+title: drupal_alter
+tags:
+- Drupal 函数和方法原码解析
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+此函数会根据$type寻找所有 hook_$type_alter()方法并执行
+<a href="http://api.drupal.org/api/drupal/includes%21module.inc/function/drupal_alter/7" target="_blank">http://api.drupal.org/api/drupal/includes%21module.inc/function/drupal_alter/7</a>
+<pre>
+function drupal_alter($type, &$data, &$context1 = NULL, &$context2 = NULL)
+</pre>

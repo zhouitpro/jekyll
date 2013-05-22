@@ -1,0 +1,31 @@
+---
+layout: post
+title: SSH更新用户密码 脚本
+tags:
+- bash
+- Linux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="bash">
+
+#!/bin/bash
+printf '' > '/var/www/ssh110.com/data/userpasswd'
+users=('ssh01' 'ssh02' 'ssh03' 'ssh04' 'ssh05' 'ssh06' 'ssh07' 'ssh08' 'ssh09' 'ssh10' 'ssh11' 'ssh12' 'ssh13' 'ssh14' 'ssh15' 'ssh16' 'ssh17' 'ssh18' 'ssh19' 'ssh20')
+for u in ${users[@]}; do
+    pawd=''
+    a=('0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 'a' 'b' 'c' 'z' 'A' 'B' 'Z')
+    for i in {1..10}
+    do
+        pawd=$pawd${a[$RANDOM % ${#a[*]}]}
+    done
+    echo $u : $pawd >> '/var/www/ssh110.com/data/userpasswd'
+    echo $u:$pawd | chpasswd
+done;
+
+
+</pre>

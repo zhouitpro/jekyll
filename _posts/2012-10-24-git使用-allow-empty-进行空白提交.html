@@ -1,0 +1,20 @@
+---
+layout: post
+title: GIT使用 --allow-empty 进行空白提交/空提交
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在默认情况下,GIT是不允许空白提交的
+<pre>
+$git commit --allow-empty -m "Empty"
+</pre>
+
+所以下面有一个技巧就是可以在什么都没有的时候覆盖你的上一个提交commit注释,并且还可以重置提交的作者哦
+<pre>
+$git commit --amend --allow-empty --reset-author
+</pre>

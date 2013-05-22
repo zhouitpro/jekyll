@@ -1,0 +1,23 @@
+---
+layout: post
+title: jquery 组合表单元素,提交表单
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="javascript">
+$("form").serialize()
+
+$.ajax({
+     type:_method,
+     url:url,
+     data:$("form").serialize(),
+     dataType:"json",
+     cache: false,
+     success: $callback,
+ });
+</pre>

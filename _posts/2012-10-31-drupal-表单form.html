@@ -1,0 +1,41 @@
+---
+layout: post
+title: Drupal 表单,Form
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/drupal/includes%21form.inc/group/form_api/7" target="_blank">http://api.drupal.org/api/drupal/includes%21form.inc/group/form_api/7</a>
+
+<a href="http://api.drupal.org/api/drupal/developer%21topics%21forms_api_reference.html/7" target="_blank">http://api.drupal.org/api/drupal/developer%21topics%21forms_api_reference.html/7</a>
+
+Form最基本的函数是drual_get_form, 一切都是这里开始的
+<pre>
+drupal_get_form();
+</pre>
+
+这里要特别记录一下一个属性:states中invisible
+他的作用就是判断这个此表单在什么时候隐藏:
+以下案例就是当name为demos_select选择时。当值为none时，此表单为隐藏状态
+<pre>
+$form['demos'] = array(
+  '#type' => 'checkboxes',
+  '#title' => t('demos from:'),
+  '#options' => array('1'),
+  '#states' => array(
+    // Hide the modes when the content type value is <none>.
+    'invisible' => array(
+     'select[name="demos_select"]' => array('value' => 'none'),
+    ),
+  ),
+);
+</pre>
+
+如果想要把此表单当成是variable保存到variable表。可以直接使用下面最简单的方法
+<pre>
+return system_settings_form($form);
+</pre>

@@ -1,0 +1,41 @@
+---
+layout: post
+title: Drupal menu_set_active_item 使用Link出错
+tags:
+- Drupal
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+这个函数使我的链接错乱了
+当node view 的时候将menu Active设置为event. 这样写当然没错，是正确的。
+当我进行文章搜索的时候, 搜索到了content type 为 event的内容, 也就会运行<strong>menu_set_active_item</strong>. 结果导致我的搜索结果分页链接也就坏了.
+<a href="http://api.drupal.org/api/drupal/includes%21menu.inc/function/menu_set_active_item/7">http://api.drupal.org/api/drupal/includes%21menu.inc/function/menu_set_active_item/7</a>
+
+官方有提示如果使用不当会有意想不到的结果。果然出现错误了
+
+<pre lang="php">
+/**
+ * Impelments hook_node_view()
+ */
+function MYMODULE_node_view($node) {
+  if ($node->type == 'event') {
+    menu_set_active_item('event');
+  }
+}
+</pre>
+
+随之我修改了我的代码:
+<pre lang="php">
+/**
+ * Impelments Hook_node_view()
+ */
+function sigvaris_global_node_view($node) {
+  if (arg(0)=='node' && $node->type == 'event') {
+    menu_set_active_item('event');
+  }
+}
+</pre>

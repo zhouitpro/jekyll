@@ -1,0 +1,31 @@
+---
+layout: post
+title: CI改变模板目录
+tags:
+- Ci
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+进入application/core目录下
+创建MY_Loader.php
+写入
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;?php
+/**
+ * @param @author zhouitpro zhouitpro@gmail.com
+ * * */
+class MY_Loader extends CI_Loader{
+	
+	public function __construct(){
+		
+		parent::__construct();
+		
+		$this-&gt;_ci_view_paths[FCPATH.&#039;templates/default/&#039;] = true;
+		
+	}
+	
+}
+</pre>

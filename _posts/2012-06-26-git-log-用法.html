@@ -1,0 +1,36 @@
+---
+layout: post
+title: git log 用法
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+查看全部提交日志
+<pre>$git log</pre>
+&nbsp;
+
+查看两次提交
+<pre>$git log 2</pre>
+&nbsp;
+
+查看提交日志，以图形方式显示,刚刚发现的超好用~~~~~~~~~
+<pre>$git log –graph</pre>
+&nbsp;
+
+显示所有的提交, 只显示提交
+<pre>$git log --oneline --decorate</pre>
+
+查看某个文件的修改历史
+<pre>
+$git log --pretty=oneline 文件名
+</pre>
+
+显示某次提交修改的文件
+<pre>
+$git log --stat -2 查看近两次提交修改的文件
+$git log --stat 4a12bde1403d 显示这个哈希以前的修改历史
+</pre>

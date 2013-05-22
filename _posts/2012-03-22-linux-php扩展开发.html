@@ -1,0 +1,67 @@
+---
+layout: post
+title: Linux PHP扩展开发
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#cd ~/soft/
+#wget http://cn.php.net/distributions/php-5.4.0.tar.gz   //下载php原码包
+#tar -xvf php-5.4.0.tar.gz
+#cd ext/
+#./ext_skel --extname=sun    //添加一个扩展,运行完成后会生成一个目录sun
+#cd sun
+#vim config.m4   //编辑vim config.m4文件
+//将下面内容将前面的dnl去掉
+PHP_ARG_ENABLE(sun, whether to enable sun support,
+[ --enable-sun         Enable sun support])
+
+//编辑vi php_sun.h文件
+vim php_sun.h
+
+找到：PHP_FUNCTION(confirm_sun_compiled); ，新增一行：
+PHP_FUNCTION(test); 
+
+vi sun.c
+数组里增加我们的函数，找到 zend_function_entry sun_functions[]，增加：
+PHP_FE(test, NULL)
+{NULL, NULL, NULL}
+
+再到 sun.c 文件最后面增加如下代码：
+PHP_FUNCTION(test)
+{
+    char *arg = NULL;
+    int arg_len, len;
+    char *strg;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, &quot;s&quot;, &amp;arg, &amp;arg_len) == FAILURE) {
+       return;
+    }
+
+    len = spprintf(&amp;strg, 0, &quot;Your input string: %s\n&quot;, arg);
+    RETURN_STRINGL(strg, len, 0);
+}
+
+#phpize
+#./configure
+#make
+#sudo make install
+
+//进入/etc/php5/apache2/conf.d/  目录
+//创建文件  sun.ini
+#vim sun.ini   //写入以下内容
+extension=sun.so 
+
+//重新启动apache2
+#sudo /etc/init.d/apache2 restart
+
+方法创建成功了，你在php中运行
+&lt;?php
+ echo test(&quot;Hello World&quot;);
+?&gt;
+</pre>

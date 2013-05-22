@@ -1,0 +1,39 @@
+---
+layout: post
+title: ArchLinux 安装Apache+php+mysql
+tags:
+- archlinux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+$pacman -S apache
+$pacman -S php
+$pacman -S mysql
+$pacman -S  php-apache
+//安装apache支持php,编辑以下文件
+$vim /etc/httpd/conf/httpd.conf
+
+//后面增加
+LoadModule php5_module modules/libphp5.so
+Include conf/extra/php5_module.conf
+
+//编辑php.ini 使得支持mysql
+$sudo vim /etc/php/php.ini
+去掉extension=mysql.so前面的#
+
+//重新启动apache
+Sudo /etc/rc.d/httpd restart
+
+# vi /etc/rc.conf
+//载DAEMONS里加上httpd和mysqld，让他看起来像是这样,使apache2,mysql开机启动
+DAEMONS=(... httpd mysqld)
+</pre>
+
+修改mysql密码。默认为空
+mysql -u root -p
+use mysql
+update mysql.user set password=password('新密码') where user='root';

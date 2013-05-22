@@ -1,0 +1,24 @@
+---
+layout: post
+title: Nginx URL重写
+tags:
+- Linux
+- nginx
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre>
+    if (-f $request_filename/index.html){
+            rewrite (.*) $1/index.html break;
+    }   
+    if (-f $request_filename/index.php){
+        rewrite (.*) $1/index.php;
+    }   
+    if (!-f $request_filename){
+        rewrite (.*) /index.php;
+    }   
+</pre>

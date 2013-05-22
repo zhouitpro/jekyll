@@ -1,0 +1,39 @@
+---
+layout: post
+title: Drupal 面包屑/breadcrumb
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+
+/**
+Hook_breadcrumb
+YouThemeName_breadcrumb
+*/
+
+/**
+ * 过滤面包屑
+ * Override of theme_breadcrumb().
+ */
+function ccs_breadcrumb($variables) {
+  $breadcrumb = $variables['breadcrumb'];
+  
+  if (!empty($breadcrumb)) {
+    // Provide a navigational heading to give context for breadcrumb links to
+    // screen-reader users. Make the heading invisible with .element-invisible.
+    $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
+    
+    $output .= '<div class="breadcrumb">' . implode(' › ', $breadcrumb) . '</div>';
+    return $output;
+  }
+}
+
+</pre>
+
+获取当前面包线 <a href="http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_get_breadcrumb/7">drupal_get_breadcrumb</a>
+设置当前面包线 <a href="http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_set_breadcrumb/7">drupal_set_breadcrumb</a>

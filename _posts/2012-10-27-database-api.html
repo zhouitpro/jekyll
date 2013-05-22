@@ -1,0 +1,39 @@
+---
+layout: post
+title: Drupal Database API
+tags:
+- Drupal
+- Drupal 培训
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+查询的API:
+
+<a href="http://api.drupal.org/api/drupal/includes!database!select.inc/class/SelectQuery/7" target="_blank">http://api.drupal.org/api/drupal/includes!database!select.inc/class/SelectQuery/7</a>
+
+&nbsp;
+DB类:
+<a href="http://api.drupal.org/api/drupal/includes!database!database.inc/group/database/7" target="_blank">http://api.drupal.org/api/drupal/includes!database!database.inc/group/database/7</a>
+&nbsp;
+
+Develop Database API:
+
+<a href="http://drupal.org/developing/api/database" target="_blank">http://drupal.org/developing/api/database</a>
+
+&nbsp;
+Schema:
+<a href="http://drupal.org/node/146843" target="_blank">http://drupal.org/node/146843</a>
+
+<a href="http://drupal.org/node/150223" target="_blank">http://drupal.org/node/150223</a>
+Data Type: <a href="http://drupal.org/node/159605" target="_blank">http://drupal.org/node/159605</a>
+
+API: <a href="http://api.drupal.org/api/drupal/includes%21database%21schema.inc/group/schemaapi/7" target="_blank">http://api.drupal.org/api/drupal/includes%21database%21schema.inc/group/schemaapi/7</a>
+
+常用函数:
+<pre lang="php">
+drupal_write_record('tablename','filed_array', $primary_keys) //添加数据, $primary_keys如果是空表示是添加数据，如果有字段。按字段条件更新数据
+drupal_get_schema($table);    //根据表名获取这个表里面的所有字段
+</pre>

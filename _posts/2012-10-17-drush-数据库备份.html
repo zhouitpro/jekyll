@@ -1,0 +1,46 @@
+---
+layout: post
+title: drupal 数据库备份与恢复
+tags:
+- Drupal
+- drush
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<h2>用Drush备份:</h2>
+<pre>drush -v sql-dump --result-file=back.sql</pre>
+使用脚本按日期来备份
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">#!/bin/bash
+now=$(date +%Y-%m-%d-%H-%M-%S)
+drush -v sql-dump --result-file=./mysqlback/$now.sql</pre>
+用bam-backup来备份,首先我只能说backup_migrate这是一个非常好的模块.用来备份和恢复必备良器。先来安装这个模块
+<pre>$drush dl backup_migrate
+$drush en backup_migrate y</pre>
+使用bam-backup来备份,首先你要设置你的私有目录.然后才能运行以下命令否则会出错.文件会自动备份到你的私有目录backup_migrate/manual/
+<pre>$drush bam-backup</pre>
+<h2>恢复备份.</h2>
+<a href="http://drupal.org/node/681284" target="_blank">http://drupal.org/node/681284</a>
+
+这个备份的名字你其实可以在你的任意目录下面运行。他都可以去找到你的备份文件
+<pre>$drush bam-restore db manual you_db_2012-11-30T01-29-41.mysql.gz</pre>
+如果在你不知道到你最新的备份是哪个的情况下那你可能只能用脚本了. 首先本次是恢复最新的备份
+<pre>#!/bin/bash
+lastfile=$(ls -t1 ./you_private/backup_migrate/manual/ | head -n1)
+drush bam-restore db manual --yes "$lastfile"</pre>
+恢复最老的备份:
+<pre>#!/bin/bash
+lastfile=$(find ./you_private/backup_migrate/manual/ -not -type d -printf "%p\n" | sort -n | tail -1)
+drush bam-restore db manual --yes "$lastfile"</pre>
+
+<h2>使用mysql的方法备份与恢复</h2>
+备份使用mysqldump,用户名和密码都是root
+<pre>
+$mysqldump -uroot -proot mydatabase > mydatabase.sql
+</pre>
+恢复
+<pre>
+$mysql -uroot -proot mydatabase < mydatabase.sql
+</pre>

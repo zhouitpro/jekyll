@@ -1,0 +1,77 @@
+---
+layout: post
+title: 高性能建站
+tags:
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _oembed_e0ef5e06b8528bee52a0f39fd0a825a5: '{{unknown}}'
+  _edit_last: '1'
+  _oembed_68a5eb5812d7903e7117b32e3bb60d0b: '{{unknown}}'
+---
+drupal hiphop
+http://drupal.stackexchange.com/questions/11738/how-to-speed-up-drupal-7-compiling-php-to-c
+
+<a href="http://groups.drupal.org/high-performance">http://groups.drupal.org/high-performance</a>
+<a href="http://groups.drupal.org/node/279093">http://groups.drupal.org/node/279093</a>
+
+<strong>PHP/Server side tools:</strong>
+FPM: <a href="http://php-fpm.org/">http://php-fpm.org/</a> [EN], <a href="http://baike.baidu.com/view/4168033.htm">http://baike.baidu.com/view/4168033.htm</a> [ZH-HANS]
+Varnish
+APC
+NGINX --&gt; Can replace Varnish if configured as reverse proxy
+MEMCACHE
+SQUID
+
+xhprof, http://drupal.org/project/xhprof --&gt; benchmarking and measuring your performance
+FASTER!! Compile to C language: Hiphop Facebook http://drupal.org/node/705962
+http://php.webtutor.pl/en/2011/05/17/drupal-hiphop-for-php-vs-apc-benchmark/
+<a href="http://developers.facebook.com/blog/post/2010/02/02/hiphop-for-php--move-fast/">http://developers.facebook.com/blog/post/2010/02/02/hiphop-for-php--move-fast/</a>
+
+<a href="http://pressflow.org/">Pressflow</a>
+
+<strong>Drupal modules:</strong> <a href="http://drupal.org/project/modules/?f[0]=im_vid_3%3A123&amp;f[1]=bs_project_sandbox%3A0">Performance and scalability</a>
+<a href="http://drupal.org/project/boost">Boost</a>
+"Authenticated Cache": <a href="http://drupal.org/project/authcache">http://drupal.org/project/authcache</a>
+<a href="http://drupal.org/project/memcache">Memcache API and Integration</a>
+
+PHP:
+mod_php
+nginx(fast-cgi/php-fpm)
+apache
+
+fast-cgi 排除处理
+
+
+Drupal nginx
+<a href="https://github.com/perusio/drupal-with-nginx">github.com/perusio/drupal-with-nginx</a>
+
+php fastcgi
+pm.max_requests=500  当php接收到500个请求就会重新生成php进程,但是也不能设置太大，如果设置太大的话你可能太多的的请求会耗用太多的进程
+
+
+PHP加速:
+apc
+eacc
+xcache
+zend Optimizer+
+
+
+apc:
+apc.shm_size = 64M 开启缓存php代码的内存
+apcstat = 0
+
+
+网站加速王 Cache 为王
+<a href="http://www.chinaz.com/web/2012/0111/231417_2.shtml">http://www.chinaz.com/web/2012/0111/231417_2.shtml</a>
+
+CND 模块:
+origin pull mode
+file converyor mode
+
+drupal.org/node/875632
+
+
+fast 404模块将你的404交给web service 来处理

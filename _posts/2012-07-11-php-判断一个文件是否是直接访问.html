@@ -1,0 +1,46 @@
+---
+layout: post
+title: PHP 判断一个文件是否是直接访问
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+/**
+ * 判断此文件是否直接访问
+ * @return mixed
+ */
+function isAccess(){
+    
+    $data = debug_backtrace();
+    
+    if(!isset($data[1]))
+        return FALSE;
+    
+    switch($data[1][&#039;function&#039;]){
+     		case &#039;include&#039; :
+                case &#039;require&#039; :
+                case &#039;include_once&#039; :
+                case &#039;require_once&#039; :
+                    
+                    return $data[1][&#039;function&#039;];
+    }
+    
+    return FALSE;
+}
+
+if(isAccess() !== FALSE)
+{
+    echo &#039;你的访问类型是&#039;.isAccess();
+}
+else
+{
+    echo &#039;此文件不允许直接访问&#039;;
+}
+
+</pre>

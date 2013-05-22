@@ -1,0 +1,26 @@
+---
+layout: post
+title: 正则替换 p标签和空格
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+//用正则替换p标签和p标签里面的&nbsp;
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+$string = &#039;nbsfdpfds;&lt;p&gt;&amp;nbsp;fdskfjsdl&amp;nbsp;fsdfsd&lt;/p&gt;fsdfdfd&#039;;
+
+if(preg_match(&#039;/&lt;p&gt;([\s\S]*?)&lt;\/p&gt;/&#039;, $string,$match)){
+    if(isset($match[1])){
+         $string = str_replace($match[0],  str_replace(&#039;&amp;nbsp;&#039;, &#039;&#039;, $match[1]), $string);
+    }
+}
+
+var_dump($string);
+
+</pre>

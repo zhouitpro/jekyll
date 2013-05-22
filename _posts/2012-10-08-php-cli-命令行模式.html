@@ -1,0 +1,66 @@
+---
+layout: post
+title: PHP Cli 命令行接口
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://php.net/manual/en/features.commandline.php">PHP cli </a>
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+class CliCheck
+{
+    /**
+     * Advanced PHP-CLI mode check.
+     *
+     * @return boolean    Returns true if PHP is running from the CLI or else false.
+     *
+     * @access public
+     * @static
+     */
+    public static function isCli()
+    {
+        // If STDIN was not defined and PHP is running as CGI module
+        // we can test for the environment variable TERM. This
+        // should be a right way how to test the circumstance under
+        // what mode PHP is running.
+        if(!defined(&#039;STDIN&#039;) &amp;&amp; self::isCgi()) {
+            // STDIN was not defined, but if the environment variable TERM
+            // is set, it is save to say that PHP is running from CLI.
+            if(getenv(&#039;TERM&#039;)) {
+                return true;
+            }
+            // Now return false, because TERM was not set.
+            return false;
+        }
+        return defined(&#039;STDIN&#039;);
+    }   
+
+    /**
+     * Simple PHP-CGI mode check.
+     *
+     * (DSO = Dynamic Shared Object)
+     *
+     * @link http://httpd.apache.org/docs/current/dso.html DSO
+     * @link http://www.php.net/manual/en/function.php-sapi-name.php PHP_SAPI
+     *
+     * @return boolean    Returns true if PHP is running as CGI module or else false.
+     *
+     * @access public
+     * @static
+     */
+    public static function isCgi()
+    {
+        if (substr(PHP_SAPI, 0, 3) == &#039;cgi&#039;) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+    }
+}
+
+</pre>

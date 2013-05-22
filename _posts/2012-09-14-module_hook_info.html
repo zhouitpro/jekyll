@@ -1,0 +1,88 @@
+---
+layout: post
+title: module_hook_info
+tags:
+- Drupal 函数和方法原码解析
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+/**
+ * Retrieve a list of what hooks are explicitly declared.
+ * 
+ * 此方法会查找所有启用模块带 模块名_hook_info的方法.  将方法返回数组合并. 
+ * 接着继续循环所有启用模块带 模块名_hook_info_alter的方法. 将 模块名_hook_info得到的值传进去过滤
+ * 缓存起来. 返回数组  下次直接读取缓存
+ */
+function module_hook_info() {
+  // This function is indirectly invoked from bootstrap_invoke_all(), in which
+  // case common.inc, subsystems, and modules are not loaded yet, so it does not
+  // make sense to support hook groups resp. lazy-loaded include files prior to
+  // full bootstrap.
+  if (drupal_bootstrap(NULL, FALSE) != DRUPAL_BOOTSTRAP_FULL) {
+    return array();
+  }
+  
+  /**
+   * 读取缓存之前先查看静态变量里面是否已经读过了.如果读过就直接返回
+   */
+  $hook_info = &amp;drupal_static(__FUNCTION__);
+
+  if (!isset($hook_info)) {
+    $hook_info = array();
+    
+    /**
+     * 如果静态变量不存在就读取缓存
+     */
+    $cache = cache_get(&#039;hook_info&#039;, &#039;cache_bootstrap&#039;);
+    if ($cache === FALSE) {
+        
+      //如果缓存不存在就读取 模块名_hook_info的方法.  将方法返回数组合并
+      // Rebuild the cache and save it.
+      // We can&#039;t use module_invoke_all() here or it would cause an infinite
+      // loop.
+      foreach (module_list() as $module) {
+        $function = $module . &#039;_hook_info&#039;;
+        if (function_exists($function)) {
+          $result = $function();
+          if (isset($result) &amp;&amp; is_array($result)) {
+            /**
+             * array_merge_recursive 递归地合并一个或者多个数组.如果存在相同的键不会被覆盖.而是加在后面
+             * http://cn.php.net/manual/zh/function.array-merge-recursive.php
+             */
+            $hook_info = array_merge_recursive($hook_info, $result);
+          }
+        }
+      }
+      
+      /**
+       * 寻找是否有 模块名_hook_info_alter的方法. 将 模块名_hook_info得到的值传进去过滤
+       * 这里也是给用户留接口.使用户可以进行过滤
+       */
+      // We can&#039;t use drupal_alter() for the same reason as above.
+      foreach (module_list() as $module) {
+        $function = $module . &#039;_hook_info_alter&#039;;
+        if (function_exists($function)) {
+          $function($hook_info);
+        }
+      }
+      
+      //设置缓存
+      cache_set(&#039;hook_info&#039;, $hook_info, &#039;cache_bootstrap&#039;);
+    }
+    else {
+      $hook_info = $cache-&gt;data;
+    }
+  }
+  
+  /**
+   * 返回数据
+   */
+  return $hook_info;
+}
+
+</pre>

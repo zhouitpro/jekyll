@@ -1,0 +1,57 @@
+---
+layout: post
+title: JavaScript 节点操作
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="javascript">
+/**
+nodeName获取标签名
+tagName 也是获取标签名
+nodeType 获取元素节点的类型值 
+
+元素节点的类型值是1,
+属性节点的类型值是2
+文本节点的类型值是3
+
+nodeValue 只有文本节点才有nodeValue
+
+firstChild.nodeValue获取第一个子节点
+lastChild.nodeValue获取最后一个子节点
+nextSibling 获取下一个元素节点
+parentNode 获取父节点
+previousSibling 返回一下个节点
+remoteChild(&amp;#039;node&amp;#039;) 移除某个子节点
+childNodes  获取所有子节点
+
+
+操作元素节点和
+获取指定属性
+demo.getAttribute(&amp;quot;id&amp;quot;);
+demo.attributes 获取所有属性
+
+过滤文本空节点
+*/
+
+function filterWhiteNode(node) {
+
+	nodec = node.childNodes;
+
+	if(nodec.length == 0) return nodec;
+
+	for (var i = 0; i &lt; nodec.length; i++) {
+		if(nodec[i].nodeType ===3 &amp;&amp; /^\s+$/.test(nodec[i].nodeValue)) {
+			nodec[i].parentNode.removeChild(nodec[i]);
+		}
+	};
+
+	return node;
+
+};
+
+</pre>

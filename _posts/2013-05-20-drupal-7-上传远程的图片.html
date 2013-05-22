@@ -1,0 +1,25 @@
+---
+layout: post
+title: Drupal 7 上传远程的图片
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+ $upload_path = drupal_realpath('public://custom_image/');
+
+ if (!file_prepare_directory($upload_path)) {
+   drupal_mkdir('public://custom_image/', 0777);
+ }
+ $file_url = "http://www.example.com/example.png";
+ if ($file_data = file_get_contents($file_url) && basename($file_url)) {
+    $file_object = file_save_data($file_data, 'public://custom_image/' . basename($file_url));
+    if (is_object($file_object)) {
+      echo 'Success';
+    }
+  }
+</pre>

@@ -1,0 +1,109 @@
+---
+layout: post
+title: ArchLinux 配置
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="https://wiki.archlinux.org/index.php/List_of_Applications_(简体中文)">https://wiki.archlinux.org/index.php/List_of_Applications_(简体中文)</a>
+
+<pre lang="bash">
+#Archlinux empathy 默认无法使用
+$sudo pacman -S empathy telepathy 
+
+#开机启用NetworkManager
+$sudo systemctl enable NetworkManager
+
+#mysql默认是没额密码的
+$mysql -u root -p
+mysql> UPDATE mysql.user SET password=PASSWORD('root') WHERE user='root';
+mysql> FLUSH PRIVILEGES;
+</pre>
+
+安装Yaourt,安装之前需要初始化key
+<pre>
+$sudo pacman-key --init
+</pre>
+
+Yaourt的安装和使用:
+<a href="https://wiki.archlinux.org/index.php/Yaourt_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank">https://wiki.archlinux.org/index.php/Yaourt_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a>
+
+安装pacman-color
+<pre lang="bash">
+$sudo yaourt pacman-color
+$vim .bashrc
+ alias pacman='sudo pacman-color'
+ alias grep='grep -n --color=auto'
+</pre>
+
+安装most
+<pre lang="bash">
+$sudo pacman -S most
+</pre>
+
+安装IRC
+<pre lang="bash">
+$sudo pacman -S kvirc
+</pre>
+
+播放mp4:
+<a href="https://wiki.archlinux.org/index.php/Codecs_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank">https://wiki.archlinux.org/index.php/Codecs_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a>
+<pre lang="bash">
+$pacman -S gst-libav
+</pre>
+
+播放rmvb
+<a href="https://wiki.archlinux.org/index.php/RealPlayer">https://wiki.archlinux.org/index.php/RealPlayer</a>
+<pre lang="bash">
+$pacman -S vlc
+</pre>
+
+音乐播放器
+<pre lang="bash">
+$pacman -S banshee
+$pacman -S rhythmbox
+</pre>
+
+flash播放器插件
+<code>flashplugin</code>
+
+视频播放器
+<code>gecko-mediaplayer</code>
+
+pdf查看工具
+<code>evince</code>
+
+图片浏览:
+<code>gqview
+gthumb</code>
+
+密码管理工具
+<code>keepassx</code> 
+
+ssh 连接
+<pre>
+pacman -S openssh
+</pre>
+
+<strong>Pacman-contrib</strong> — 与pacman包管理器一起用的工具.
+https://www.archlinux.org/pacman/ || pacman-contrib
+<pre>
+pacman -S pacman-contrib
+</pre>
+
+<strong>屏幕捕捉</strong>
+KSnapshot — KDE 下的截屏软件. 它能捕捉整个桌面、单个窗口、窗口的某个区域、自定义的矩形或者手绘不规则区域的图像. 捕捉到的图像能以多种格式保存
+http://kde.org/applications/graphics/ksnapshot/ || kdegraphics-ksnapshot
+<pre>
+pacman -S kdegraphics-ksnapshot
+</pre>
+
+<strong>guake</strong> 一个非常漂亮的terminator
+<pre>
+pacman -S guake
+</pre>

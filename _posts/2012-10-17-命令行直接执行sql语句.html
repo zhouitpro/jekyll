@@ -1,0 +1,18 @@
+---
+layout: post
+title: 命令行直接执行Sql语句
+tags:
+- mysql
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+/**
+查看mysql数据库中的.user表
+*/
+$mysql -uroot -proot -e &quot;select * from user&quot; mysql
+
+</pre>

@@ -1,0 +1,24 @@
+---
+layout: post
+title: php判断一个数组是否包含另一个数组
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">$c1 = array(20,5,2,99);     //顶级数组
+
+$c2 = array(20,5);
+$c3 = array(99,2,5);
+$c4 = array(99,20);
+
+//合并数组
+$new_arr = array_merge($c1,$c3);
+
+//移除重复的值
+$new_arr = array_unique($new_arr);
+
+var_dump($new_arr==$c1);</pre>

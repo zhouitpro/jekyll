@@ -1,0 +1,26 @@
+---
+layout: post
+title: 在Views handlers中字段没有初始化
+tags:
+- Views
+- 问题
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在Views Sort中field没有字段初始化, 在Filter handler中。如果你想使用$this->query->fields  这是不可能的。因为现在他还是一个空数组。并没有初始化, 这个fields 是你add_field添加的字段,如果你要使用你就必须初始化
+
+解决方案:
+<pre lang="php">
+//这样就可以初始化你的field
+$this->view->_build('field');
+</pre>
+
+options_form算是最开始运行的，所以如果你要在这里面使用$this->query->fields，你还需要初始化handlers和query
+<pre lang="php">
+$this->view->init_handlers();      
+$this->view->init_query();
+$this->view->_build('field');
+</pre>

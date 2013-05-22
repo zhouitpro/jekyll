@@ -1,0 +1,21 @@
+---
+layout: post
+title: PHP 定义根路径,判断是否是https访问
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+//定义完整的路径
+define(&#039;BASEPATH&#039;,str_replace(&#039;\\&#039;,&#039;/&#039;,dirname(__FILE__)).&#039;/&#039;);
+
+//判断是否是https访问
+$http = isset($_SERVER[&#039;HTTPS&#039;]) ? &#039;https://&#039; : &#039;http://&#039;;
+
+//定义http url
+define(&#039;HTTPPATH&#039;,$http.$_SERVER[&#039;HTTP_HOST&#039;].dirname($_SERVER[&#039;SCRIPT_NAME&#039;]));
+</pre>

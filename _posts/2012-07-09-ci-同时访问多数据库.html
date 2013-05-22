@@ -1,0 +1,57 @@
+---
+layout: post
+title: Ci 同时访问多数据库
+tags:
+- Ci
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+database.php 增加demo的配置文件
+
+$db[&#039;demo&#039;][&#039;hostname&#039;] = &#039;localhost&#039;;
+$db[&#039;demo&#039;][&#039;username&#039;] = &#039;root&#039;;
+$db[&#039;demo&#039;][&#039;password&#039;] = &#039;&#039;;
+$db[&#039;demo&#039;][&#039;database&#039;] = &#039;demo&#039;;
+$db[&#039;demo&#039;][&#039;dbdriver&#039;] = &#039;mysql&#039;;
+$db[&#039;demo&#039;][&#039;dbprefix&#039;] = &#039;d_&#039;;
+$db[&#039;demo&#039;][&#039;pconnect&#039;] = FALSE;
+$db[&#039;demo&#039;][&#039;db_debug&#039;] = TRUE;
+$db[&#039;demo&#039;][&#039;cache_on&#039;] = FALSE;
+$db[&#039;demo&#039;][&#039;cachedir&#039;] = &#039;&#039;;
+$db[&#039;demo&#039;][&#039;char_set&#039;] = &#039;utf8&#039;;
+$db[&#039;demo&#039;][&#039;dbcollat&#039;] = &#039;utf8_general_ci&#039;;
+$db[&#039;demo&#039;][&#039;swap_pre&#039;] = &#039;&#039;;
+$db[&#039;demo&#039;][&#039;autoinit&#039;] = TRUE;
+$db[&#039;demo&#039;][&#039;stricton&#039;] = FALSE;
+
+
+Class demo(){
+   private $newdb;
+    
+   /**
+   *实例化新的数据库实例
+   */
+   public function __construct(){
+       $this-&gt;newdb = $this-&gt;load-&gt;database(&#039;demo&#039;);
+   } 
+   
+   /**
+   *获取全部数据
+   *@return object 
+   */
+   public function get_all(){
+      $this-&gt;newdb-&gt;get(&#039;demotable&#039;)-&gt;result();
+   }
+
+}
+
+
+
+</pre>
+

@@ -1,0 +1,38 @@
+---
+layout: post
+title: Drupal Drush Hook/API
+tags:
+- Drupal
+- drush
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+无意中打开 views/drush/views.drush.inc看到
+<pre lang="php">
+/**
+ * Implement hook_drush_command().
+ */
+views_drush_command
+</pre>
+
+原来views 中定义着两个drush hook
+<pre>
+hook_drush_help
+hook_drush_common
+</pre>
+
+这里有更多的drush hook
+<a href="http://api.drush.org/api/drush/docs%21drush.api.php/5.x" target="_blank">http://api.drush.org/api/drush/docs%21drush.api.php/5.x</a>
+
+drush api:
+<a href="http://api.drush.org/api/drush" target="_blank">http://api.drush.org/api/drush</a>
+
+<a class="thumbnail" href="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170808的屏幕截图.png"><img src="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170808的屏幕截图-1024x452.png" alt="" title="2012-11-13 17:08:08的屏幕截图" width="770" height="339" class="alignnone size-large wp-image-1390" /></a>
+
+接着试着运行一下里面的定义:
+<a class="thumbnail" href="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170752的屏幕截图.png"><img src="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170752的屏幕截图-1024x435.png" alt="" title="运行drush views-list" width="770" height="327" class="alignnone size-large wp-image-1389" /></a>
+
+<a class="thumbnail" href="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170728的屏幕截图.png"><img src="http://www.xiukun.me/wp-content/uploads/2012/11/2012-11-13-170728的屏幕截图.png" alt="" title="运行drush vl" width="947" height="436" class="alignnone size-full wp-image-1388" /></a>

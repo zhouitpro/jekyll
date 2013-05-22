@@ -1,0 +1,18 @@
+---
+layout: post
+title: Mysql数据库文件转移
+tags:
+- mysql
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+#/etc/init.d/mysql stop        //停止mysql服务
+#mv /var/lib/mysql  /src/     //mysql默认目录存放在/var/lib/mysql
+#vim /etc/mysql/my.cnf       //找到datadir 改成你现在的目录
+#/etc/init.d/mysql restart   //重启mysql服务完成
+</pre>

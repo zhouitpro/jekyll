@@ -1,0 +1,107 @@
+---
+layout: post
+title: 删除drupal commerce node add form 左下边的product catalog
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://drupal.org/node/1864260">http://drupal.org/node/1864260</a>
+
+<a class="thumbnail" href="http://www.xiukun.me/wp-content/uploads/2013/04/ting2.png"><img class="alignnone size-full wp-image-2004" alt="ting2" src="http://www.xiukun.me/wp-content/uploads/2013/04/ting2.png" width="504" height="394" /></a>
+
+经过搜索这个函数在commerce_backoffice这个模块中. <strong>commerce_backoffice/commerce_backoffice_product.module</strong>
+<pre lang="php">
+/**
+ * Implements hook_form_views_form_alter().
+ */
+function commerce_backoffice_product_form_alter(&$form, &$form_state, $form_id) {
+  // Alter the node edit form to group the categories in a vertical tab.
+  if (isset($form['#node_edit_form'])) {
+    $product_node_types = commerce_product_reference_node_types();
+    if (in_array($form['#node']->type, array_keys($product_node_types))) {
+      // Enable the #fieldset key.
+      $form['#pre_render'][] = 'commerce_backoffice_pre_render_add_fieldset_markup';
+      // Add a new vertical tab.
+      $form['product_catalog'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Product catalog'),
+        '#group' => 'additional_settings',
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => -10,
+      );
+
+      // Assign all taxonomy reference fields to the new vertical tab.
+      foreach (field_info_instances('node', $form['#node']->type) as $field_name => $instance) {
+        $field = field_info_field($field_name);
+
+        if ($field['type'] == 'taxonomy_term_reference') {
+          $form[$field_name]['#fieldset'] = 'product_catalog';
+        }
+      }
+    }
+  }
+  // Alter the Exposed Filters for products page
+  if (isset($form['submit']['#id']) && $form['submit']['#id'] == 'edit-submit-commerce-backoffice-products') {
+    $form['product_display_node_type']['#attributes'] = array('data-placeholder' => array(t('All product types')));
+    $form['product_display_term_node_tid_multiple']['#attributes'] = array('data-placeholder' => array(t('All categories')));
+    $form['status']['#options']['All'] = t('All statuses');
+    $form['combine']['#attributes'] = array('placeholder' => array(t('Search by title or SKU')));
+  }
+}
+</pre>
+<h3>方法1</h3>: 直接将上面的代码注释掉, 不推荐.因为他修改了模块的代码不符号标准:
+<pre lang="php">
+/**
+ * Implements hook_form_views_form_alter().
+ */
+function commerce_backoffice_product_form_alter(&$form, &$form_state, $form_id) {
+  // Alter the node edit form to group the categories in a vertical tab.
+  if (isset($form['#node_edit_form'])) {
+    $product_node_types = commerce_product_reference_node_types();
+    if (in_array($form['#node']->type, array_keys($product_node_types))) {
+      // Enable the #fieldset key.
+      $form['#pre_render'][] = 'commerce_backoffice_pre_render_add_fieldset_markup';
+      // Add a new vertical tab.
+      /*$form['product_catalog'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Product catalog'),
+        '#group' => 'additional_settings',
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => -10,
+      );*/
+
+      // Assign all taxonomy reference fields to the new vertical tab.
+      foreach (field_info_instances('node', $form['#node']->type) as $field_name => $instance) {
+        $field = field_info_field($field_name);
+
+        if ($field['type'] == 'taxonomy_term_reference') {
+          //$form[$field_name]['#fieldset'] = 'product_catalog';
+        }
+      }
+    }
+  }
+  // Alter the Exposed Filters for products page
+  if (isset($form['submit']['#id']) && $form['submit']['#id'] == 'edit-submit-commerce-backoffice-products') {
+    $form['product_display_node_type']['#attributes'] = array('data-placeholder' => array(t('All product types')));
+    $form['product_display_term_node_tid_multiple']['#attributes'] = array('data-placeholder' => array(t('All categories')));
+    $form['status']['#options']['All'] = t('All statuses');
+    $form['combine']['#attributes'] = array('placeholder' => array(t('Search by title or SKU')));
+  }
+}
+</pre>
+
+<h3>方法2</h3>: 用 <a href="http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_form_alter/7">hook_form_alter()</a>.如果不能用.一定是你自定义模块weight不够大.你需要在sysytem表里面将你自定义的这个模块的weight改到一点10或者100
+<pre lang="php">
+function modulename_form_alter(&$form, $form_state) {
+  if (isset($form['#node_edit_form'])) {
+    unset($form['product_catalog']);
+  }
+}
+</pre>
+ 

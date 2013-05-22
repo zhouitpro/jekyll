@@ -1,0 +1,75 @@
+---
+layout: post
+title: js让一个div保持在底部
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+&lt;body style=&quot;height:1000px;&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ $(function(){
+        
+          var resetDiv = $(&#039;.demo&#039;),
+                    lockReset = false,
+                   resetDivHeight = resetDiv.outerHeight();
+            
+            resetDiv.css({
+                top:$(window).height()-resetDivHeight-5
+            });
+            
+            var resetTop = resetDiv.position().top;
+            
+            
+           $(window).bind(&#039;scroll&#039;,function(){
+              resetPosition();
+           })
+            
+           function resetPosition(){
+
+                    if(lockReset==false){
+                                lockReset  = true;
+                                var wtop = $(window).scrollTop();
+                                resetDiv.animate({
+                                        &#039;top&#039;:wtop+resetTop
+                                },800); 
+                    }else{
+                            resetDiv.stop(true,true);
+                            setTimeout(function(){
+                                lockReset = false;
+                                resetPosition();
+                            },800);
+                    }
+                   
+            }
+            
+            resetPosition();
+ });
+&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .demo{
+        width:150px;
+        height:150px;
+        background:#f00;
+        position:absolute;
+        top:0;
+        right:0;
+    }
+&lt;/style&gt;
+&lt;div class=&quot;demo&quot;&gt;
+    
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>

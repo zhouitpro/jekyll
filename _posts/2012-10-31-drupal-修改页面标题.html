@@ -1,0 +1,26 @@
+---
+layout: post
+title: Drupal 修改页面标题
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+可以直接用:
+<pre>
+drupal_set_title('Title');
+</pre>
+
+用Hook:
+<pre>
+function hook_preprocess_html(&$vars) {
+  $vars['title'] = 'demos';
+}
+</pre>
+
+相应的模块有:
+page_title: <a href="http://drupal.org/project/page_title" target="_blank">http://drupal.org/project/page_title</a>
+Metatag : <a href="http://drupal.org/project/metatag" target="_blank">http://drupal.org/project/metatag</a>

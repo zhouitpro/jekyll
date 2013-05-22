@@ -1,0 +1,60 @@
+---
+layout: post
+title: PHP 数据库备份脚本
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+#!/usr/bin/php
+&lt;?php
+header(&#039;Content-Type:text/html;charset=utf-8&#039;);
+
+define(&#039;BACK_PATH&#039;, dirname(__FILE__));
+
+/**
+为空数组就备份所有数据库
+*/
+$back_databases = array(&#039;learning&#039;,&#039;wp&#039;);
+
+$mysql_host = &#039;localhost&#039;;
+
+$mysql_user = &#039;root&#039;;
+
+$mysql_passwd = &#039;root&#039;;
+
+if($conn = mysql_connect($mysql_host, $mysql_user, $mysql_passwd)){
+	
+	$databases = array();
+	
+	mysql_select_db(&#039;mysql&#039;, $conn);
+	
+	$query  =mysql_query(&#039;show databases&#039;,$conn);
+	
+	while($row = mysql_fetch_array($query))
+	{
+		if(empty($row)) continue;
+		
+		$database = $row[0];
+		
+		if(!empty($back_databases) &amp;&amp; !in_array($database, $back_databases)) continue;
+	  	
+		$sql_dir = BACK_PATH . &quot;/{$database}.sql&quot;;
+			
+		$execs = &quot;mysqldump --user={$mysql_user} --password={$mysql_passwd} {$database} &gt; &quot; . $sql_dir;
+		
+		system($execs);
+		
+		if(file_exists($sql_dir . &#039;.gz&#039;)) {
+		   unlink($sql_dir . &#039;.gz&#039;);
+		}
+				
+		system(&#039;gzip &#039; . $sql_dir);
+	}
+}
+
+</pre>

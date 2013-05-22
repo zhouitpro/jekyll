@@ -1,0 +1,50 @@
+---
+layout: post
+title: Tag 标签使用
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+git的tag，跟分支一样简单。
+打tag
+每次上线养成打tag好习惯
+创建一个tag_demo
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git tag tag_demo
+</pre>
+
+
+覆盖已存在的tag_demo 只需要在后面加-f
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git tag -f tag_demo
+</pre>
+
+显示所有的tag
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git tag
+</pre>
+
+删除tag_demo  tag
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git tag -d tag_demo
+</pre>
+
+<strong>操作服务器上的tag</strong>
+1.将创建的tag 提交到服务器上,origin是服务器的仓库,tag_demo是创建的tag
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git push origin tag_demo
+</pre>
+
+2.删除服务器上的tag tag_demo是tag名,将空值提交到服务器上的tag_demo,则删除了tag_demo
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git push origin :tag_demo
+</pre>
+
+3.把所有的tag都push到服务器上,此处后面--tags是参数不可改变 ,origin是仓库名
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git push origin --tags
+</pre>

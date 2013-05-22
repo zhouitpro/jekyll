@@ -1,0 +1,64 @@
+---
+layout: post
+title: Druapl 权限系统
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+数据库表: role_permission(用户组权限)  role(用户组)
+
+<h2>权限检测</h2>
+核心函数： user_access();  /modules/user/user.module .
+还有一个: user_role_permissions 根据用户组获取所有用户组的权限
+
+Drupal的权限设计非常简单.根据用户数据里面的role字段查询这些组对应的权限组合成一个数组。再判断这个数组是否存在你指定的权限
+
+/**
+判断某用户是否拥有有某权限, 第一个参数是你的权限，第二个参数是你获取的用户数据。如果没有他会获取当前登陆用户
+*/
+<pre lang="php">
+function user_access($string, $account = NULL) {
+  global $user;
+
+ //如果你没有传$account,就会将当前登陆用户的数据给$account
+  if (!isset($account)) {
+    $account = $user;
+  }
+
+  //这里判定如果是超级管理员，就直接返回true,不做权限对比
+  if ($account->uid == 1) {
+    return TRUE;
+  }
+ 
+  //这里是将数据保存起来. 使用的是静态变量。而非缓存. Drupal 的静态变量保存设计得非常棒。
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['perm'] = &drupal_static(__FUNCTION__);
+  }
+  $perm = &$drupal_static_fast['perm'];
+  if (!isset($perm[$account->uid])) {
+    //获取当前用户所属于的组的所有权限,并把所有权限放在$perms里面
+    $role_permissions = user_role_permissions($account->roles);
+    
+    $perms = array();
+    foreach ($role_permissions as $one_role) {
+      $perms += $one_role;
+    }
+    $perm[$account->uid] = $perms;
+  }
+ 
+  //判断是否存在$perm数组中. 可以说来这样的做非常简单
+  return isset($perm[$account->uid][$string]);
+}
+</pre>
+
+<h2>Drupal检测你的权限</h2>
+Drupal如何根据route 中的access来检测你的权限:
+最底层的函数：_menu_check_access
+
+首先从menu_get_item();获取你的menu_router信息。然后通过_menu_translate -> _menu_check_access
+最后根据你的access_callback 和 access_arguments 来判断你的权限. access_callback 默认是 user_access. 最后生成一个.access的属性

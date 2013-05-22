@@ -1,0 +1,28 @@
+---
+layout: post
+title: Drupal 拒绝IE8以下浏览器
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<p>&nbsp;</p>
+<pre lang="php">
+function mymodule_init() {    
+    if(is_bro($_SERVER['HTTP_USER_AGENT'])) {
+        exit('Your browser is less than IE8, Please Download Google.Firefix OR IE8');
+    }   
+    
+}
+
+function is_bro($user_agent) {
+    if(preg_match('#MSIE\s+(6.0|7.0)#', $user_agent)) {
+        return TRUE;
+    }   
+    return FALSE;
+}
+
+</pre>

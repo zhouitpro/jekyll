@@ -1,0 +1,27 @@
+---
+layout: post
+title: linux改apache运行用户
+tags:
+- archlinux
+- Linux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Ubuntu
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+$ sudo vim /etc/apache2/envvars 
+#改成自己的用户名名
+export APACHE_RUN_USER=zhouitpro
+export APACHE_RUN_GROUP=zhouitpro
+</pre>
+
+Arch
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#sudo vim /etc/httpd/conf/httpd.conf
+User zhouitpro
+Group zhouitpro
+</pre>

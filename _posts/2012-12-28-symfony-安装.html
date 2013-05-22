@@ -1,0 +1,41 @@
+---
+layout: post
+title: Symfony 安装与基本使用
+tags:
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://symfony.com/doc/current/book/installation.html">http://symfony.com/doc/current/book/installation.html</a>
+
+中文教程， 由于中文教程的版本是1.x 所以不推荐看中文教程:
+<a href="http://symfony.com/legacy/doc/jobeet/1_2/zh_CN/01?orm=Propel#">http://symfony.com/legacy/doc/jobeet/1_2/zh_CN/01?orm=Propel#</a>
+
+首先编辑PHP.ini,开启 phar扩展
+<pre lang="bash">
+extension=phar.so
+</pre>
+
+安装Composer， 一个强大的php包安装系统
+<pre lang="bash">
+$curl -s https://getcomposer.org/installer | php
+</pre>
+
+运行安装,将最新版本的 symfony 安装到 sf目录
+<pre lang="bash">
+$php composer.phar create-project symfony/framework-standard-edition sf
+</pre>
+
+
+创建一个控制器为Hello:
+<pre lang="bash">
+$php app/console generate:bundle --namespace=Acme/ArticleBundle --format=yml
+</pre>
+
+清空缓存
+<pre lang="bash">
+$php app/console cache:clear --env=prod --no-debug
+</pre>

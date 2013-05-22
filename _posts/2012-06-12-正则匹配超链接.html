@@ -1,0 +1,26 @@
+---
+layout: post
+title: 正则匹配超链接
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">$string = &#039;&lt;a href=&quot;http://www.ssh110.com/afds&amp;aa&quot;&gt;a&lt;/a&gt;&lt;a href=&quot;http://drupal.ssh110.com/afds&amp;aa&quot;&gt;b&lt;/a&gt;&#039;;
+/**
+ * 错误的 会进行贪婪匹配,也就是尽量多地去匹配
+ * 之前使用此方法导致页面大乱
+ */
+$pattern = &#039;#(href=[&quot;\&#039;](.+)[\&#039;&quot;])#&#039;;
+
+/*这样其实也行*/
+$pattern = &#039;#(href=[&quot;\&#039;]([^\&#039;\&quot;]+)[\&#039;&quot;])#&#039;;
+
+//这样也其也行,因为加了?，使其变得不再贪婪
+$pattern = &#039;#(href=([&quot;\&#039;]([\s\S]*?)[&quot;\&#039;])#&#039;;</pre>
+//哥程序中的实战,发图分享．$this-&gt;check_url　处理url
+
+<a href="http://blog.ssh110.com/wp-content/uploads/2012/06/demos11.jpg"><img class="alignnone size-medium wp-image-502" title="demos1" src="http://blog.ssh110.com/wp-content/uploads/2012/06/demos11-300x169.jpg" alt="" width="300" height="169" /></a>

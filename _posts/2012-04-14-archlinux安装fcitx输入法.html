@@ -1,0 +1,31 @@
+---
+layout: post
+title: ArchLinux安装fcitx输入法
+tags:
+- archlinux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+$sudo pacman -S fcitx
+$sudo vim ~/.xprofile
+
+export XMODIFIERS="@im=fcitx"
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+
+</pre>
+
+gnome-session-properties添加fcitx 
+
+最后禁用 gnome-settings-daemon 的键盘动作：
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+$ gsettings set org.gnome.settings-daemon.plugins.keyboard active false 
+</pre>
+
+来自 <a href="http://infong.net/use-fcitx-on-gnome-36/" target="_blank">http://infong.net/use-fcitx-on-gnome-36/</a>

@@ -1,0 +1,22 @@
+---
+layout: post
+title: PHP 检测变量为NULL或者为Undefined
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+$defined_var = null;
+//$undefined_var = 1;
+
+isset($defined_var) === isset($undefined_var);         //true
+is_null($defined_var) === is_null($undefined_var);     //true
+($defined_var === null) === ($undefined_var === null); //true
+
+array_key_exists('defined_var', $GLOBALS);   //TRUE
+array_key_exists('undefined_var', $GLOBALS); //FALSE
+</pre>

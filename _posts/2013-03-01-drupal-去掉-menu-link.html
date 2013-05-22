@@ -1,0 +1,32 @@
+---
+layout: post
+title: Drupal 去掉 Menu Link
+tags:
+- Drupal
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+/**
+ * Overide theme_menu_link
+ */
+function sigvaris_menu_link(array $variables) {
+  $element = $variables['element'];
+  // 如果是footer_menu, 并且链接为<front>, 那么就去掉链接
+  if($element['#original_link']['menu_name'] == 'menu-footer-menu' && $element['#original_link']['link_path']=='<front>') {
+    $sub_menu = '';
+    if ($element['#below']) {
+      $sub_menu = drupal_render($element['#below']);
+    }
+    //$output = l($element['#title'], $element['#href'], $element['#localized_options']);
+    return '<li' . drupal_attributes($element['#attributes']) . '>' . $element['#title'] . $sub_menu . "</li>\n";
+  } else {
+    //否则就使用默认的链接
+    return theme_menu_link($variables);
+  }
+}
+</pre>

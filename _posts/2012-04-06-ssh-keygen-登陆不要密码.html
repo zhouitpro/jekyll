@@ -1,0 +1,22 @@
+---
+layout: post
+title: ssh-keygen 登陆不要密码
+tags:
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+1.在本地机器运行
+$ ssh-keygen -t dsa
+直接回车回车就ok了
+
+2.在远程机器上 主目录/.ssh目录下面创建一个文件authorized_keys
+将本地主目录下面的id_rsa.pub目录下面的东西复制到服务器上的authorized_keys里面。
+$ mkdir ~/.ssh
+$vim authorized_keys         //将本机的~/.ssh/id_rsa.pub复制进去
+ 
+3.记得authorized_keys的权限要设置成600
+$ chmod +x authorized_keys

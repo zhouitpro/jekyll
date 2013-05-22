@@ -1,0 +1,24 @@
+---
+layout: post
+title: Drupal 7 删除搜索结果中的 作者信息
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+1. 进入content type, 点击tab display settings. 将右边的 Display author and date information 勾去掉.
+
+2. 在content type  => manager dispaly 右下边tab  custom display setting 中对Search result勾选中
+
+3. 在search_result 选项中去掉 Author
+
+4. 复制核心模块 search 中 search-result.tpl 到  YOUTHEME/templates  中. 将以下代码删除掉
+
+<pre lang="php">
+<?php if ($info): ?>
+  <p class="search-info"><?php print $info; ?></p>
+<?php endif; ?>
+</pre>

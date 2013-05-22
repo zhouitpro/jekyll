@@ -1,0 +1,51 @@
+---
+layout: post
+title: mysql随机查询一条数据
+tags:
+- mysql
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+//主要使用ORDER BY RAND()
+
+方法一:
+<pre class="brush: sql; gutter: true; first-line: 1; highlight: []; html-script: false">
+SELECT aid FROM  `actions`  WHERE 1  ORDER BY RAND()  LIMIT 1
+</pre>
+
+方法二：
+<pre class="brush: sql; gutter: true; first-line: 1; highlight: []; html-script: false">
+$range_result = mysql_query( &quot; SELECT MAX(`id`) AS max_id , MIN(`id`) AS min_id FROM `table` &quot;);
+$range_row = mysql_fetch_object( $range_result );
+$random = mt_rand( $range_row-&gt;min_id , $range_row-&gt;max_id );
+$result = mysql_query( &quot; SELECT * FROM `table` WHERE `id` &gt;= $random LIMIT 0,1 &quot;);
+</pre>
+
+方法三:
+/**
+floor函数是取整
+rand() 生成0-1的随机数，包括0,包括1
+count(*) 获取总数
+*/
+<pre class="brush: sql; gutter: true; first-line: 1; highlight: []; html-script: false">
+$offset_result = mysql_query( &quot; SELECT FLOOR(RAND() * COUNT(*)) AS `offset`,count(*) as count FROM `table` &quot;);
+$offset_row = mysql_fetch_object( $offset_result );
+$offset = $offset_row-&gt;offset;
+
+if($offset==0)
+   $offset=1;
+
+if($offset==$offset_row-&gt;count)
+  $offset = $offset_row-&gt;count-1;
+
+$result = mysql_query( &quot; SELECT * FROM `table` LIMIT $offset, 1 &quot; );
+</pre>
+
+方法四:
+
+<pre class="brush: sql; gutter: true; first-line: 1; highlight: []; html-script: false">
+SELECT * FROM `table` WHERE id &gt;= (SELECT FLOOR( MAX(id) * RAND()) FROM `table` ) ORDER BY id LIMIT 1;
+</pre>

@@ -1,0 +1,45 @@
+---
+layout: post
+title: archlinux 安装ssh2扩展
+tags:
+- Linux
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+安装libssh2 openssh openssl autoconf包
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#pacman -S libssh2 openssh openssl autoconf
+</pre>
+
+下载http://aur.archlinux.org/packages/ph/php-ssh/php-ssh.tar.gz
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#wget http://aur.archlinux.org/packages/ph/php-ssh/php-ssh.tar.gz
+#tar -xvf php-ssh.tar.gz
+#cd php-ssh
+#sudo makepkg --asroot php-ssh.install 
+#pacman -U php-ssh-0.11.3-2-x86_64.pkg.tar.xz
+</pre>
+
+为php手动添加扩展
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+vim /etc/php/php.ini
+</pre>
+
+添加
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+extension=ssh2.so
+</pre>
+
+重启apache
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+sudo /etc/rc.d/httpd restart
+</pre>

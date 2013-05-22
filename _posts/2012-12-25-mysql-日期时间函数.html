@@ -1,0 +1,21 @@
+---
+layout: post
+title: mysql 时间格式化
+tags:
+- mysql
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="sql">
+UNIX_TIMESTAMP('2012-08-29');      //将一个日期转换成Unix世间戳
+DATE_FORMAT('1355500800', '%Y-%m-%d');  //将一个Unix时间戳转换成日期
+FROM_UNIXTIME('1355500800') //将一个Unix时间戳格式化成, 2012-12-15 00:00:00 格式
+SEC_TO_TIME(28800);          //将日期转换成HH:MM:SS格式
+ADDTIME(time,time2);   //对两个日期进行相加
+</pre>
+
+
+<a href="http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html" target="_blank">http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html</a>

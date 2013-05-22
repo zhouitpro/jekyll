@@ -1,0 +1,18 @@
+---
+layout: post
+title: Bean 模块无法添加数据
+tags:
+- 待解决问题
+- 问题
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+当我添加block时出现这样的错误: 
+<pre>
+PDOException: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0' for key 2: INSERT INTO {bean} (vid, delta, label, title, type, view_mode, data) VALUES (:db_insert_placeholder_0, :db_insert_placeholder_1, :db_insert_placeholder_2, :db_insert_placeholder_3, :db_insert_placeholder_4, :db_insert_placeholder_5, :db_insert_placeholder_6); Array ( [:db_insert_placeholder_0] => 0 [:db_insert_placeholder_1] => test33 [:db_insert_placeholder_2] => test33 [:db_insert_placeholder_3] => test33 [:db_insert_placeholder_4] => home_introduction [:db_insert_placeholder_5] => default [:db_insert_placeholder_6] => a:1:{s:9:"view_mode";s:7:"default";} ) in drupal_write_record() (line 7106 of /var/www/dev/xkzhou/si/includes/common.inc).
+</pre>
+
+<a class="thumbnail" href="http://w.localhost/bean-%e6%a8%a1%e5%9d%97%e6%97%a0%e6%b3%95%e6%b7%bb%e5%8a%a0%e6%95%b0%e6%8d%ae/2013-01-23-011420%e7%9a%84%e5%b1%8f%e5%b9%95%e6%88%aa%e5%9b%be/" rel="attachment wp-att-1728"><img src="http://w.localhost/wp-content/uploads/2013/01/2013-01-23-011420的屏幕截图.png" alt="Bean Error" width="749" height="398" class="alignnone size-full wp-image-1728" /></a>

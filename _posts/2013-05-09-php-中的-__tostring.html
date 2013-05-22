@@ -1,0 +1,26 @@
+---
+layout: post
+title: PHP 中的 __toString()
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://www.php.net/manual/en/language.oop5.magic.php#object.tostring">http://www.php.net/manual/en/language.oop5.magic.php#object.tostring</a>
+
+当一个类被当成一个字符串来使用的时候就会调用__toString这个魔术方法, 如果一个类被当成一个字符串来使用并且这个类没有定义__toString这个方法就会报错. 比如用echo 来输出一个类
+
+<pre>
+class Test {
+  function __toString() {
+    return 'test';
+  }
+}
+
+$test = new Test;
+var_dump($test);
+echo $test;
+</pre>

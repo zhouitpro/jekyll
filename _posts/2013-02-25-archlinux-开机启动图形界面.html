@@ -1,0 +1,28 @@
+---
+layout: post
+title: Archlinux 开机启动图形界面
+tags:
+- archlinux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+图形界面对应的名称
+<pre>
+gnome gnome-session
+kde  startkde
+xfce4 startxfce4
+mate-session
+</pre>
+
+.xinitrc 这个文件是用户执行startx后执行的文件
+<pre>
+#vim ~/.xinitrc 
+exec mate-session
+
+需要在开机的时候执行startx
+#vim ~/.bash_profile
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+</pre>

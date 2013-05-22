@@ -1,0 +1,33 @@
+---
+layout: post
+title: php正则过滤js脚本
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;?php
+header(&#039;Content-type:text/html;charset=utf-8&#039;);
+$content = &#039;
+&lt;script type=&quot;text/javascript&quot;&gt;
+	window.onload=function(){
+		
+	}
+&lt;/script&gt;
+&lt;html&gt;
+&lt;/body&gt;
+&lt;script&gt;document.write(&quot;hello world&quot;)&lt;/script&gt;
+Hello
+&lt;/body&gt;&lt;/html&gt;
+&#039;;
+
+$pattern = &#039;#&lt;script(\s|.)*?&lt;\/script&gt;#i&#039;;
+
+$content = preg_replace($pattern,&#039;&#039;, $content);
+var_dump($content);
+
+</pre>

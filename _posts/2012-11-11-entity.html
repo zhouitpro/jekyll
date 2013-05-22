@@ -1,0 +1,126 @@
+---
+layout: post
+title: Entity
+tags:
+- Drupal
+- Drupal 培训
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Entity 两大概念:
+1. Bundles 他相当于entity的扩展，比如一个node. 一个taxonomy
+2. Property
+
+Entity 统一的管理数据库操作，留了很多接口. 但是在Drupal7实现不够完美
+
+他提供了下以下功能：
+<pre>entity_load()
+entity_label() 
+entity_extract_ids()
+entity_uri()
+entity_get_info()</pre>
+核心的entity不具备CRUD功能，所以有了entity api这个模块,他可以帮助我们实现CRUD功能
+
+首先介绍ECK模块，UI下面创建 entity
+
+<a href="http://api.drupal.org/api/drupal/includes%21entity.inc/class/DrupalDefaultEntityController/7" target="_blank">http://api.drupal.org/api/drupal/includes%21entity.inc/class/DrupalDefaultEntityController/7</a>
+
+Entity 是一个核心功能:
+includes/entity.inc
+Oop方式实现
+
+实例可参考 examples模块里面的entity_example
+
+Hook_entity_info定义:
+<a href="http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_entity_info/7" target="_blank">http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_entity_info/7</a>
+<pre lang="php">
+function dy_entity_entity_info() {
+  //键是你的entity Name
+  $info['dy_entity_form'] = array(
+    // A human readable label to identify our entity.
+    'label' => t('My Entity Form'),
+
+    //你定义的控制器类名
+    'controller class' => 'MyEntityFormController',
+
+    //你的表名
+    'base table' => 'my_entity_form',
+
+    // Returns the uri elements of an entity
+    'uri callback' => 'dy_entity_form_uri',
+
+    // IF fieldable == FALSE, we can't attach fields.
+    'fieldable' => TRUE,
+    'entity keys' => array(
+        'id' => 'id' , // The 'id' (basic_id here) is the unique id.
+    ),
+    'bundle keys' => array(
+      'bundle' => 'id',
+    ),
+    'static cache' => TRUE,
+    'bundles' => array(
+        'first_example_bundle' => array(
+          'label' => 'First example bundle',
+          // 'admin' key is used by the Field UI to provide field and
+          // display UI pages.
+          'admin' => array(
+            'path' => 'admin/structure/entity_example_basic/manage',
+            'access arguments' => array('administer entity_example_basic entities'),
+          ),
+        ),
+      ),
+    'view modes' => array(
+      'tweaky' => array(
+        'label' => t('Tweaky'),
+        'custom settings' =>  FALSE,
+      ),
+    )
+  );
+
+  return $info;
+}
+
+//定义你的Class,我这里继承的是系统默认的。而不是Entity API提供的
+class MyEntityFormController extends DrupalDefaultEntityController {
+
+    public function __construct($entityType) {
+        parent::__construct($entityType);
+    }
+
+    public function save($entity) {
+       //这里如果你的$entity->id 如果存在他会认为你是在更新数据。如果不存在他认为你是添加数据
+       $primary_keys = $entity->id ? 'id' : array(); 
+
+       //这个是系统提供的函数。因为没有继承Entity API提供的接口。所以要由自己写增加数据
+       drupal_write_record('my_entity_form', $entity, $primary_keys);
+    }
+
+    public function create() {
+        $entity = new stdClass();
+        $entity->id = '';
+        $entity->form_name = '';
+        $entity->form_data = '';
+        $entity->form_value = '';
+        return $entity;
+    }
+
+}
+
+//调用你定义的entity
+$entity = entity_get_controller('dy_entity_form')->create();
+$values = 'test';
+$entity->form_data = $values['form_data'];
+$entity->form_name = $values['form_name'];
+
+//调用你定义的dy_entity_form中的sava函数
+entity_get_controller('dy_entity_form')->save($entity);
+
+//你可以打印出你当前的所有的Entity. entity_get_info他可以获取系统全部定义的entity  Bundles
+dpm(entity_get_info())
+
+$result = entity_load('dy_entity_form');  //获取我的所有数据
+$result = entity_load('dy_entity_form',array(5));  //获取id为5的数据
+</pre>

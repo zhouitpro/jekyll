@@ -1,0 +1,60 @@
+---
+layout: post
+title: Archlinux  Bash 配置
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="https://wiki.archlinux.org/index.php/Bash_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29" target="_blank">https://wiki.archlinux.org/index.php/Bash_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29</a>
+1. 配置命令提示
+2. 命令包提示
+3. 登陆图像配置
+
+命令补全: 
+<pre lang="base">pacman -S bash-completion
+
+vim ~/.inputrc
+set show-all-if-ambiguous on</pre>
+
+软件包提示:
+<pre lang="base">
+pacman -S pkgfile
+pkgfile --update
+
+vim ~/.bashrc
+source /usr/share/doc/pkgfile/command-not-found.bash
+</pre>
+
+
+登陆图像， 当你打开终端后会随机出现一些好看的图像:
+<pre lang="php">
+#pacman -S fortune-mod
+#pacman -S cowsay
+
+$vim ~/.bashrc
+
+#放在第一行
+fortune -a | fmt -80 -s | cowsay -$(shuf -n 1 -e b d g p s t w y) -f $(shuf -n 1 -e $(cowsay -l | tail -n +2)) -n
+</pre>
+
+
+Bash 颜色, 放后面:
+<a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt" target="_blank">https://wiki.archlinux.org/index.php/Color_Bash_Prompt</a>
+<pre lang="bash">
+vim ~/.bashrc
+
+PS1="\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\];)\"; else echo \"\[\033[01;31m\];(\"; fi) $(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;32m\]\u@\h'; fi)\[\033[01;34m\] \w \$\[\033[00m\] "
+</pre>
+
+安装pacman-color
+<pre lang="bash">
+$sudo yaourt pacman-color
+$vim .bashrc
+ alias pacman='sudo pacman-color'
+ alias grep='grep -n --color=auto'
+</pre>

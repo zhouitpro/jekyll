@@ -1,0 +1,22 @@
+---
+layout: post
+title: archlinux 安装yaourt
+tags:
+- archlinux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在/etc/pacman.conf后面加上
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+[archlinuxfr]
+Server = http://repo.archlinux.fr/$arch
+</pre>
+
+安装yaourt,先更新后安装
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+sudo pacman -Syu yaourt
+</pre>
+

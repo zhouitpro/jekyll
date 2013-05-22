@@ -1,0 +1,15 @@
+---
+layout: post
+title: .htaccess 配置ip访问限制
+tags:
+- apache
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+   RewriteEngine On
+   
+   Deny from 192.168.2.101/24          # 禁止指定ip访问 
+   Allow From 192.168.2.100/24    #允许指定ip访问

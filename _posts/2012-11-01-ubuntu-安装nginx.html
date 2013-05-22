@@ -1,0 +1,90 @@
+---
+layout: post
+title: Ubuntu 安装Nginx
+tags:
+- Linux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+文档: <a href="http://nginx.org/cn/docs/" target="_blank">http://nginx.org/cn/docs/</a>
+
+设置别名: server_alias
+设置默认: listen 80 default_server;
+
+首先不要用Ubuntu的源来装。因为那个源非常老:
+<pre>
+sudo aptitude install python-software-properties
+sudo add-apt-repository ppa:nginx/stable
+sudo aptitude update
+sudo aptitude install nginx
+</pre>
+
+安装php5-fpm
+<pre>
+sudo apt-get install php5-fpm
+sudo vi /etc/php5/fpm/php.ini 
+cgi.fix_pathinfo=0
+</pre>
+
+安装spawn-fcgi
+<pre>
+sudo apt-get install spawn-fcgi
+</pre>
+启动fastcgi php，并且设置开机启动 
+<pre>
+spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi
+sudo vim /etc/rc.local
+spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi 
+</pre>
+
+编辑nginx 默认的地址
+<pre>
+sudo vim sudo vim /etc/nginx/sites-available/default
+</pre>
+以下是我的基本设置
+<pre>
+server {
+    listen 80 default_server;
+    root /home/zhouitpro/www;
+    server_name localhost;
+    location / {
+        index index.php index.html index.htm;
+    }
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+    location ~ /\.ht {
+        deny all;
+    }
+}
+</pre>
+
+配置fastcgi_params
+<pre>
+sudo vi /etc/nginx/fastcgi_params
+</pre>
+
+<pre>
+fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+fastcgi_param  PATH_INFO          $fastcgi_script_name;
+fastcgi_connect_timeout 60;
+fastcgi_send_timeout 180;
+fastcgi_read_timeout 180;
+fastcgi_buffer_size 128k;
+fastcgi_buffers 4 256k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+</pre>
+
+最后重启:
+<pre>
+sudo /etc/init.d/nginx restart
+sudo /etc/init.d/php5-fpm reload
+</pre>

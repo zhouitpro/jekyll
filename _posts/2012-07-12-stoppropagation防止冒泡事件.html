@@ -1,0 +1,18 @@
+---
+layout: post
+title: stopPropagation防止冒泡事件
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+$(&quot;.demo&quot;).click(function(e) {
+        e.stopPropagation(); //阻止事件冒泡，否则事件会冒泡到下面的文档点击事件
+});
+
+</pre>

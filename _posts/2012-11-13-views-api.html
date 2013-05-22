@@ -1,0 +1,53 @@
+---
+layout: post
+title: Drupal Views API
+tags:
+- Drupal
+- Views
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Views 3 API: <a href="http://api.drupal.org/api/views">http://api.drupal.org/api/views</a>
+
+Views2 手册 ： <a href="http://views.doc.logrus.com/" target="_blank">http://views.doc.logrus.com/</a>
+
+<a href="http://api.drupal.org/api/views/views.api.php/7">http://api.drupal.org/api/views/views.api.php/7</a>
+
+about Views Handlers:
+<a href="http://api.drupal.org/api/views/views.api.php/group/views_handlers/7">http://api.drupal.org/api/views/views.api.php/group/views_handlers/7</a>
+
+Views 分为两个很大的部分:
+<strong>1. <a href="drupal-views-创建handler" target="_blank">handlers</a></strong>
+<strong>2. plugin</strong>
+
+<h4>Handlers :</h4>
+在Views, handlers 主要是 query的生成
+<a href="http://api.drupal.org/api/views/views.api.php/group/views_handlers/7" target="_blank">http://api.drupal.org/api/views/views.api.php/group/views_handlers/7</a>
+<h4>plugin :</h4> 
+在Views中, plugin主要是用来做显示方面的工作
+<a href="http://api.drupal.org/api/views/views.api.php/group/views_plugins/7" target="_blank">http://api.drupal.org/api/views/views.api.php/group/views_plugins/7</a>
+
+Object: <a href="http://api.drupal.org/api/views/includes%21base.inc/class/views_object/7" target="_blank">http://api.drupal.org/api/views/includes%21base.inc/class/views_object/7</a>
+基本功能: <a href="http://drupal.org/node/59157" target="_blank">http://drupal.org/node/59157</a>
+
+<a href="http://drupal.org/node/322506">http://drupal.org/node/322506</a>
+
+获取定义的Views数据:
+<pre>views_fetch_data()</pre>
+获取在添加Views时的那些列表,也就是base table:
+<pre>views_fetch_base_tables()</pre>
+后台Views操作获取 field/sort/filter/argument/relationship/area 字段列表
+文件: views/includes/admin.inc
+<pre lang="php">//生成表单
+views_ui_add_item_form
+//根据参数获取field
+views_fetch_fields</pre>
+Views 操作
+<pre lang="php">views_get_enabled_views($view) //判断一个View是否是启动状态
+views_view_is_disabled($view)  //判断一个View是否是禁用状态
+views_get_all_views()          //获取所有views
+views_get_enabled_views        //获取所有启用的views
+views_get_disabled_views       //获取所有已禁用的views</pre>

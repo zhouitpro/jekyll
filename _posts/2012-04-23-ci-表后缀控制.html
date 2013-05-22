@@ -1,0 +1,14 @@
+---
+layout: post
+title: CI 表后缀控制
+tags:
+- Ci
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+$this->db->dbprefix;             获取用户设置的表后缀
+$this->db->set_dbprefix('tb_');  设置表后缀
+$this->db->dbprefix('user');     对user表加上表后缀

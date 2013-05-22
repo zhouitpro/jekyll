@@ -1,0 +1,41 @@
+---
+layout: post
+title: Drupal 随处调用你的Block
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">// Load the block region based on module and delta key.
+$_your_block = _block_get_renderable_array(_block_render_blocks(array(block_load('MODULE', 'DELTA'))));
+// Now we display it.
+print render($_your_block);</pre>
+
+//获取 Views Block
+<pre lang="php">
+//viewsname-MachineName
+$fine_product = block_load('views', 'home_product_feature-block_1');        
+$fine_product_content = drupal_render(_block_get_renderable_array(_block_render_blocks(array($fine_product))));
+</pre>
+
+<h2>views_embed_view</h2>
+//使用<strong>views_embed_view</strong>函数获取Views Block
+<a href="http://api.drupal.org/api/views/views.module/function/views_embed_view/7">http://api.drupal.org/api/views/views.module/function/views_embed_view/7</a>
+<strong>views_embed_view</strong>: 官方简介嵌入view, 根据Machine Name来获取你的views, 他可以获取block和page可以.
+
+<pre lang="php">
+print views_embed_view('home_product_feature','block_1');
+</pre>
+
+<strong>views_embed_view</strong> 获取 views page, page_1是Machine Name, 当然你也可不用填写，他会获取第一个(default)
+<pre lang="php">
+print views_embed_view('views_product_page','page_1');
+</pre>
+
+<strong>views_embed_view</strong>获取views page并且传参数:
+<pre lang="php">
+print views_embed_view('views_product_page','page_1', $arg1, $arg2, $arg3);
+</pre>

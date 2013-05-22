@@ -1,0 +1,29 @@
+---
+layout: post
+title: apache .htaccess配置密码访问 .htpasswd
+tags:
+- apache
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在/home/zhouitpro/www目录生成密码文件, 用户名为 zhouitpro,回车后会自动叫你输密码
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#htpasswd -c .htpasswd  zhouitpro
+</pre>
+
+配置.htaccess 
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+AuthType Basic
+AuthName &quot;Restricted Files&quot;
+# (Following line optional)
+AuthBasicProvider file
+AuthUserFile /home/zhouitpro/www/.htpasswd 
+Require valid-user
+
+</pre>

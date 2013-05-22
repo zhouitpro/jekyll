@@ -1,0 +1,37 @@
+---
+layout: post
+title: PHP 判断类属于是否存在 / property_exists
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+你可能会说有isset 来看一下isset做不到的 .property_exists 能做到的
+
+<h2>Demo1</h2>
+<pre lang="php">
+class demo {
+  public $property = TRUE;
+}
+
+$demo = new demo();
+
+var_dump(isset($demo->property));  //true
+var_dump(property_exists($demo, 'property')); //true
+
+</pre>
+
+<h1>Demo2</h1>
+<pre lang="php">
+class demo {
+  private $property = TRUE;
+}
+
+$demo = new demo();
+
+var_dump(isset($demo->property));  //false
+var_dump(property_exists($demo, 'property')); //true
+</pre>

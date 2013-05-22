@@ -1,0 +1,60 @@
+---
+layout: post
+title: Drupal Field API
+tags:
+- Drupal
+- Drupal 培训
+status: publish
+type: post
+published: true
+meta:
+  _oembed_eb5606af77f86dd66b3dadfd094ba5c5: '{{unknown}}'
+  _edit_last: '1'
+---
+三个重要的概念:
+
+formatters
+widgets
+field settings form
+
+
+<a href="http://api.drupal.org/api/drupal/modules%21field%21field.api.php/7" target="_blank">http://api.drupal.org/api/drupal/modules%21field%21field.api.php/7</a>
+
+Field常用函数
+<pre lang="php">
+field_info_field_types() //获取添加field 选择的类型
+
+field_views_data()  //获取field数据,此函数在views中
+
+_field_sql_storage_tablename($field_info);  // 根据field信息获取此field的table
+_field_sql_storage_revision_tablename($field_info);  //根据field的信息获取此field的revision 表名
+
+field_views_field_default_views_data  //万恶的
+</pre>
+
+<strong>Hook: </strong>
+<pre>
+hook_field_widget_form()  //创建和编辑这个字段时表单的Hook
+</pre>
+
+http://www.thecarneyeffect.co.uk/describe-field-properties-make-custom-fields-work-entity-metadata-wrappers
+
+<pre lang="php">
+  foreach(field_info_fields() as $field) {
+    if ($field['type'] == 'image') {
+      foreach($field['bundles'] as $entity_type => $bundles) {
+        foreach($bundles as $bundle) {
+          //$bundle_settings = field_bundle_settings($entity_type, $bundle); 
+          //field_bundle_settings($entity_type, $bundle, array(
+//            'alt_save_replace_token' => 0,
+//            'title_save_replace_token' => 1
+//          ));
+          $field_instance = field_info_instance($entity_type, $field['field_name'], $bundle);
+          $field_instance['settings']['alt_save_replace_token'] = 0;
+          $field_instance['settings']['alt_save_replace_token'] = 0;
+          field_update_field($field_instance);
+        }
+      }
+    }
+  }
+</pre>

@@ -1,0 +1,38 @@
+---
+layout: post
+title: wiki制作
+tags:
+- 其它
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+python-sphinx, textile, markdown, <a href="http://www.mediawiki.org/wiki/MediaWiki">mediawiki</a>
+
+<h4>Python-sphinx 教程:</h4>
+安装python-sphinx和python2-sphinx
+<a href="http://sphinx.pocoo.org/contents.html">http://sphinx.pocoo.org/contents.html</a>
+
+Arch:
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">sudo pacman -S python-sphinx python2-sphinx</pre>
+Ubuntu:
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">sudo apt-get install python-sphinx phthon3-sphinx</pre>
+1.项目创建
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">$sphinx-quickstart
+$cp source/* ./ -rf</pre>
+2.将项目的html生成到指定的目录
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">$sphinx-build -b html sourcedir builddir</pre>
+3.生成html
+$make html
+
+<strong>简单使用:</strong>
+
+内嵌标记:
+*文字* //倾斜的字体
+``文字`` //带背景的字体
+**文字** //加粗加大字符串
+
+<h4>markdown</h4>
+<a href="http://daringfireball.net/projects/markdown/">http://daringfireball.net/projects/markdown/</a>

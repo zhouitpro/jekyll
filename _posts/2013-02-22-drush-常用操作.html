@@ -1,0 +1,24 @@
+---
+layout: post
+title: Drush 常用操作
+tags:
+- drush
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+drush dl Module 下载一个模块
+  --dev 下载开发版本
+  --select 提供所有版本列表,让你选择要下载的版本
+
+drush en Module 启用一个模块
+drush dis Module 禁用一个模块
+drush pm-uninstall 删除一个模块
+
+drush up drupal 升级drupal核心
+drupal up <module> 升级drupal模块
+drupal up 检查更新所有模块
+
+drush cc all 清空所有缓存

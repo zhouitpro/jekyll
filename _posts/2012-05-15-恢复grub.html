@@ -1,0 +1,39 @@
+---
+layout: post
+title: 恢复Grub
+tags:
+- Linux
+- 其它
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+下载grub4dos
+
+1.xp下恢复 grub
+将里面的menu.lst和grldr复制到c盘根目录
+
+在c盘根目录下面的boot.ini后面加入
+C:\GRLDR="Start GRUB"
+
+
+2.windows7下面恢复grub
+grub,grldr,grldr.mbr,menu.lst复制到C盘根目录
+
+将 Boot.ini.saved备份,
+复制一份boot.ini
+写入以下内容
+;
+;Warning: Boot.ini is used on Windows XP and earlier operating systems.
+;Warning: Use BCDEDIT.exe to modify Windows Vista boot options.
+;
+[boot loader]
+[operating systems]
+c:\grldr.mbr="Grub4Dos"
+
+
+以步步骤一样:
+在Linux重新安装grub
+grub-install /dev/sda

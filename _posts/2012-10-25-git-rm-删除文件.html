@@ -1,0 +1,20 @@
+---
+layout: post
+title: GIT rm 删除文件
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+当你在删除文件名，会进行git rm file这样进行删除文件
+<pre>
+$git rm file
+</pre>
+
+但是如果你删除的文件过多，使用 git rm 删除起来效率就会变得非常低。这时可以使用以下命令来把删除的文件添加到暂存区
+<pre>
+$git add -u
+</pre>

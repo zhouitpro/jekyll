@@ -1,0 +1,20 @@
+---
+layout: post
+title: Symfony 命名空间
+tags:
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+use Symfony\Bundle\FrameworkBundle\Controller\Controller; //控制器基类
+//Example:
+class DefaultController extends Controller
+
+use Symfony\Component\HttpFoundation\Response;            //内容输出
+//Example:
+return new Response('<html><body>Hello '.$name.'!</body></html>');
+</pre>

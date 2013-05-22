@@ -1,0 +1,21 @@
+---
+layout: post
+title: js正则静态属性
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+var pattern = /box/igm;
+var str = &#039;this is a box!,box is data&#039;;
+pattern.test(str);
+alert(RegExp.input); //RegExp[&#039;$_&#039;]   返回匹配到的字符串
+alert(RegExp.leftContext);  //RegExp[&#039;$`&#039;]   返回第一个匹配到的前面字符串
+alert(RegExp.rightContext);   //RegExp[&quot;$&#039;&quot;]   返回第一个匹配到的后面字符串
+alert(RegExp.lastMatch);       //RegExp[&#039;$&amp;&#039;]   返回最后一个匹配到的字符串
+alert(RegExp.lastParen);    //RegExp[&#039;$+&#039;]   返回最后一个组匹配的结果，也就是()分组匹配
+</pre>

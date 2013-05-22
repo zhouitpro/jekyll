@@ -1,0 +1,24 @@
+---
+layout: post
+title: PHP array_merge合并一个数组
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+
+$array = array(&#039;key3&#039;=&gt;&#039;key_string1&#039;, &#039;key4&#039;=&gt;&#039;key_string2&#039;);
+
+$array = array_merge($array, array(&#039;key1&#039;=&gt;&#039;hello world&#039;));
+
+/**
+ * array_merge 后面一个数组附加在前面一个数组的后面,如果存在相同的键,后面一个数组会覆盖前面一个数组
+ */
+var_dump($array);
+
+</pre>

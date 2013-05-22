@@ -1,0 +1,20 @@
+---
+layout: post
+title: Token 替换
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+ $data = array();
+ /**
+  用Entity 方法获取node数据
+ */
+ $data[&#039;node&#039;] = reset(entity_load(&#039;node&#039;, array(41)));
+ $result = token_replace(&#039;[node:author]&#039;, $data);
+ dpm($result);
+</pre>

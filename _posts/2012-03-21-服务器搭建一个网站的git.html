@@ -1,0 +1,22 @@
+---
+layout: post
+title: 服务器搭建一个网站的GIT
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在服务器上建立一个git空仓库
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false"># mkdir -p /var/repos/my.git     //创建git目录
+# cd /var/repos/my.git
+# git init --bare               //创建一个空仓库
+# cd hooks
+# vim post-receive              //创建钩子文件</pre>
+写入以下内容 /var/www/mysite 你的网站目录
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">#!/bin/sh
+GIT_WORK_TREE=/var/www/mysite/ git checkout -f</pre>
+还要给钩子文件加上执行权限
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false"># chmod +x post-receive</pre>

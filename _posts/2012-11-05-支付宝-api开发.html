@@ -1,0 +1,61 @@
+---
+layout: post
+title: 支付宝 API开发
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+开发资料下载:  <a href="http://club.alipay.com/read-htm-tid-9976972.html" target="_blank">http://club.alipay.com/read-htm-tid-9976972.html</a>
+
+一般一说支付宝有好几种模式：
+即时到账交易接口: 网上交易时，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金 <a href="https://b.alipay.com/order/productDetail.htm?productId=2012051600355662" target="_blank">https://b.alipay.com/order/productDetail.htm?productId=2012051600355662</a>
+
+纯担保交易接口: 淘宝买家最熟悉的付款方式：买家先将交易资金存入支付宝并通知卖家发货，买家确认收货后资金自动进入卖家支付宝账户，完成交易。<a href="https://b.alipay.com/order/productDetail.htm?productId=2011060800327556" target="_blank">https://b.alipay.com/order/productDetail.htm?productId=2011060800327556</a>
+
+支付宝标准双接口: 买家付款时，可选择担保交易或即时到账中的任一支付方式进行付款，完成交易。
+支付宝确认发货接口: 买家付款时，可选择担保交易或即时到账中的任一支付方式进行付款，完成交易。
+
+支付宝网银支付:买家可直接通过网上银行进行支付，无需通过支付宝就能完成交易。
+担保买卖专业版:便签支付无技术集成，如便签一般可贴入各种互联网场景，买家点击即可付款，大大拓展了商户的收款场景，让推广收款两不误！
+
+一般来说如果要进行确定收获就一定不要使用即时到帐接口
+
+<pre lang="php">
+支付宝标准双接口 必须的参数:
+$out_trade_no = date('Ymdhis'); //请与贵网站订单系统中的唯一订单号匹配
+$subject = $_POST['subject']; //订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
+$body = $_POST['alibody']; //订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里
+$price = $_POST['total_fee']; //订单总金额，显示在支付宝收银台里的“应付总额”里
+$logistics_fee = "0.00"; //物流费用，即运费。
+$logistics_type = "EXPRESS"; //物流类型，三个值可选：EXPRESS（快递）、POST（平邮）、EMS（EMS）
+$logistics_payment = "SELLER_PAY"; //物流支付方式，两个值可选：SELLER_PAY（卖家承担运费）、BUYER_PAY（买家承担运费）
+$quantity = "1"; //商品数量，建议默认为1，不改变值，把一次交易看成是一次下订单而非购买一件商品。
+
+即时到账交易接口 必须的参数:
+$out_trade_no = date('Ymdhis'); //请与贵网站订单系统中的唯一订单号匹配
+$subject = $_POST['subject']; //订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
+$body = $_POST['body']; //订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里
+$total_fee = $_POST['total_fee']; //订单总金额，显示在支付宝收银台里的“应付总额”里
+
+支付宝确认发货接口 必须的参数:
+$trade_no = $_POST['trade_no']; //支付宝交易号。它是登陆支付宝网站在交易管理中查询得到，一般以8位日期开头的纯数字（如：20100419XXXXXXXXXX） 
+$logistics_name = $_POST['logistics_name']; //物流公司名称
+$invoice_no = $_POST['invoice_no']; //物流发货单号
+$transport_type = $_POST['transport_type']; //物流发货时的运输类型，三个值可选：POST（平邮）、EXPRESS（快递）、EMS（EMS）
+
+纯担保交易接口必须的参数:
+$out_trade_no = date('Ymdhis'); //请与贵网站订单系统中的唯一订单号匹配
+$subject = $_POST['subject']; //订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
+$body = $_POST['alibody']; //订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里
+$price = $_POST['total_fee']; //订单总金额，显示在支付宝收银台里的“应付总额”里
+$logistics_fee = "0.00"; //物流费用，即运费。
+$logistics_type = "EXPRESS"; //物流类型，三个值可选：EXPRESS（快递）、POST（平邮）、EMS（EMS）
+$logistics_payment = "SELLER_PAY"; //物流支付方式，两个值可选：SELLER_PAY（卖家承担运费）、BUYER_PAY（买家承担运费）
+$quantity = "1"; //商品数量，建议默认为1，不改变值，把一次交易看成是一次下订单而非购买一件商品。
+
+更新 登记工时 跟踪 副本
+</pre>

@@ -1,0 +1,23 @@
+---
+layout: post
+title: Linux 远程共享挂载 Samba
+tags:
+- archlinux
+- Linux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Ubuntu: 
+<pre lang="bash">
+sudo mount -t smbfs -o username=fgao,password=123,nls=utf-8,umask=000,uid=1000,gid=1000 //Server/home ~/work/
+</pre>
+
+ArchLinux:
+<a href="https://wiki.archlinux.org/index.php/Samba_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank">https://wiki.archlinux.org/index.php/Samba_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a>
+<pre lang="bash">
+ sudo mount -t cifs -o username=xkzhou,password=123,ip=192.168.10.90,uid=1000,gid=1000,file_mode=0777,dir_mode=0777 //SERVER/ADDRESS ~/work/
+</pre>

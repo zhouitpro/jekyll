@@ -1,0 +1,20 @@
+---
+layout: post
+title: Symfony 模板Twig
+tags:
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://symfony.com/doc/current/book/templating.html" target="_blank">http://symfony.com/doc/current/book/templating.html</a>
+
+在程序中输出模板, 规则: <strong>bundleName:ControllerName:TemplateName</strong>
+<pre lang="php">
+return $this->render(
+            'AcmeHelloBundle:Hello:index.html.twig',
+            array('name' => $name)
+        );
+</pre>

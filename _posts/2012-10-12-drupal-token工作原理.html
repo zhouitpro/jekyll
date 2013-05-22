@@ -1,0 +1,56 @@
+---
+layout: post
+title: Drupal token工作原理
+tags:
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+首先通过token_replace. 用token_scan函数将tokens分解 
+tokens一般格式为两个部分([type:token]),前面是类型
+所以分解后的值一般是  type=>array(tokens1,tokens2)
+再通过token_generate.将tokens生成内容, 在token_generate里面调用了所有的 hook_tokens函数,并将$type,$token, $data传进去.$tokens是数组
+比如[facetapi_active:active-value],传过去的$type是facetapi_active,$token是active-value.
+所以你可以在hook_token中自定义tokens.去判断$type和$token
+
+
+想要创建一个自定义tokens必须的两个function
+_hook_token_info
+_hook_tokens
+
+在hook_token_info中定义type和token名
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+function facetapi_token_info() {
+  //定义一个type.
+  $types[&#039;facetapi_results&#039;] = array(
+    &#039;name&#039; =&gt; t(&#039;Search results&#039;),
+    &#039;description&#039; =&gt; t(&#039;Tokens related to the search query and response.&#039;),
+    &#039;needs-data&#039; =&gt; &#039;facetapi_adapter&#039;,
+  );
+
+   //定义一个token
+  $results[&#039;start-count&#039;] = array(
+    &#039;name&#039; =&gt; t(&#039;Start count&#039;),
+    &#039;description&#039; =&gt; t(&#039;The number of the first item on the page.&#039;),
+  );
+  
+  reutrn array(
+      &#039;types&#039; =&gt; $types,
+      &#039;tokens&#039; =&gt; array(
+          &#039;facetapi_results&#039;=&gt;results
+      )
+  );
+}
+
+//定义功能
+function facetapi_tokens($type, $tokens, array $data = array(), array $options = array()) {
+    if($type == &#039;facetapi_results&#039;) {
+        if($tokens == &#039;start-count&#039;) {
+             return &#039;xx&#039;;
+        }
+    }
+}
+</pre>

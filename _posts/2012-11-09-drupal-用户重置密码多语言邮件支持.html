@@ -1,0 +1,44 @@
+---
+layout: post
+title: Drupal 用户重置密码多语言邮件支持
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+今天遇到一个问题。一个网站是多语言的， 当一个用户重置密码的时候如何将这个用户所属的语言内容发送给用户. 也就是如果这个用户注册的时候选择是中文，那么他找回密码的时候你应该把中文的内容用邮件发给他
+
+首先进入 :  admin/config/people/accounts  将这里面的内容翻译成多语言支持: <span style="color: #484848; font-family: Verdana, sans-serif; line-height: normal;">Password recovery</span>
+
+因为Drupal 在 重置密码的时候没有提供Hook
+
+但是办法总是人想出来的。因为用户在找回密码的时候需要输入Email. 需要user_load这个操作
+
+所以我写了一个hook_user_load 来完成我的工作
+
+&nbsp;
+<pre lang="php">
+/**	
+ * Implements Hook_user_load	
+ */
+function mymodule_user_load($users) {
+    if(my_url_check('user/password') &amp;&amp; !empty($users)) {       
+        $users = reset($users);
+        $language_list = language_list();
+        if(!empty($users) &amp;&amp; isset($users-&gt;language) &amp;&amp; isset($language_list[$users-&gt;language])) { 
+            global $language;	
+            $language = $language_list[$users-&gt;language];	
+        }	
+    }	
+}
+
+/**
+url Check
+*/
+function my_url_check($path) {
+    return drupal_match_path($_GET['q'], $path) OR drupal_match_path(drupal_get_path_alias($_GET['q']), $path);
+}</pre>
+&nbsp;

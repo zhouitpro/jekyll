@@ -1,0 +1,112 @@
+---
+layout: post
+title: CI 支持HMVC
+tags:
+- Ci
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_d9305777aafd42fc2e4103b649779e14: '{{unknown}}'
+---
+<a href="https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc" target="_blank">https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc</a>
+先来说说使用方法 ，原码非本人开发
+在application目录下面创建modules
+modules/模块名/controllers/模块名.php
+modules/模板名/models/模块名.php
+modules/模板名/config/route.php  重写路由,当然你也要定义其他的配置文件比如config.php
+
+然后此目录下面比如我要创建一个产品模板
+modules/product/controllers/product.php
+modules/product/models/product.php
+
+下载代码放application
+http://blog.ssh110.com/wp-content/uploads/2012/04/third_party.zip
+
+改变application/config/autoload.php
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+$autoload[&#039;packages&#039;] = array(APPPATH.&#039;third_party&#039;);
+</pre>
+
+/**
+以下方法被重写
+MX_Controller
+MX_Router 
+MX_Loader
+MX_Config
+MX_Lang
+
+以上是重写的几个方法，原是以CI_开头的，现已改成MX_开头。如果要继续应该继承MX_开头的
+比如我要重写CI_Controller
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+require APPPATH.&#039;third_party/MX/Controller.php&#039;;
+Class MY_Controller extends MX_Controller
+{
+	
+	public function __construct()
+	{
+		parent::__construct();
+	}
+	
+	public function is_login()
+	{
+		
+	}
+	
+}
+</pre>
+*/
+
+创建文件 application/core/MY_Router.php
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;?php (defined(&#039;BASEPATH&#039;)) OR exit(&#039;No direct script access allowed&#039;);
+
+/* load the MX_Router class */
+require APPPATH.&#039;third_party/MX/Router.php&#039;;
+
+class MY_Router extends MX_Router {
+
+    public function _parse_routes() {
+        //因为CI默认只载入application下config的routes.php文件
+        //而放在modules里的routes.php需要先路由到该module才会被加载
+        //这里修改成自动加载所有modules下的routes.php
+        foreach(Modules::$locations as $location =&gt; $offset) {
+            $modules_path = FCPATH . $location;
+            $modules_dir = dir($modules_path);
+            while ($file = $modules_dir-&gt;read()) {
+                if (is_dir($modules_path . $file) AND $file != &#039;.&#039; AND $file != &#039;..&#039;) {
+                    $routes_file = &quot;{$modules_path}{$file}/config/routes.php&quot;;
+                    if (is_file($routes_file)) {
+                        @include($routes_file);
+                        $this-&gt;routes = array_merge($this-&gt;routes, $route);
+                        unset ($route);
+                    }
+                }
+            }
+        }
+        parent::_parse_routes();
+    }
+
+    //把验证不通过的都扔给site/controllers/router处理
+    public function _validate_request($segments) {
+
+        if (count($segments) == 0) return $segments;
+
+        /* locate module controller */
+        if ($located = $this-&gt;locate($segments)) return $located;
+
+        return $this-&gt;locate(array(
+            &#039;site&#039;,
+            &#039;router&#039;,
+            &#039;index&#039;,
+            $this-&gt;uri-&gt;uri_string
+        ));
+
+    }
+}
+
+
+</pre>

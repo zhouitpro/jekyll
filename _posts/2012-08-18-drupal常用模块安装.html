@@ -1,0 +1,31 @@
+---
+layout: post
+title: Drupal 常用模块安装
+tags:
+- bash
+- Drupal
+- drush
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="bash">
+#!/bin/bash
+ 
+enable_modules=('admin_menu' 'module_filter' 'token' 'ctools' 'pathauto' 'ds' 'devel' 'views' 'context')
+disable_modules=('firephp' 'overlay' 'toolbar' 'color' 'dashboard')
+ 
+for dmodule in ${disable_modules[@]}; do
+    sudo drush pm-disable $dmodule -y
+done
+ 
+for emodule in ${enable_modules[@]}; do
+   sudo drush dl $emodule -y
+done;
+ 
+for emodule in ${enable_modules[@]}; do
+   sudo drush pm-enable $emodule -y
+done;
+</pre>

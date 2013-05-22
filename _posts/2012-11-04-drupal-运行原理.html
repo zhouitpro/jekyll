@@ -1,0 +1,121 @@
+---
+layout: post
+title: Drupal 运行原理
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+分为三个部分:
+1.初始化
+2.路由
+3.内容输出
+
+先来看看这几个状态码下面会用到,这是一些常量:
+<pre>
+MENU_FOUND          #页面找到了 
+MENU_NOT_FOUND      #页面没有找到，404页面,drupal_not_found函数是设置为404页面，其实就是把状态改成成这个值。
+MENU_ACCESS_DENIED  #没有权限
+MENU_SITE_OFFLINE   #网站处于关闭状态，维护状态
+MENU_SITE_ONLINE    #在线状态
+</pre>
+
+<h2>初始化</h2>
+
+从index.php开始:
+你会看到这么一行代码, 这个函数的是 includes/bootstrap.inc
+<pre>
+drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+</pre>
+执行初始化
+<pre>
+1:_drupal_bootstrap_configuration();  //初始化一些全局配置,载入settings.php这个配置文件
+2: _drupal_bootstrap_page_cache();    //缓存
+3:_drupal_bootstrap_database();       //数据库
+4:_drupal_bootstrap_variables();      //variables表里面的变量
+5:drupal_session_initialize();        //sesssion
+6:_drupal_bootstrap_page_header();    //头设置
+7:drupal_language_initialize();       //语言
+8:_drupal_bootstrap_full();           //引入系统文件。和执行一些初始化的工作。
+</pre>
+
+<h2>路由</h2>
+这里的路由就是根据当前url然后去执行哪些函数调用哪些方法，从理论上来讲路由是一个非常复杂的东西。但是它在Drupal里面却变得非常简单,因为drupal把要载入的函数和参数，权限等信息全部都写到了数据库(请看menu_router表).
+所以路由的基本的原理就是: 获取当前url,根据url查询menu_router表,把查询出来的数据，函数参数这些全部执行一次.大功造成，其实就这么简单
+
+从index.php会看到一个 这样的函数,这个函数在includes/menu.inc
+<pre>
+menu_execute_active_handler();
+</pre>
+ 
+下面这段代码就是路由:
+<pre lang="php">
+//你还会看到如下这样一个代码，其实这个代码是判断你是否处于维护状态.如果你是处于维护模式并且没有权限就会停止执行路由，而直接根据状态码去执行内容输出
+$page_callback_result = _menu_site_is_offline() ? MENU_SITE_OFFLINE : MENU_SITE_ONLINE;
+
+// Allow other modules to change the site status but not the path because that
+// would not change the global variable. hook_url_inbound_alter() can be used
+// to change the path. Code later will not use the $read_only_path variable.
+$read_only_path = !empty($path) ? $path : $_GET['q'];
+
+//这里会执行，hook_menu_site_status_alter, 请看另一篇文章:  hook_menu_site_status_alter
+
+drupal_alter('menu_site_status', $page_callback_result, $read_only_path);
+
+// Only continue if the site status is not set.
+//如果是在线状态才执行
+if ($page_callback_result == MENU_SITE_ONLINE) {
+  
+  //用menu_get_item查询menu_router表.获取详细信息
+  if ($router_item = menu_get_item($path)) {
+    if ($router_item['access']) {
+      //如果存在include_file属性，就引用文件 . hook_menu看过没。这里的信息都来自menu的定义。看了hook_menu就会懂了
+      if ($router_item['include_file']) {
+        require_once DRUPAL_ROOT . '/' . $router_item['include_file'];
+      }
+      //这里就执行page callback了.最主要一个东西
+      $page_callback_result = call_user_func_array($router_item['page_callback'], $router_item['page_arguments']);
+    }
+    else {
+      //如果没有权限，就将状态码设置成MENU_ACCESS_DENIEN
+      $page_callback_result = MENU_ACCESS_DENIED;
+    }
+  }
+  else {
+   //如果就在menu_router表中没有找到就会是404页面了
+    $page_callback_result = MENU_NOT_FOUND;
+  }
+}
+</pre>
+<h2>内容输出</h2>
+在menu_execute_active_handler函数中最下面还有这样一段代码。其实这就是执行内容输出了。最重要的一个函数drupal_deliver_page
+<pre lang="php">
+  // Deliver the result of the page callback to the browser, or if requested,
+  // return it raw, so calling code can do more processing.
+  if ($deliver) {
+    
+    //$default_delivery_callback 这个就是回调函数了
+    //$page_callback_result 这个相当重要的地主就是你可以设置你的状态.他会根据状态码返回你的页面.
+    //也就是说你可以不用执行什么路由啊这些，直接drupal_deliver_page(状态码)；就会返回你要的页面
+    //page_not_fount 404页面设置函数就是这样实现的
+    //当$page_callback_result 的值为空的时候去执行menu_get_item(当前url) 来获取信息,这一切都源于drupal_deliver_page中实现
+
+    $default_delivery_callback = (isset($router_item) && $router_item) ? $router_item['delivery_callback'] : NULL;
+    drupal_deliver_page($page_callback_result, $default_delivery_callback);
+  }
+  else {
+    return $page_callback_result;
+  }
+</pre>
+
+最后来看drupal分工明确啊，不乱.非常好理解
+
+从内容输出后分别会调用以下Hoo:
+<pre lang="php">
+hook_page_delivery_callback_alter  #生成html函数过滤,默认是drupal_deliver_html_page
+hook_page_build        #
+hook_page_alter
+</pre>

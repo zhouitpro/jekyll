@@ -1,0 +1,19 @@
+---
+layout: post
+title: git 分支的衍合
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+rebase和merge区别:
+衍合是按照每行的修改次序重演一遍修改，而合并是把最终结果合在一起。
+
+git rebase –continue 如果打补丁的时候出现了问题，就会提示你处理冲突。处理好了，可以运行git rebase –continue继续直到完成
+
+git rebase –abort 放弃rebase过程
+
+git rebase –skip 用衍合的分支替换当前分支

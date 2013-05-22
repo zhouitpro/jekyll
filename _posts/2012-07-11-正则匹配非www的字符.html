@@ -1,0 +1,20 @@
+---
+layout: post
+title: 正则匹配非www的字符
+tags:
+- PHP
+- 正则表达式
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+用于环视
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+$pre = &#039;/^(?![w]{3})[a-z0-9]*$/&#039;;
+
+var_dump(preg_match($pre,&#039;fdsfsd&#039;));
+
+</pre>

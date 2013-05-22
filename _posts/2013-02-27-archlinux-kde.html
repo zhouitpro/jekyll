@@ -1,0 +1,217 @@
+---
+layout: post
+title: ArchLinux KDE
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+当我安装完成我的KDE以后。能进去。当我点击任何一个应用程序我的电脑就进入了假死状态，没有任何反应鼠标也不能动. 我查看我的日志 /var/log/kdm.log
+<pre>
+********************************************************************************
+Note that your system uses syslog. All of kdm's internally generated messages
+(i.e., not from libraries and external programs/scripts it uses) go to the
+daemon.* syslog facility; check your syslog configuration to find out to which
+file(s) it is logged. PAM logs messages related to authentication to authpriv.*.
+********************************************************************************
+
+Initializing built-in extension Generic Event Extension
+Initializing built-in extension SHAPE
+Initializing built-in extension MIT-SHM
+Initializing built-in extension XInputExtension
+Initializing built-in extension XTEST
+Initializing built-in extension BIG-REQUESTS
+Initializing built-in extension SYNC
+Initializing built-in extension XKEYBOARD
+Initializing built-in extension XC-MISC
+Initializing built-in extension SECURITY
+Initializing built-in extension XINERAMA
+Initializing built-in extension XFIXES
+Initializing built-in extension RENDER
+Initializing built-in extension RANDR
+Initializing built-in extension COMPOSITE
+Initializing built-in extension DAMAGE
+Initializing built-in extension MIT-SCREEN-SAVER
+Initializing built-in extension DOUBLE-BUFFER
+Initializing built-in extension RECORD
+Initializing built-in extension DPMS
+Initializing built-in extension X-Resource
+Initializing built-in extension XVideo
+Initializing built-in extension XVideo-MotionCompensation
+Initializing built-in extension XFree86-VidModeExtension
+Initializing built-in extension XFree86-DGA
+Initializing built-in extension XFree86-DRI
+Initializing built-in extension DRI2
+Loading extension GLX
+klauncher(432) kdemain: No DBUS session-bus found. Check if you have started the DBUS server. 
+kdeinit4: Communication error with launcher. Exiting!
+kdmgreet(354)/kdecore (K*TimeZone*): KSystemTimeZones: ktimezoned initialize() D-Bus call failed:  "Not connected to D-Bus server" 
+
+kdmgreet(354)/kdecore (K*TimeZone*): No time zone information obtained from ktimezoned 
+</pre>
+
+~/.xsession.errors
+<pre>
+[738:798:0227/134948:ERROR:object_proxy.cc(624)] Failed to get name owner. Got org.freedesktop.DBus.Error.NameHasNoOwner: Could not get owner of name 'org.chromium.Mtpd': no such name
+[738:798:0227/134950:ERROR:object_proxy.cc(624)] Failed to get name owner. Got org.freedesktop.DBus.Error.NameHasNoOwner: Could not get owner of name 'org.chromium.Mtpd': no such name
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+[738:738:0227/134954:ERROR:object_proxy.cc(529)] Failed to call method: org.chromium.Mtpd.EnumerateStorages: object_path= /org/chromium/Mtpd: org.freedesktop.DBus.Error.ServiceUnknown: The name org.chromium.Mtpd was not provided by any .service files
+plasma-desktop(609) KDesktopFile::isAuthorizedDesktopFile: Access to ' "/home/zhouitpro/Desktop/KVIrc.desktop" ' denied, not owned by root, executable flag not set. 
+
+krunner(655)/kio (KDirWatch) KDirWatchPrivate::removeEntry: doesn't know "/home/zhouitpro/.kde4/share/apps/kabc" 
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+Nepomuk server already running.
+akonadi_nepomuk_feeder(707) FeederPluginloader::feederPluginsForMimeType: No feeder for type  "inode/directory"  found 
+akonadi_nepomuk_feeder(707) FeederPluginloader::feederPluginsForMimeType: No feeder for type  "text/calendar"  found 
+"/org/freedesktop/UDisks2/drives/WDC_WD3200BEVT_08A23T1_WD_WXB1A41J4757" : property "Drive" does not exist 
+"/org/freedesktop/UDisks2/drives/Optiarc_DVD_RW_AD_7710H" : property "Drive" does not exist 
+"/org/freedesktop/UDisks2/drives/WDC_WD3200BEVT_08A23T1_WD_WXB1A41J4757" : property "DeviceNumber" does not exist 
+"/org/freedesktop/UDisks2/drives/WDC_WD3200BEVT_08A23T1_WD_WXB1A41J4757" : property "Device" does not exist 
+[738:789:0227/135007:ERROR:object_proxy.cc(529)] Failed to call method: org.kde.KWallet.isEnabled: object_path= /modules/kwalletd: org.freedesktop.DBus.Error.ServiceUnknown: The name org.kde.kwalletd was not provided by any .service files
+[738:789:0227/135007:ERROR:native_backend_kwallet_x.cc(227)] Error contacting kwalletd (isEnabled)
+I/O warning : failed to load external entity "/home/zhouitpro/.qalculate/eurofxref-daily.xml"
+I/O warning : failed to load external entity "/home/zhouitpro/.qalculate/eurofxref-daily.xml"
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+QDBusConnection for control created "/Mixers/PulseAudio__Playback_Devices_1/alsa_output_pci_0000_00_1b_0_analog_stereo" 
+QDBusConnection for control created "/Mixers/PulseAudio__Capture_Devices_1/alsa_input_pci_0000_00_1b_0_analog_stereo" 
+krunner(655)/libplasma Plasma::PackagePrivate::isValid: Could not find required file mainscript 
+kwin(577) KWin::Client::readUserTimeMapTimestamp: User timestamp, ASN: 99525
+kwin(577) KWin::Client::readUserTimeMapTimestamp: User timestamp, final: 'ID: 31457512 ;WMCLASS: "plasma-desktop" : "plasma-desktop" ;Caption: "plasma-desktop" ' : 99525
+kwin(577) KWin::Workspace::allowClientActivation: Activation: No client active, allowing
+kwin(577) KWin::Workspace::updateClientArea: screens:  1 desktops:  1
+kwin(577) KWin::Workspace::updateClientArea: Done.
+New PolkitAgentListener  0x234cb40 
+Adding new listener  PolkitQt1::Agent::Listener(0x24f3450) for  0x234cb40 
+unnamed app(736): Communication problem with  "kwalletmanager" , it probably crashed. 
+Error message was:  "org.freedesktop.DBus.Error.UnknownObject" : " "No such object path '/MainApplication'" " 
+
+plasma-desktop(609) KDesktopFile::isAuthorizedDesktopFile: Access to ' "/home/zhouitpro/Desktop/KVIrc.desktop" ' denied, not owned by root, executable flag not set. 
+
+kwin(577) KWin::Workspace::updateClientArea: screens:  1 desktops:  1
+kwin(577) KWin::Workspace::updateClientArea: Done.
+QDBusConnection for control created "/Mixers/PulseAudio__Playback_Streams_1/restore_sink_input_by_media_role_event" 
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+"/org/freedesktop/UDisks2/drives/Optiarc_DVD_RW_AD_7710H" : property "DeviceNumber" does not exist 
+"/org/freedesktop/UDisks2/drives/Optiarc_DVD_RW_AD_7710H" : property "Device" does not exist 
+Connecting to deprecated signal QDBusConnectionInterface::serviceOwnerChanged(QString,QString,QString)
+kded(516) ContactRequestHandler::onNewAccountAdded: 
+kded(516) ContactRequestHandler::onNewAccountAdded: 
+[/usr/bin/nepomukservicestub] Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+[/usr/bin/nepomukservicestub] Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+QObject: Cannot create children for a parent that is in a different thread.
+(Parent is Nepomuk2::ResourceManager(0x22ac770), parent's thread is QThread(0x20c2270), current thread is QThread(0x22b04a0)
+QProcess: Destroyed while process is still running.
+kdeinit4: Fatal IO error: client killed
+kdeinit4: sending SIGHUP to children.
+kded4: Fatal IO error: client killed
+klauncher: Exiting on signal 1
+kactivitymanagerd: Fatal IO error: client killed
+kglobalaccel: Fatal IO error: client killed
+akonadi_agent_launcher: Fatal IO error: client killed
+akonadi_agent_launcher: Fatal IO error: client killed
+akonadi_nepomuk_feeder: Fatal IO error: client killed
+ProcessControl: Application '/usr/bin/nepomukservicestub' stopped unexpected (Process crashed)
+Application '/usr/bin/nepomukservicestub nepomukfilewatch' crashed. No restart!
+ProcessControl: Application '/usr/bin/nepomukservicestub' stopped unexpected (Process crashed)
+Application '/usr/bin/nepomukservicestub nepomukfileindexer' crashed. No restart!
+Control process died, committing suicide!
+kdeinit4: Fatal IO error: client killed
+kdeinit4: sending SIGHUP to children.
+NepomukServer(646)/kdecore (KConfigSkeleton) KCoreConfigSkeleton::writeConfig:
+akonadi_agent_launcher: Fatal IO error: client killed
+akonadi_agent_launcher: Fatal IO error: client killed
+akonadi_agent_launcher: Fatal IO error: client killed
+kdeinit4: sending SIGTERM to children.
+kdeinit4: Exit.
+akonadi_mailfilter_agent: Fatal IO error: client killed
+akonadi_archivemail_agent: Fatal IO error: client killed
+akonadi_maildispatcher_agent: Fatal IO error: client killed
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+kDebugStream called after destruction (from void Jobs::Encryption::Private::Encfs::unmountAllExcept(const QString&) file /build/src/kactivities-4.10.0/src/service/jobs/encryption/private/Encfs.cpp line 79)
+Unmounting everything except  "" 
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+ProcessControl: Application '/usr/bin/akonadi_nepomuk_feeder' returned with exit code 1 (Unknown error)
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+akonadi_agent_launcher: cannot connect to X server :0
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+akonadi_agent_launcher: cannot connect to X server :0
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+akonadi_agent_launcher: cannot connect to X server :0
+ProcessControl: Application '/usr/bin/akonadi_maildispatcher_agent' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+akonadi_agent_launcher: cannot connect to X server :0
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+ProcessControl: Application '/usr/bin/akonadi_agent_launcher' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+ProcessControl: Application '/usr/bin/akonadi_archivemail_agent' returned with exit code 1 (Unknown error)
+ProcessControl: Application '/usr/bin/akonadi_mailfilter_agent' returned with exit code 1 (Unknown error)
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+Fontconfig warning: "/etc/fonts/conf.d/50-user.conf", line 9: reading configurations from ~/.fonts.conf is deprecated.
+Warning;  Aborted waiting on pid file: '/home/zhouitpro/.local/share/akonadi/db_data/xiukun.pid' after 0 seconds
+KCrash: Attempting to start /usr/bin/kactivitymanagerd from kdeinit
+Warning: connect() failed: : 没有那个文件或目录
+KCrash: Attempting to start /usr/bin/kactivitymanagerd directly
+KCrash: Application 'kactivitymanagerd' crashing...
+Fatal Error: Accessed global static 'KGlobalPrivate *globalData()' after destruction. Defined at /build/src/kdelibs-4.10.0/kdecore/kernel/kglobal.cpp:127
+sock_file=/home/zhouitpro/.kde4/socket-xiukun.zhou/kdeinit4__0
+Unable to start Dr. Konqi
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+kactivitymanagerd(1823): KUniqueApplication: Cannot find the D-Bus session server:  "Failed to connect to socket /tmp/dbus-70e3F5bLkC: 拒绝连接" 
+
+kactivitymanagerd(1822): KUniqueApplication: Pipe closed unexpectedly. 
+</pre>
+
+我试图在Google 搜索:
+<a href="http://crunchbang.org/forums/viewtopic.php?id=11052" target="_blank">http://crunchbang.org/forums/viewtopic.php?id=11052</a>
+
+为此文章我删除了我的目录/usr/lib/xorg/modules/extensions下面的文件libglx.so和libglx.xorg.然后重启电脑
+重启后很遗憾我的KDE仍然无法使用. 我实在没办法了。 然后我就将的 ~/.kde4 目录全部删除
+重启后KDE又能正常使用. 但是我那些很炫的效果已经全部没有了. 根据猜测大概是我的显卡出问题了
+
+我的显卡信息是. 由于是双显卡所以有两条:
+<pre>
+$lspci | grep VGA
+3:00:02.0 VGA compatible controller: Intel Corporation 2nd Generation Core Processor Family Integrated Graphics Controller (rev 09)
+17:01:00.0 VGA compatible controller: Advanced Micro Devices [AMD] nee ATI Whistler [AMD Radeon HD 6600M Series]
+</pre>
+
+我已经装了的驱动有:
+<pre>
+extra/xf86-video-i740
+extra/xf86-video-intel
+extra/intel-dri
+</pre>
+
+还有3D加速的
+<pre>
+extra/mesa
+extra/mesa-libgl
+</pre>
+
+系统是新装的，不会有其它的设置问题, 以前也有遇到过这种问题。 虽然可以使用但是桌面效果全部无法加载
+
+====================================
+
+继续Google搜索: 
+<a href="http://forum.kde.org/viewtopic.php?f=66&t=93180">http://forum.kde.org/viewtopic.php?f=66&t=93180</a>
+
+重启用ROOT登陆试试.
+
+======================
+
+用Root 登陆后仍然无法使用.... 

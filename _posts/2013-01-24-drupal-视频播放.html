@@ -1,0 +1,46 @@
+---
+layout: post
+title: Drupal 视频播放
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+以下两个播放器都需要库,请看README. 当你下载了以后。field format会出来相应的选择 但是必须是file:
+1. <a href="http://drupal.org/project/jw_player" target="_blank">jw_player</a>
+库下载: <a href="http://www.longtailvideo.com/jw-player/download/" target="_blank">http://www.longtailvideo.com/jw-player/download/
+</a> 下载好后放到 libraries/jwplayer
+
+2. <a href="http://drupal.org/project/mediaelement" target="_blank">mediaelement</a>
+库下载: <a href="http://mediaelementjs.com/" target="_blank">http://mediaelementjs.com/</a>
+ 下载好后放到 libraries/mediaelement  默认目录名不是这个。如果不改名是无法使用的. 默认下载下来的文件比较多而且也比较大。但是只有build有用。其它的都是可以删除掉的
+
+功能: 制作一个视频弹窗播放
+
+<strong>模块:</strong>
+1. <a href="http://drupal.org/project/media" target="_blank">media</a> 这是一个视频播放器管理工具
+2. <a href="http://drupal.org/project/colorbox" target="_blank">colorbox</a>  弹窗。
+库下载: <a href="http://www.jacklmoore.com/colorbox/colorbox.zip" target="_blank">http://www.jacklmoore.com/colorbox/colorbox.zip</a>放到libraries目录下面
+
+
+3. <a href="http://drupal.org/project/media_colorbox" target="_blank">media_colorbox</a> 视频弹窗播放
+4. <a href="http://drupal.org/project/mediaelement" target="_blank">mediaelement</a>  播放器. 当时我用过jw_player但是弹窗后无法播放
+
+安装并启用
+
+
+<strong>启用播放器播放,如果不启用会用html5来播放</strong>
+<pre>
+/admin/config/media/mediaelement
+</pre>
+
+<strong>编辑 Video </strong>
+<pre>
+admin/config/media/file-types/manage/video/file-display
+</pre>
+<strong>选中 MediaElement Video</strong>
+
+在你的field为file的字段选中media colorbox

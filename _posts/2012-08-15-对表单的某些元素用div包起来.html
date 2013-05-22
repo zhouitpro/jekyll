@@ -1,0 +1,48 @@
+---
+layout: post
+title: 对表单的某些元素用Div包起来
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+
+/**
+此处操作的Formid是 webform_client_form_14.用到hook_form_alter
+在表单元素key为number_of_adults12_years前面加一个Div开头
+在表单元素key为city后面加一个结束Di
+*/
+
+/***
+* Implementation of hook_form_alter(&amp;$form, &amp;$form_state)
+*/
+function centurytours_form_alter(&amp;$form, &amp;$form_state, $form_id)
+{
+    
+    /**
+     * Add div
+     */
+    if($form_id == &#039;webform_client_form_14&#039;)
+    {
+        foreach($form[&#039;submitted&#039;] as $key=&gt;$web_form)
+        {
+          if($key === &#039;number_of_adults12_years&#039;)
+          {
+              $form[&#039;submitted&#039;][$key][&#039;#prefix&#039;] = &#039;&lt;div class=&quot;demo&quot; id=&quot;demo&quot;&gt;&#039;;
+          }
+          
+          if($key === &#039;city&#039;)
+          {
+              $form[&#039;submitted&#039;][$key][&#039;#suffix&#039;] = &#039;&lt;/div&gt;&#039;;
+          }
+          
+        }
+    }
+}
+
+</pre>

@@ -1,0 +1,17 @@
+---
+layout: post
+title: 如何让input和img水平对齐
+tags:
+- Css
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+将input和img放同一行，img标签总是比input高出一个头，非常难看。之前试过好多方法，都不行。后来在网站搜到最多的就是给img添加一个align="absmiddle"属性，这个方法似乎的确可行，但是不符合HTML标准。后来无意中发现同时给input和img添加vertical-align:middle就行：
+
+input,img{vertical-align:middle;}
+这样代码就会规规矩矩地水平对齐了。 
+
+原文地址:http://blog.lrenwang.com/post/194/

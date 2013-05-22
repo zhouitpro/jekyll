@@ -1,0 +1,36 @@
+---
+layout: post
+title: Drupal常用方法/函数
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+drupal_get_path('module', 'js_example') 获取模块路径
+
+drupal_add_css(drupal_get_path('module', 'js_example') . '/css/jsweights.css');
+
+//weight是设置排序
+drupal_add_js(drupal_get_path('module', 'js_example') . '/js/red.js', array('weight' => 0)); 
+
+modules_exists('ctools');  //检测ctools模块是否存在
+modules_enable('ctools');  //检测ctools是否启用
+image_styles();            //可以获取到全部已经添加的样式 media->image style
+module_list();             //可以获取所有已启用module
+drupal_goto('<front>');    //跳转到首页
+render(field_view_field('node', $node, 'node字段', 'full')); 获取node的 filedhtml
+
+menu_get_item 获取当前菜单
+
+drupal_is_front_page 判断用户当前页面是否是首页
+
+views_get_view 获取指定的view
+
+//Include 一个文件, 第一个参数是文件类型,第二个参数是模块名. 第三个参数是文件名
+module_load_include('inc', 'commerce_product', 'includes/commerce_product.forms');
+
+</pre>

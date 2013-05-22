@@ -1,0 +1,17 @@
+---
+layout: post
+title: GIT cat-file
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+cat-file 这是一个对象操作命令
+下面是显示一个在指定提交中文件的内容
+4a12bde1403d... 这是一个提交时生成的哈希值。也可以HEAD~1(上一次提交)
+<pre>
+$git cat-file -p 4a12bde1403d:base.php
+</pre>

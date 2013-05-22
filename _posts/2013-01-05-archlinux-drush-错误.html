@@ -1,0 +1,48 @@
+---
+layout: post
+title: Archlinux drush 错误
+tags:
+- archlinux
+- drush
+- Linux
+- 待解决问题
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre>
+$ drush
+The following restricted PHP modes have non-empty values:            [error]
+open_basedir. This configuration is incompatible with drush.  Please
+check your configuration settings in /etc/php/php.ini or in your
+drush.ini file; see examples/example.drush.ini for details.
+file_exists(): open_basedir restriction in effect. File(/etc/drush/drushrc.php) is not within the allowed path(s):                         [warning]
+(/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/pear/drush/:/etc/drush/:/root/) context.inc:150
+file_exists(): open_basedir restriction in effect. File(/etc/drush/drush5rc.php) is not within the allowed path(s):                        [warning]
+(/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/pear/drush/:/etc/drush/:/root/) context.inc:150
+is_dir(): open_basedir restriction in effect. File(/usr/share/drush/commands) is not within the allowed path(s):                           [warning]
+(/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/pear/drush/:/etc/drush/:/root/) command.inc:1289
+Execute a drush command. Run `drush help [command]` to view command-specific help.  Run `drush topic` to read even more documentation.
+</pre>
+
+在Arch Linux中. 安装drush后， 是能正常使用，但是会出现这样的错误
+
+
+解决办法:
+<a href="http://drupal.org/node/509506">http://drupal.org/node/509506</a>
+<a href="http://drupal.stackexchange.com/questions/4088/drush-open-basedir-restriction-in-effect-on-media-temple">http://drupal.stackexchange.com/questions/4088/drush-open-basedir-restriction-in-effect-on-media-temple</a>
+<pre>
+$cp /etc/php/php.ini ~/.drush/
+$vim ~/.bashrc 
+
+//添加
+alias drush='/usr/bin/php -c ~/.drush/php.ini /usr/share/pear/drush/drush.php'
+
+//编辑你copy的php.ini
+$vim ~/.drush/php.ini
+
+//将open_basedir 设置为空
+open_basedir = 
+</pre>

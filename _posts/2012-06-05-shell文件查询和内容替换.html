@@ -1,0 +1,31 @@
+---
+layout: post
+title: Linux find 命令
+tags:
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+shell文件查询和内容替换
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+for f in `find ./ -name php.ini`; do 
+  sed -e 's#register_long_arrays#;register_long_arrays#' \
+      -e 's#magic_quotes_gpc#;magic_quotes_gpc#' \
+      -e 's#allow_call_time_pass_reference#;allow_call_time_pass_reference#' \
+      -i $f
+done;
+</pre>
+
+cat 正则
+在其它地主的话 或应该是 (php|js|css) [abc] 像这种的话应该只匹配单个字符
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+cat `find ./ -regex ".*[php|js|css]"` | wc -l
+</pre>
+
+查看最近24小时内修改过的文件, -2 代表45小时
+<pre>
+find . -mtime -1 -type f -print
+</pre>

@@ -1,0 +1,30 @@
+---
+layout: post
+title: Archlinux restart server Error
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="bash">
+[zhouitpro@zhouitpro ~]$ sudo /etc/rc.d/httpd restart
+/etc/rc.d/httpd: line 5: /etc/rc.conf: No such file or directory
+/etc/rc.d/httpd: line 6: /etc/rc.d/functions: No such file or directory
+/etc/rc.d/httpd: line 46: stat_busy: command not found
+httpd: Could not reliably determine the server's fully qualified domain name, using fe80::f2de:f1ff:fe7e:cae0 for ServerName
+/etc/rc.d/httpd: line 48: add_daemon: command not found
+/etc/rc.d/httpd: line 49: stat_done: command not found
+
+└──> sudo /etc/rc.d/httpd restart
+/etc/rc.d/httpd:行46: stat_busy: 未找到命令
+/etc/rc.d/httpd:行48: add_daemon: 未找到命令
+/etc/rc.d/httpd:行49: stat_done: 未找到命令
+</pre>
+
+<pre lang="bash">
+$sudo pacman -S initscripts
+</pre>

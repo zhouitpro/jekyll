@@ -1,0 +1,35 @@
+---
+layout: post
+title: Views_page
+tags:
+- Drupal 函数
+- Drupal 函数和方法原码解析
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+/**
+显示一个views
+第一个参数$display_id好像是系统生成的
+*/
+function views_page($name, $display_id) {
+  $args = func_get_args();
+  // Remove $name and $display_id from the arguments.
+  array_shift($args);
+  array_shift($args);
+
+  // Load the view and render it.
+  //获取整个views
+  if ($view = views_get_view($name)) {
+    显示指定的$display_id，将参数传过去
+    return $view-&amp;gt;execute_display($display_id, $args);
+  }
+
+  // Fallback; if we get here no view was found or handler was not valid.
+  return MENU_NOT_FOUND;
+}
+
+</pre>

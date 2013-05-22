@@ -1,0 +1,26 @@
+---
+layout: post
+title: Zend_Registry 注册者模式
+tags:
+- Zend Framework
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+注册者模式 (registry) 提供了一种机制，能让你在程序中有条理的存放并管理对象 (object) ，它的主要作用是防止用户滥用全局对象 (global object) 。
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+Zend_Registry::set($name, $value);  //设置保存一个键值
+echo Zend_Registry::get($name);     //根据键盘获取值
+
+//第二种添加值的方法
+$registry= Zend_Registry::getInstance();
+$registry[$name] = $value;
+
+//判断一个值是否已注册.
+ if (false == Zend_Registry::isRegistered(&#039;singletonExample&#039;)) {
+     Zend_Registry::set(&#039;singletonExample&#039;,&#039;11&#039;);
+}
+</pre>

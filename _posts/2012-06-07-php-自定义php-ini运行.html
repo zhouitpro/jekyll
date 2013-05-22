@@ -1,0 +1,34 @@
+---
+layout: post
+title: php 自定义php.ini运行
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+根据自定义的php.ini来运行特定的php文件
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#php -c my_php.ini ./demo.php
+</pre>
+
+
+使用-d来自定义php.ini中的参数,后运行php。demo.php中代码为
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#!/usr/bin/php
+&lt;?php
+echo ini_get(&#039;max_file_uploads&#039;).&quot;\n&quot;;
+</pre>
+
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#php -d max_file_uploads=80  demo.php
+</pre>
+
+运行结果是
+<a href="http://blog.ssh110.com/wp-content/uploads/2012/06/demos1.jpg"><img src="http://blog.ssh110.com/wp-content/uploads/2012/06/demos1-300x58.jpg" alt="" title="demos" class="alignnone size-medium wp-image-477" /></a>
+
+一般来说在网页中是无法改变max_file_uploads这类的参数

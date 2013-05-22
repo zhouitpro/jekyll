@@ -1,0 +1,33 @@
+---
+layout: post
+title: Ci CI_DB类
+tags:
+- Ci
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+一直看到 pdo类中有  CI_DB_pdo_driver extends CI_DB  有这个一个写法,可是怎么找都找不到这个CI_DB类
+后来仔细一看.他妈的坑爹啊
+
+在  system/database/DB.php 中有这么两句话,我才知道了写在了DB.php这个文件中
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+	       if ( ! class_exists(&#039;CI_DB&#039;))
+		{
+			eval(&#039;class CI_DB extends CI_DB_active_record { }&#039;);
+                }
+</pre>
+
+OR下面这段代码.因为他判断是否要启动 ar类
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+               if ( ! class_exists(&#039;CI_DB&#039;))
+		{
+			eval(&#039;class CI_DB extends CI_DB_driver { }&#039;);
+		}
+
+</pre>

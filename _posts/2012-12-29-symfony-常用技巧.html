@@ -1,0 +1,96 @@
+---
+layout: post
+title: Symfony 常用技巧
+tags:
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<strong>1. URL跳转</strong>
+<pre lang="php">
+URL跳转, 首先redirect是在基类控制器中，如果要使用必须继承基类(控制器)
+
+$this->generateUrl('homepage');  //这只是生成一个url
+
+return $this->redirect($this->generateUrl('homepage')); //普通跳转
+
+return $this->redirect($this->generateUrl('homepage'), 301); //进行301跳转
+
+//你也可以直接使用:
+return new RedirectResponse($this->generateUrl('homepage'));
+
+</pre>
+
+<strong>2. 服务</strong>
+<pre lang="php">
+//使用$this->get('server_name') 获取服务名
+$templating = $this->get('templating');
+$router = $this->get('router');
+$mailer = $this->get('mailer');
+
+//列出所有服务
+$php app/console container:debug
+</pre>
+
+<strong>3. 创建404页面</strong>
+<pre lang="php">
+//404只需要抛出异常就可以了
+//createNotFoundException 函数
+if($name === FALSE) {
+throw $this->createNotFoundException('The product does not exist');
+}
+</pre>
+
+<strong>3. Session</strong>
+<a href="http://symfony.com/doc/current/book/controller.html#managing-the-session" target="_blank">http://symfony.com/doc/current/book/controller.html#managing-the-session</a>
+<pre lang="php">
+//获取session类
+$session = $this->getRequest()->getSession();
+
+//设置一个session
+$session->set('foo', 'bar');
+
+//获取一个session
+$foo = $session->get('foo');
+
+//获取一个session,如果不存在的话使用一个空数组的默认值
+$filters = $session->get('filters', array());
+</pre>
+
+<strong>4. 信息提示</strong>
+<a href="http://symfony.com/doc/current/book/controller.html#flash-messages" target="_blank">http://symfony.com/doc/current/book/controller.html#flash-messages</a>
+<pre lang="php">
+//设置一个信息提示
+$this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
+
+//在程序中可以使用如下来获取信息
+$this->get('session')->getFlash('success');
+
+//然后在模板中获取出来, Tag 和 add时的 tag要对应
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="flash-success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+</pre>
+
+<strong>5. 输出对象, 输出json</strong>
+<pre lang="php">
+$response = new Response(json_encode(array('name' => $name)));
+
+//设置json头
+$response->headers->set('Content-Type', 'application/json');
+</pre>
+
+<strong>6. 请求对象</strong>
+<pre lang="php">
+$request = $this->getRequest();
+
+$request->isXmlHttpRequest(); //判断是否是ajax请求
+$request->getPreferredLanguage(array('en', 'fr'));
+$request->query->get('page');   //获取一个get数据
+$request->request->get('page'); //获取一个post数据
+</pre>

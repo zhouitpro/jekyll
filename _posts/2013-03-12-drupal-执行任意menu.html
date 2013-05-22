@@ -1,0 +1,30 @@
+---
+layout: post
+title: Drupal 执行任意menu url
+tags:
+- Drupal
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<ol>
+这段代码也纺强悍了，只需要一个menu地址就会车出这个url 的content. index.php 也刚好运行了这个函数:
+
+<a href="http://api.drupal.org/api/drupal/includes%21menu.inc/function/menu_execute_active_handler/7" target="_blank">http://api.drupal.org/api/drupal/includes%21menu.inc/function/menu_execute_active_handler/7</a>
+
+<strong>menu_execute_active_handler</strong> 这个是drupal 路径处理函数，当你把menu node/2设置成 Active以后就运行处理node/2 这个path
+
+<pre lang="php">
+<?php
+menu_set_active_item('node/2');
+return menu_execute_active_handler(NULL, FALSE);
+</pre>
+
+其实这样也是可以的
+
+<pre lang="php">
+return menu_execute_active_handler('node/2', FALSE);
+</pre>

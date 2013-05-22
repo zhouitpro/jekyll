@@ -1,0 +1,18 @@
+---
+layout: post
+title: split和preg_split的区别
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+都可是使用正则来分割字符串
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+$string = &#039; and 1open 2 the 3 template 4 in 5 the 6editor&#039;;
+var_dump(split(&#039;[0-9]+&#039;, $string));
+var_dump(split(&#039; &#039;, $string));  //空格来分割字符串
+var_dump(preg_split(&#039;/[0-9]+/&#039;, $string));
+</pre>

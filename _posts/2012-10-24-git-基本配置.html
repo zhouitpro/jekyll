@@ -1,0 +1,33 @@
+---
+layout: post
+title: GIT 基本配置
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+用户配置
+<pre> $git config --global user.name "John Doe"
+ $git config --global user.email johndoe@example.com</pre>
+编辑器配置
+<pre>$git config --global core.editor gedit</pre>
+差异分析工具
+<pre>$git config --global merge.tool vimdiff</pre>
+配置颜色,默认为不开启
+<pre>$git config --global color.ui auto</pre>
+命令别名配置
+<pre>$sudo git config  --system  alias.st status
+$sudo git config  --system  alias.ci commit
+$sudo git config  --system  alias.co checkout
+$sudo git config  --system  alias.br branch</pre>
+可以使用下面命令查看你的配置
+<pre>$git config --list</pre>
+
+删除GIT配置
+<pre>
+$git config --unset user.name xx
+$git config --unset user.mail xx@xx.com
+</pre>

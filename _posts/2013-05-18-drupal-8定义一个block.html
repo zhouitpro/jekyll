@@ -1,0 +1,29 @@
+---
+layout: post
+title: Drupal 8定义一个block
+tags:
+- Drupal
+- Drupal 8
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://drupal.org/node/1880620">http://drupal.org/node/1880620</a>
+blocks在drupal8已经变成了一个<strong>插件</strong>(plugin)形式.
+Block types现在被定义为block plugins 而不是hook_block_info().。
+blocks 现在支持多个block接口, 所以同一个block可以在主题多次使用. 每个block都有自己的配置并可以删除。
+TODO:
+
+<h3>API 的改变</h3>
+<code>hook_block_info()</code>已经被删除 Block types 现在被新增加的 block plugin定义.
+<code>hook_block_info_alter</code>(已经被删除。这个新的 hook_block_alter() 应该取而代之的被利用hook_block_configure(), hook_block_save(), and hook_block_view() 已经被 block plugin 的方法代替了.。
+<code>hook_block_list_alter()</code>已经被删除， Modules 能够改变block 的可视性通过实施hook_block_access()来代替。
+<code>hook_block_MODULE_DELTA_alter()</code>已经被 hook_block_ID_alter() an和hook_block_NAME_alter().取代。
+
+<h3>案例</h3>
+<h5>定义block 类型</h5>
+将MyBlock.php plugin这个类文件放在下面这个目录中, Drupal 会自动判断它是一个block的插件：
+<pre>my_module/lib/Drupal/my_module/Plugin/Block</pre>
+(请看<a href="http://drupal.org/node/1320394">标准类加载</a>)，当启用my_module时, 这个插件类文件会被自动引用

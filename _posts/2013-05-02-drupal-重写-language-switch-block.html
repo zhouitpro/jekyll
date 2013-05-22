@@ -1,0 +1,36 @@
+---
+layout: post
+title: drupal 重写 Language Switch block
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+有一个需求, 在指点的页面. 固定死 language switch的url
+<pre lang="php">
+/**
+ * Implements hook_block_view_alter().
+ */
+function mymodule_block_view_alter(&$data, $block) {
+  if ($block->delta == 'language_content') {
+    if (arg(0) == 'products')) {
+      global $language;
+      $variables = array('type' => 'ul', 'attributes' => array('class' => 'language-switcher-locale-url'));
+      foreach (language_list() as $lcode => $language_data) {
+        $active = ($lcode == $language->language) ? 'active' : '';
+        $variables['items'][] = array(
+          'data' => l($language_data->native, 'products/f', array('language' => $language_data, 'attributes' => array(
+            'lang' => $lcode,
+            'class' => array($active, 'language-link'),
+            ))),
+          'class' => array($active, $lcode),
+        );
+      }
+      $data['content'] = theme('item_list', $variables);
+    }
+  }
+}
+</pre>

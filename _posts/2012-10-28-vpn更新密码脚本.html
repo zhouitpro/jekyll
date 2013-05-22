@@ -1,0 +1,35 @@
+---
+layout: post
+title: VPN更新密码脚本
+tags:
+- bash
+- Linux
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="bash">
+
+#!/bin/bash                                                                                                                                                  
+printf '' > '/var/www/ssh110.com/data/vpnuser'
+printf '' > '/etc/ppp/chap-secrets'
+users=('vpn01' 'vpn02' 'vpn03' 'vpn04' 'vpn05' 'vpn06' 'vpn07' 'vpn08' 'vpn09' 'vpn10' 'vpn11' 'vpn12' 'vpn13' 'vpn14' 'vpn15' 'vpn16' 'vpn17' 'vpn18' 'vpn19' 'vpn20')
+echo zhouitpro pptpd zhouitpro123 '*' >> '/etc/ppp/chap-secrets'
+echo cm pptpd 602000 '*' >> '/etc/ppp/chap-secrets'
+echo qcc pptpd qcc123456 '*' >> '/etc/ppp/chap-secrets'
+for u in ${users[@]}; do
+    pawd=''
+    a=('0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 'a' 'b' 'c' 'z' 'A' 'B' 'Z')
+    for i in {1..10}
+    do
+        pawd=$pawd${a[$RANDOM % ${#a[*]}]}
+    done
+    echo $u : $pawd >> '/var/www/ssh110.com/data/vpnuser'
+    echo $u 'pptpd' $pawd '*' >> '/etc/ppp/chap-secrets'
+done;
+
+
+</pre>

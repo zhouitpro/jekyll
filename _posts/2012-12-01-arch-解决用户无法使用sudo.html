@@ -1,0 +1,30 @@
+---
+layout: post
+title: Arch 解决用户无法使用sudo
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+报错信息:
+<pre lang="base">
+[zhouitpro@xiukun root]$ sudo ls
+[sudo] password for zhouitpro: 
+zhouitpro 不在 sudoers 文件中。此事将被报告。
+</pre>
+
+<a href="https://wiki.archlinux.org/index.php/Sudo_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29" target="_blank">https://wiki.archlinux.org/index.php/Sudo_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29</a>
+
+/etc/sudoers Sudo 默认配置文件
+<pre lang="bash">
+sudo vim  /etc/sudoers
+
+#在下面这行加入一行
+root ALL=(ALL) ALL
+
+username ALL=(ALL) ALL
+</pre>

@@ -1,0 +1,18 @@
+---
+layout: post
+title: ArchLinux 安装Symfony 必要的扩展
+tags:
+- archlinux
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+iconv , php_posix, intl, apc
+
+<pre lang="bash">
+$sudo pacman -S perl-text-iconv php-apc php-intl
+$sudo yaourt -S php-dio
+</pre>

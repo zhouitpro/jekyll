@@ -1,0 +1,38 @@
+---
+layout: post
+title: PHP 对内容相同的进行分组
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+$root = array(
+  0 => '110',
+  1 => '010',
+  2 => '100',
+  3 => '001',
+  4 => '001',
+  5 => '001',
+  6 => '100',
+  7 => '010',
+  8 => '001',
+  9 => '010',
+  10 => '100',
+  11 => '001',
+  12 => '001',
+  13 => '110',
+);
+
+$results = array();
+foreach($root as $key => $item){
+  if(!isset($results[$item])){
+    $results[$item] = array();
+  }
+  $results[$item][$key] = $item;
+}
+echo "<pre>" ; print_r($results) ;
+</pre>

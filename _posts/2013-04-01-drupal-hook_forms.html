@@ -1,0 +1,65 @@
+---
+layout: post
+title: Drupal hook_forms
+tags:
+- Drupal
+- Drupal 函数
+- Hook
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_forms/7">http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_forms/7</a>
+
+定义form id 对应 调用的函数名
+
+<pre lang="php">
+function hook_forms($form_id, $args) {
+  // Simply reroute the (non-existing) $form_id 'mymodule_first_form' to
+  // 'mymodule_main_form'.
+  $forms['mymodule_first_form'] = array(
+    'callback' => 'mymodule_main_form',
+  );
+
+  // Reroute the $form_id and prepend an additional argument that gets passed to
+  // the 'mymodule_main_form' form builder function.
+  $forms['mymodule_second_form'] = array(
+    'callback' => 'mymodule_main_form',
+    'callback arguments' => array('some parameter'),
+  );
+
+  // Reroute the $form_id, but invoke the form builder function
+  // 'mymodule_main_form_wrapper' first, so we can prepopulate the $form array
+  // that is passed to the actual form builder 'mymodule_main_form'.
+  $forms['mymodule_wrapped_form'] = array(
+    'callback' => 'mymodule_main_form',
+    'wrapper_callback' => 'mymodule_main_form_wrapper',
+  );
+
+  return $forms;
+}
+</pre>
+
+在commerce product 模块中, 我看到有 menu 的callback是 drupal_get_form(), 并且参数是commerce_product_ui_product_form.  但是我并没有找到这个function. 最后通过搜索过终于找到它是如何定义commerce_product_ui_product_form这个form
+<pre lang="php">
+/**
+ * Implements hook_forms().
+ */
+function commerce_product_ui_forms($form_id, $args) {
+  $forms = array();
+
+  // Define a wrapper ID for the product add / edit form.
+  $forms['commerce_product_ui_product_form'] = array(
+    'callback' => 'commerce_product_product_form',
+  );
+
+  // Define a wrapper ID for the product delete confirmation form.
+  $forms['commerce_product_ui_product_delete_form'] = array(
+    'callback' => 'commerce_product_product_delete_form',
+  );
+
+  return $forms;
+}
+</pre>

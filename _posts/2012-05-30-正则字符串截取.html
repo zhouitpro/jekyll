@@ -1,0 +1,19 @@
+---
+layout: post
+title: 正则字符串截取
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+$string = &#039;http://www.ssh110.com/&amp;rsv_bp=0&amp;&amp;rsv_bp=0&amp;&amp;rsv_bp=0&amp;&amp;rsv_bp=0&amp;&#039;;
+
+//22前面预留多少字,后面留多少字
+echo preg_replace(&#039;#^(.{22}).*(.{10})$#&#039;, &#039;\\1......\\2&#039;, $string);
+
+结果为:http://www.ssh110.com/......&amp;rsv_bp=0&amp;
+</pre>

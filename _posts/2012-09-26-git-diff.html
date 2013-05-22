@@ -1,0 +1,21 @@
+---
+layout: post
+title: Git diff
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+ git diff 当前工作目录和上次提交与本地索引间的差异。
+ git diff master..develop 比较master和develop这两个分支版本差异
+ git diff master...develop 比较master和develop这两个分支 分支间的差异
+ git diff --stat 查看哪些文件被修改,其实用git status也可以看到
+ git diff HEAD  上面这条命令会显示你工作目录与上次提交时之间的所有差别  
+ git diff     ORIG_HEAD 比较内容和上次提交时的差异
+ git diff master^..master~2  ^表示上一次 ~2表示上上次. 依此类推.比较上次和上上次文件提交的差异 
+ 以上命令都可以加上目录名.这样就只比较某个目录了
+</pre>

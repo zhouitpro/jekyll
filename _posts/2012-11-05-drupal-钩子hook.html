@@ -1,0 +1,45 @@
+---
+layout: post
+title: Drupal 钩子/Hook
+tags:
+- Drupal
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Drupal 的大部分功能都是靠 钩子来改变和增加的
+
+一般格式是: 模块名_钩子名
+
+下面是几个比较常用的函数:
+<pre>
+module_invoke($module, $hook)           //在指定的模块中执行指定的钩子
+module_invoke_all($hook)                //执行所有模块中指定的钩子
+module_implements($hook)                //查看有哪些模块加载了指定的钩子
+drupal_alter($type, &$data)             //过滤所有hook_$type_alter($data) 
+</pre>
+
+如何调用自定义钩子
+<pre>
+module_invoke_all('my_custom_hook', &$name);
+</pre>
+
+
+来创建这个钩子,我的模块名叫 mymodule
+<pre>
+function mymodule_my_custom_hook(&$name) {
+  $name = '123';
+}
+</pre>
+
+调用hook_$type_alter($data);来过滤你的数据
+<pre lang="php">
+//比如你在写一个模块的时候，你有一个$name值. 如果这个name值是可以通过其它的钩子来进行过滤和覆盖
+$name = get_name('cc');
+drupal_alter('my_custom_hook', &$name);
+return $name;
+</pre>
+这样这个$name值就得到了过滤/修改

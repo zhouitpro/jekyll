@@ -1,0 +1,53 @@
+---
+layout: post
+title: Drupal _menu_site_is_offline
+tags:
+- Drupal
+- Drupal 函数
+- Drupal 函数和方法原码解析
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+这个函数是判断你的网站是否处理维护状态，如果开启了维护状态。并且没有权限，就直接显示了维护的信息。如果我有权限就会继续运行,返回true和false ,
+设置:
+<pre>
+admin/config/development/maintenance
+</pre>
+
+如果要直接判断你的网站是否维护状态。可以直接用:
+<pre>
+variable_get('maintenance_mode', 0)
+</pre>
+
+此函数在 includes/bootstrap.inc  menu_execute_active_handler函数里面用到
+<pre lang="php">
+function _menu_site_is_offline($check_only = FALSE) {
+  // Check if site is in maintenance mode.
+  //使用variable_get 获取系统设置
+  if (variable_get('maintenance_mode', 0)) {
+    //判断用户是否有权限，如果没有权限就直接显示维护状态的信息
+    //如果有权限将继续执行
+    if (user_access('access site in maintenance mode')) {
+      // Ensure that the maintenance mode message is displayed only once
+      // (allowing for page redirects) and specifically suppress its display on
+      // the maintenance mode settings page.
+      //如果你在设置维护模式的这个页面就不提示：你当前处于维护模式状态。点击这个url开启大概是这个意思了
+      if (!$check_only && $_GET['q'] != 'admin/config/development/maintenance') {
+        if (user_access('administer site configuration')) {
+          drupal_set_message(t('Operating in maintenance mode. <a href="@url">Go online.</a>', array('@url' => url('admin/config/development/maintenance'))), 'status', FALSE);
+        }
+        else {
+          drupal_set_message(t('Operating in maintenance mode.'), 'status', FALSE);
+        }
+      }
+    }
+    else {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+</pre> 

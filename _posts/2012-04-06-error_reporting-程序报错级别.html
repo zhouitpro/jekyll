@@ -1,0 +1,88 @@
+---
+layout: post
+title: error_reporting 程序报错级别
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;?php 
+  /*
+  error_reporting($level)  设定错误显示级别
+  
+  E_ALL 30719
+  E_COMPILE_ERROR 64
+  E_COMPILE_WARNING 128
+  E_CORE_ERROR     16
+  E_CORE_WARNING 32
+  E_ERROR  1
+  E_NOTICE 8
+  E_PARSE 4
+  E_RECOVERABLE_ERROR 4096
+  E_STRICT 2048			//程序运行时间报错提示
+  E_USER_ERROR  256
+  E_USER_NOTICE 1024
+  E_USER_WARNING  512
+  E_WARNING 2
+  
+  错误提示级别是以1的二进制往上增长,如果想以数字表示错误级别。只需要将两个错误级别用 “位或” 运算符计算
+ 此处用到了位运算
+ 比如7  E_ERROR | E_WARNING | E_PARSE
+ 也就是  1 | 2| 4
+ E_ALL 表示为显示所有错误，所以也刚刚好是所以级别的 “位或”值
+  */
+
+/**
+ * 将数字错误级别转换成字符串格式返回
+ * @param int $value
+ * @return string
+ * */
+function error2string($value)
+{
+    $level_names = array(
+        E_ERROR =&gt; &#039;E_ERROR&#039;, E_WARNING =&gt; &#039;E_WARNING&#039;,
+        E_PARSE =&gt; &#039;E_PARSE&#039;, E_NOTICE =&gt; &#039;E_NOTICE&#039;,
+        E_CORE_ERROR =&gt; &#039;E_CORE_ERROR&#039;, E_CORE_WARNING =&gt; &#039;E_CORE_WARNING&#039;,
+        E_COMPILE_ERROR =&gt; &#039;E_COMPILE_ERROR&#039;, E_COMPILE_WARNING =&gt; &#039;E_COMPILE_WARNING&#039;,
+        E_USER_ERROR =&gt; &#039;E_USER_ERROR&#039;, E_USER_WARNING =&gt; &#039;E_USER_WARNING&#039;,
+        E_USER_NOTICE =&gt; &#039;E_USER_NOTICE&#039; );
+    if(defined(&#039;E_STRICT&#039;)) $level_names[E_STRICT]=&#039;E_STRICT&#039;;
+    $levels=array();
+    if(($value&amp;E_ALL)==E_ALL)
+    {
+        $levels[]=&#039;E_ALL&#039;;
+        $value&amp;=~E_ALL;
+    }
+    foreach($level_names as $level=&gt;$name)
+        if(($value&amp;$level)==$level) $levels[]=$name;
+        
+    return implode(&#039; | &#039;,$levels);
+}
+
+/**
+ * 将错误级别转换字符串格式转换成数字返回
+ * @param int $string
+ * @return int
+ * */
+function string2error($string)
+{
+    $level_names = array( &#039;E_ERROR&#039;, &#039;E_WARNING&#039;, &#039;E_PARSE&#039;, &#039;E_NOTICE&#039;,
+        &#039;E_CORE_ERROR&#039;, &#039;E_CORE_WARNING&#039;, &#039;E_COMPILE_ERROR&#039;, &#039;E_COMPILE_WARNING&#039;,
+        &#039;E_USER_ERROR&#039;, &#039;E_USER_WARNING&#039;, &#039;E_USER_NOTICE&#039;, &#039;E_ALL&#039; );
+    if(defined(&#039;E_STRICT&#039;)) $level_names[]=&#039;E_STRICT&#039;;
+    $value=0;
+    $levels=explode(&#039;|&#039;,$string);
+    foreach($levels as $level)
+    {
+        $level=trim($level);
+        if(defined($level)) $value|=(int)constant($level);
+    }
+    return $value;
+}
+
+?&gt; 
+</pre>

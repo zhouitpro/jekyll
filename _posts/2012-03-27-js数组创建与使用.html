@@ -1,0 +1,39 @@
+---
+layout: post
+title: js数组创建与使用
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">//声明一个数组
+var array = new Array();	
+
+//创建一个数组
+var array = [];
+
+//创建数组元素
+array[0] = &#039;zhouitpro&#039;;
+array[1] = &#039;19&#039;;
+
+//创建字符串下标
+array[&#039;name&#039;] = &#039;zhouitpro&#039;;
+array[&#039;age&#039;] = 19;
+alert(array[&#039;name&#039;]);
+
+alert(array.length);
+
+
+/对数组添加元素
+array.push(&#039;hello&#039;,&#039;world&#039;);
+array.pop();  //移除数组最后一个元素
+array.shift();  //移除数组开头的元素
+array.unshift(&#039;yes&#039;);  //在数组前端添加一个元素
+
+//排序
+array.reverse();   //对数组进行逆向排序
+array.sort();      //从小到大排序
+alert(array);</pre>

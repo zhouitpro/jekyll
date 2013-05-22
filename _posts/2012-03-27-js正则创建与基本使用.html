@@ -1,0 +1,37 @@
+---
+layout: post
+title: js正则创建与基本使用
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+var box = new RegExp(&#039;box&#039;,&#039;ig&#039;);
+
+
+var box = /box/ig;
+
+
+//测试正则匹配
+//test 和 exec 返回匹配结果(数组),没有匹配到返回null
+
+var pattern = /box/ig;
+var str = &#039;this is a box!,box is data&#039;;
+//alert(pattern.test(str));
+
+//match字符串匹配,将所有匹配到的结果返回数组
+alert(str.match(pattern));
+
+//search 返回第一个匹配到的位置,找不到返回-1
+alert(str.search(pattern));
+
+//replace正则替换,后面一个参数是要替换的结果
+alert(str.replace(pattern,&#039;tom&#039;));
+
+//split 正则拆分字符串成数组
+alert(str.split(pattern));
+</pre>

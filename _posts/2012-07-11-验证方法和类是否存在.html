@@ -1,0 +1,41 @@
+---
+layout: post
+title: 验证方法和类是否存在
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+/**
+ * 验证一个Function 是否存在
+ */
+function demo(){
+    
+}
+
+$demo = &#039;demo&#039;;
+
+var_dump(function_exists($demo));
+var_dump(is_callable($demo));
+
+
+/**
+ * 验证一个类的方法是否存在
+ */
+Class Demo{
+    
+    function test(){
+        
+    }
+}
+$isc = array(new Demo(),&#039;test&#039;);
+var_dump(is_callable($isc));
+var_dump(method_exists(&#039;Demo&#039;,&#039;test&#039;));
+var_dump(get_class_methods(&#039;Demo&#039;));
+
+</pre>

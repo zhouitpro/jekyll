@@ -1,0 +1,46 @@
+---
+layout: post
+title: PHP 引用方法地址
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+function &amp;static_save($name, $default_value = array())
+{   
+    static $data = array();
+    
+    if(isset($data[$name]))
+        return $data[$name];
+    
+    $data[$name] = $default_value;
+    
+    return $data[$name];
+}
+
+$demo = &amp;static_save(&#039;demo&#039;);
+
+$demo[&#039;hello&#039;] = &#039;hello&#039;;
+
+$demo2 = &amp;static_save(&#039;demo&#039;);
+
+$demo2[&#039;haha&#039;] = &#039;haha&#039;;
+
+$demo3 = &amp;static_save(&#039;demo&#039;);
+
+var_dump($demo3);
+
+</pre>
+
+输出结果:
+
+array
+  'hello' => string 'hello' (length=5)
+  'haha' => string 'haha' (length=4)
+
+键为demo的值将永远保持不变

@@ -1,0 +1,20 @@
+---
+layout: post
+title: GIT 恢复/提取 已删除并且提交了的文件
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+方法1使用cat-file
+<pre>
+$git cat-file -p 4a12bde1403d:base.php > base.php
+</pre>
+
+方法2使用checkout
+<pre>
+$git checkout HEAD^ base.php
+</pre>

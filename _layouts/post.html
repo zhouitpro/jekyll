@@ -1,0 +1,61 @@
+---
+layout: default
+---
+
+<section class="meta">
+  <div class="post" id="{{ page.id }}">
+    <h2 class="entry_title">
+      <h1 class="entry-title"><a href="#">{{ site.title }}</a></h1>
+    </h2>
+    <p class="entry_data">
+      <span>Author: {{ site.author }}</span>
+      <span>Date: {{ page.date | date_to_string }}</span>
+      {% if page.categories %}
+      <span class="categories">
+        in categories:
+        {% for cat in page.categories %}
+        <a href="/categories/#{{ cat }}" title="{{ cat }}">{{ cat }}</a>&nbsp;
+        {% endfor %}
+      </span>
+      {% endif %}
+      <a href="{{ page.url }}#comments" title="Comments of {{ page.title }}">Comments</a>
+    </p>
+    {{ content }}
+    <p class="tags">Tag: {% if page.tags %}
+      <span class="tags">
+        {% for tag in page.tags %}
+        <a href="/tags/#{{ tag }}" title="{{ tag }}">{{ tag }}</a>&nbsp;
+        {% endfor %}
+      </span>
+      {% endif %}
+    </p>
+  </div>
+<span>
+  <a {% if page.previous %} href="{{ site.url }}{{ page.previous.url }}" class="pageNav"{% endif %} {% unless page.previous %} class="pageNavInvalid" {% endunless %} >Previous</a>
+  &nbsp;&nbsp;&nbsp;
+  <a {% if page.next %} href="{{ site.url }}{{ page.next.url }}" class="pageNav"{% endif %} {% unless page.next %} class="pageNavInvalid" {% endunless %} >Next</a>
+</span>
+</section>
+<!--
+<script type="text/javascript">
+$(function(){
+  $(document).keydown(function(e) {
+    var url = false;
+        if (e.which == 37 || e.which == 74) {  // Left arrow and J
+            {% if page.previous %}
+        url = '{{ site.url }}{{ page.previous.url }}';
+        {% endif %}
+        }
+        else if (e.which == 39 || e.which == 75) {  // Right arrow and K
+            {% if page.next %}
+        url = '{{ site.url }}{{ page.next.url }}';
+        {% endif %}
+        }
+        if (url) {
+            window.location = url;
+        }
+  });
+})
+</script>
+-->
+{% include disqus.html %}

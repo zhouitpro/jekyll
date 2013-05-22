@@ -1,0 +1,21 @@
+---
+layout: post
+title: Drupal taxonomy 函数指南
+tags:
+- Drupal
+- Drupal 函数
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/drupal/modules%21taxonomy%21taxonomy.module/7" target="_blank">http://api.drupal.org/api/drupal/modules%21taxonomy%21taxonomy.module/7</a>
+
+常用函数:
+<pre lang="php">
+taxonomy_get_tree('vid','tid');  #如果tid不存在是获取整个vid的全部term.如果tid存在就只获取指定tid下面的全部term
+taxonomy_get_term_by_name('term_name') #用name获取指定term的信息
+taxonomy_term_load('tid')                 #用tid获取指定term信息
+taxonomy_get_children('tid')                #获取当前分类下面的所有子trem，不包括自己
+</pre>

@@ -1,0 +1,27 @@
+---
+layout: post
+title: Drupal admin path
+tags:
+- Drupal
+- Drupal 函数
+- Hook
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre>
+hook_admin_paths($path)
+</pre>
+
+定义一个admin path. 当你自定义一个path为admin path以后，这个path可以使用admin theme. 并且可以使用
+path_is_admin($path)  这个函数来判断它是否属于admin
+
+<a href="http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_admin_paths/7" target="_blank">http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_admin_paths/7</a>
+
+<pre>
+hook_admin_paths_alter(&$paths)
+</pre>
+
+过滤admin path

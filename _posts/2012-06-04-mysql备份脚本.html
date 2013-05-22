@@ -1,0 +1,34 @@
+---
+layout: post
+title: mysql备份脚本
+tags:
+- Linux
+- mysql
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+#!/bin/bash
+
+#备份目录
+#backup_home=/root/mysqlbackups
+#改成脚本所在目录 backup_home=$(dirname $0)
+backup_home=$(dirname $0)
+
+db_user=root
+db_pswd=&#039;&#039;;
+
+now=$(date +%Y-%m-%d)
+two_weeks_ago=$(date --date=&#039;2 weeks ago&#039; +%Y-%m-%d)
+
+#dump current database¬
+mysqldump -u${db_user} -p${db_pswd} --all-databases | gzip -9 &gt; ${backup_home}/mysql-${now}.sql.gz
+
+#删除两周前的备份，如果存在
+if [ -f ${backup_home}/mysql-${two_weeks_ago}.sql.gz ]; then
+rm ${backup_home}/mysql-${two_weeks_ago}.sql.gz
+fi
+</pre>

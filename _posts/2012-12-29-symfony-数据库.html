@@ -1,0 +1,98 @@
+---
+layout: post
+title: Symfony 数据库
+tags:
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+当你设置了连接数据库的信息，但是你的数据库还有创建，可以使用如下信息创建
+<pre lang="bash">
+$php app/console doctrine:database:create
+
+#删除数据库
+$php app/console doctrine:database:drop --force
+
+#数据库升级
+$php app/console doctrine:schema:update --force
+</pre>
+
+<strong>创建Entity</strong>
+为Picture 创建一个entity,存在三个字段. 但是这样他不会创建数据表. 你需要使用到上面的。数据升级后你的字段就会创建成功
+创建字段时三种基本类型
+1: integer  数字
+2: text     文本
+3: string   普通字符串 varchar
+<pre lang="php">
+$php app/console doctrine:generate:entity --entity="AcmePictureBundle:Picture" --fields="title:string(255) create_date:integer(12) content:text"
+</pre>
+
+<strong>根据table来生成entity</strong>
+<pre lang="bash">
+$ php app/console doctrine:mapping:import AcmeBlogBundle annotation
+$ php app/console doctrine:generate:entities AcmeBlogBundle
+</pre>
+
+<strong>添加数据</strong>
+先载入自己添加的entity
+<pre lang="php">
+use Acme\PictureBundle\Entity\Picture;
+</pre>
+
+<pre lang="php">
+//设置对象
+$pic = new Picture();
+$pic->setTitle('A Foo Bar');
+$pic->setPath('');
+$pic->setContent('Lorem ipsum dolor');
+$pic->setCreateDate(time());
+
+//添加数据
+$em = $this->getDoctrine()->getManager();
+$em->persist($pic);
+$em->flush();
+</pre>
+
+<strong>查询</strong>
+<pre lang="php">
+//获取对象
+$pic_obj = $this->getDoctrine()
+      ->getRepository('AcmePictureBundle:Picture');
+
+//根据ID来获取数据
+$pic_obj->find(1);
+
+//只获取一条。根据title来查询
+$pic_obj->findOneBy(array('title'=>'Hello'));
+
+//查询所有title等于hello的数据
+$pic_obj->findBy(array('title'=>'Hello'));
+
+//获取所有的数据
+$pic_obj->findAll();
+</pre>
+
+<strong>更新数据</strong>
+<pre lang="php">
+$em = $this->getDoctrine()->getManager();
+//先查询数据
+$pic = $em->getRepository('AcmePictureBundle:Picture')->find(8);
+
+//重新设置title
+$pic->setTitle('New product name!');
+
+//执行更新
+$em->flush();
+</pre>
+
+<strong>删除数据</strong>
+<pre lang="php">
+$em = $this->getDoctrine()->getManager();
+//先查询数据
+$pic = $em->getRepository('AcmePictureBundle:Picture')->find(8);
+$em->remove($pic);
+$em->flush();
+</pre>

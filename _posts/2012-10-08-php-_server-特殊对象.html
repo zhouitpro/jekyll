@@ -1,0 +1,17 @@
+---
+layout: post
+title: PHP $_SERVER 特殊对象
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://www.php.net/manual/zh/reserved.variables.server.php" title="PHP $_SERVER对象">PHP $_SERVER对象</a>
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+$_SERVER[&#039;HTTPS&#039;]  //只有在https访问的情况下才会存在
+$_SERVER[&#039;HTTP_REFERER&#039;]  //你的上一个页面,如果你的上一个页面不存在.那么这个变量就不存在
+</pre>

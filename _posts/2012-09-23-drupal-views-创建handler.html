@@ -1,0 +1,121 @@
+---
+layout: post
+title: Drupal Views handler
+tags:
+- Views
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/views/views.api.php/group/views_handlers/7" target="_blank">http://api.drupal.org/api/views/views.api.php/group/views_handlers/7</a>
+<a href="http://www.ericschaefer.org/blog/2011/01/09/custom-field-handlers-for-views-2-drupal" target="_blank">http://www.ericschaefer.org/blog/2011/01/09/custom-field-handlers-for-views-2-drupal</a>
+<a href="http://treehouseagency.com/blog/neil-hastings/2010/01/19/views-handler-easy-way" target="_blank">http://treehouseagency.com/blog/neil-hastings/2010/01/19/views-handler-easy-way</a>
+
+Views Handler Query执行流程:
+<pre lang="php">
+handler->construct()
+handler->set_definition()
+handler->init()
+handler->pre_query()
+handler->query()
+</pre>
+比如当前在myuser模块
+创建目录
+includes/views/handlers
+
+修改.info ,添加引用文件
+myuser.info
+<pre lang="php">
+;views handler
+files[] = includes/views/handlers/views_handler_field_user_nodes_count.inc
+myuser.module 添加代码. 让views从这个目录去自动载入 MODULENAME.views.inc文件
+</pre>
+
+在myuser中定义hook
+<pre lang="php">
+/**
+ * Implements hook_views_api().
+ */
+function myuser_views_api() {
+  return array(
+      'api' => '3.0',
+      'path' => drupal_get_path('module', 'myuser') . '/includes/views',
+  );
+}
+</pre>
+
+在includes/views/handlers创建文件, 这一块功能是对user组添加一个字段提供选择
+创建文件: myuser.views.inc
+当面你也可以登陆hook_views_data(&$data)来完成
+<pre lang="php">
+function haier_user_views_data_alter(&$data){
+  $data['users']['count_nodes'] = array(
+    'title' => t('Count nodes total'),
+    'help' => t('Display the total count of the nodes authored by user'),
+    'field' => array(
+      'title' => t('Node Total'),
+      'help' => t('Display the total count of the nodes authored by user'),
+      'handler' => 'views_handler_field_user_nodes_count',
+      'no group by' => TRUE,
+    ),
+  );
+}
+</pre>
+创建views_handler_field_user_nodes_count.inc文件 创建类继承views_handler_field_numeric
+
+<pre lang="php">
+class views_handler_field_user_nodes_count extends views_handler_field_numeric {
+
+    function option_definition() {
+    $options = parent::option_definition();
+
+    $options['entity_type'] = array('default' => 'node', 'translatable' => TRUE);
+
+    return $options;
+  }
+
+  function options_form(&$form, &$form_state) {
+
+    $form['entity_type'] = array(
+      '#type' => 'select',
+      '#title' => t('Entity Type'),
+      '#options' => array(
+        'node' => t('Node'),
+        'comment' => t('Comment'),
+        'votingapi_vote'=>t('Vote'),
+        'field_data_field_idea_status'=>t('Adoption')
+      ),
+      '#default_value' => $this->options['entity_type'],
+      '#description' => t('For which entity type authored the count should be calculated.'),
+      '#size' => 2,
+    );
+
+    parent::options_form($form, $form_state);
+  }
+    //TODO: Extend this module to be a user authored entity count
+  function query() {
+    $this->ensure_my_table();
+    $this->add_additional_fields();
+
+    //Init the count for all users in a static variable
+
+    $entity_type = $this->options['entity_type'];
+
+    $query = db_select('users', 'u');
+    $query->fields('u', array('uid'));
+    $query->condition('u.status', 0, '<>');
+
+    $nodes_count_array = &drupal_static($this->options['entity_type'].'_count_array', array());
+    $nodes_count_array = $query->execute()->fetchAllKeyed();
+
+  }
+
+  function render($values) {
+    $nodes_count_array = drupal_static($this->options['entity_type'].'_count_array', array());
+    return (isset($nodes_count_array[$values->uid]) && is_numeric($nodes_count_array[$values->uid])) ? $nodes_count_array[$values->uid] : 0;
+  }
+
+}
+</pre>

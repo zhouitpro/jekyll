@@ -1,0 +1,44 @@
+---
+layout: post
+title: js对象基本使用
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+	//创建一个对象
+	var box = new Object();
+	box.name=&quot;zhouitpro&quot;;  //属性创建
+	box.age = 19;
+	
+	//创建对象2,可以去掉new 也是可以的
+	var box = Object();
+	
+	//创建对象3
+	var box = {};
+	
+	box.name = &quot;zhouitpro&quot;
+	
+	//对象方式输出
+	alert(box.name);
+	
+	//数组方式输出
+	alert(box[&#039;name&#039;]);
+	
+	//创建对象方法
+	box.run = function(){
+		return &#039;run&#039;;
+	}
+	
+	//删除属性
+	delete box.name;
+	
+	//判断属性是否存在
+	if(box.name != undefined){
+		alert(box.name);
+	}
+</pre>

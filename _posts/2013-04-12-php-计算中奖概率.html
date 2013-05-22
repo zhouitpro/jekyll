@@ -1,0 +1,80 @@
+---
+layout: post
+title: PHP 计算中奖概率
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<h2>方法1</h2>
+<pre lang="php">
+//总数有1000个
+$total = 1000;
+
+//中奖率, 百分比.  key为奖励的等级
+$reward = array(1=>0.03, 0.1, 0.3);
+
+$start = 0;
+
+$result = NULL;
+$probability = rand(0, $total);
+foreach($reward as $key=>$value) {
+  /*
+   * 比如0.03的概率就是 1000 * 0.03 = 30
+   * 1等奖的概率就是生成的随机数为0 - 30
+   * 2登奖的概率为30 到 1000 * 0.1. 也就是30-130
+   * ....
+   */
+  if($start < $probability && $probability <= ($start + $total * $value)) {
+    $result = $key;
+    break;
+  }
+  $start = $start + $total * $value;
+}
+
+if($result == NULL) {
+  echo '谢谢惠顾';
+} else {
+  echo '<hr />恭喜你中了' . $result . '等奖励';
+}
+</pre>
+
+<h2>方法2, 创建应用池</h2>
+<pre lang="php">
+function get_reward() {
+  //中奖率, 百分比
+  return array(0.01, 0.1, 0.3);
+}
+
+/**
+ * 抽奖.
+ * 
+ * @return int
+ *   0没中奖, 1=>1等奖. 2=>2等奖
+ */
+function probability() {
+  //总数有100个
+  $total = 100;
+  
+  //基数为100内的各奖项的数量, 把中奖率转换成数字. 然后生成数组
+  $range = array();
+  
+  $start_key = 1;
+  foreach (get_reward() as $key => $value) {
+    $range[$start_key] = $value * $total;
+    $start_key++;
+  }
+  $range[0] = $total - array_sum($range);
+  
+  //这里是奖池
+  $pool = array();
+  foreach ($range as $k => $v) {
+    $pool += array_fill(count($pool), $v, $k);
+  }
+  
+  return $pool[mt_rand(0, $total - 1)];
+}
+</pre>

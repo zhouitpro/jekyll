@@ -1,0 +1,138 @@
+---
+layout: post
+title: Entity Api
+tags:
+- Drupal 培训
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_a2afd8837f538eac4512c2698ee3e65b: '{{unknown}}'
+  _oembed_60ff3f0ef9bf1531be0483b08ff39ef9: '{{unknown}}'
+---
+这个模块是核心entity 的扩展，以提供统一的方式来处理entity和属性。它提供了一个实体的CRUD控制器，这有助于简化创建新的实体类型。
+
+核心的entity只提供了下以下功能,并不具备CRUD功能
+<pre lang="php">entity_load()
+entity_label() 
+entity_extract_ids()
+entity_uri()
+entity_get_info()</pre>
+entity api提供的功能:
+<pre lang="php">entity_id()
+entity_export()
+entity_import()
+entity_save()
+entity_create()
+entity_delete()
+entity_view()
+entity_access()
+entity_get_property_info()</pre>
+<a href="http://drupal.org/project/entity" target="_blank">http://drupal.org/project/entity</a>
+
+教程: <a href="http://drupal.org/node/878784">http://drupal.org/node/878784</a>
+
+<a href="http://www.trellon.com/content/blog/creating-own-entities-entity-api">http://www.trellon.com/content/blog/creating-own-entities-entity-api</a>
+
+<a href="http://www.cyber-sundae.com/create-drupal-entity-based-custom-table-and-create-drupal-view-based-entity-table-including-date" target="_blank">http://www.cyber-sundae.com/create-drupal-entity-based-custom-table-and-create-drupal-view-based-entity-table-including-date</a>
+
+<strong>Entity Metadata Wrapper:</strong>
+<a href="http://drupal.org/node/1021556">http://drupal.org/node/1021556</a>
+<a href="http://drupalcontrib.org/api/drupal/contributions!entity!entity.module/function/entity_metadata_wrapper/7">http://drupalcontrib.org/api/drupal/contributions!entity!entity.module/function/entity_metadata_wrapper/7</a>
+<a href="http://pixeljets.com/blog/writing-robust-code-uses-fields-drupal-7">http://pixeljets.com/blog/writing-robust-code-uses-fields-drupal-7</a>
+
+What is the purpose of the entity_metadata_wrapper() function, and why should I use it?
+<a href="http://drupal.stackexchange.com/questions/33444/what-is-the-purpose-of-the-entity-metadata-wrapper-function-and-why-should-i">http://drupal.stackexchange.com/questions/33444/what-is-the-purpose-of-the-entity-metadata-wrapper-function-and-why-should-i</a>
+
+Metadata, what for? - Introducing Entity Metadata!
+http://wolfgangziegler.net/introducing_entity_metadata
+
+http://drupalcontrib.org/api/drupal/contributions!entity!includes!entity.wrapper.inc/class/EntityValueWrapper/7
+
+<a href="http://drupalcontrib.org/api/drupal/7">http://drupalcontrib.org/api/drupal/7</a>
+<pre lang="bash">$entity_id = 1;
+$entity_type = 'node';
+$entities = entity_load($entity_type, array($entity_id));
+$wrapper = entity_metadata_wrapper($entity_type, array_shift($entities));
+dpm($wrapper->getPropertyInfo())  //获取属性
+</pre>
+
+<strong>Entity 创建数据</strong>, 这些数据是使用eck来创建的bundle.:
+entity type: point_reward
+bundle: point_code
+下面的代码是为 point_code 添加数据, field_com_point_code和field_com_point分别为 point_code的字段
+<pre lang="php">
+$point_code_entity = entity_create('point_reward', array('type'=>'point_code'));
+$wrapper = entity_metadata_wrapper('point_reward', $point_code_entity);
+$wrapper->field_com_point_code->set(sigvaris_unique());
+$wrapper->field_com_point->set($point);
+$wrapper->save();
+</pre>
+
+<strong>更新Entity 数据</strong>:
+使用的是 <a href="http://drupal.org/node/1343708">EntityFieldQuery</a>
+<pre lang="php">
+
+  /**
+   * 查询一条数据，根据用户输入的Code
+   * @see http://drupal.org/node/1343708
+   */
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'point_reward', '=')  //先查询entity type 为point_reward
+    ->entityCondition('bundle', 'point_code')              //bundle 为 point_code
+    ->fieldCondition('field_com_point_code', 'value', trim($code), '=');  //字段的值比较
+  
+  $result = $query->execute();
+
+  /**
+   * 更新数据, 将结果进行数据更新
+   */
+  $wrapper = entity_metadata_wrapper('point_reward', reset($result['point_reward']));
+  $wrapper->field_use_user->set(1);    //set() 设置值
+  $wrapper->field_use_time->set(mktime());
+  $wrapper->save();                   //保存结果
+  
+  
+  //打印数据, value() 获取值, 
+  $wrapper->field_use_user->value();
+
+ //使用entity_load 函数来获取数据, 这样返回出来是一个数组
+  $entity = entity_load('point_reward', (array)reset($result['point_reward']));
+  
+</pre>
+
+<h2>Entity 获取今天的数据</h2>
+
+<pre lang="php">
+//因为entity默认不支持 Mysql date格式化函数,所以我们只有采用between来获取, 
+
+//计算出今天的开始和结束的时间戳
+$start_time = strtotime(date('Y-m-d'));
+$end_time = strtotime('+1 day', $start_time);
+
+$query = new EntityFieldQuery();
+$query
+  ->entityCondition('entity_type', 'activity_log', '=')   /先查询entity type 为activity_log
+  ->entityCondition('bundle', 'shake')                  //bundle  为 shake
+  ->propertyCondition('created', array($start_time, $end_time), 'BETWEEN');  //字段过滤
+
+$result = $query->count()->execute();
+</pre>
+
+<h2>查询并删除一些数据</h2>
+
+<pre lang="php">
+    $query = new EntityFieldQuery();
+    $query
+      ->entityCondition('entity_type', 'shake', '=')
+      ->entityCondition('bundle', 'shake')
+      ->entityCondition('uid', '0', '=');
+
+    $query_results = $query->execute();
+    foreach (array_pop($query_results) as $query_result) {
+      $wrapper = entity_metadata_wrapper('shake', $query_result);
+      $wrapper->delete();
+    }
+</pre>

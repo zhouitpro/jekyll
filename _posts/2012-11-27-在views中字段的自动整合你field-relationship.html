@@ -1,0 +1,27 @@
+---
+layout: post
+title: 在Views中字段的自动整合你field relationship
+tags:
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+如果你需要在Views中添加一个字段，而这个字段并不在你的relationship 中,从而你使用就会出错
+你的field字段可以这样获取
+<pre lang="php">
+$this->view->field
+</pre>
+
+使用以下可以进行自动 relationship
+<pre lang="php">
+$this->view->field[$field_key]->ensure_my_table();
+</pre>
+
+还有一个问题是当你把你的字段调到最上面去的时候（调weight），你的left jion 的另名会乱, 所以你也需要在添加字段的时候也添加relationship,后面就不会乱了
+<pre lang="php">
+$this->view->field[$field_key]->set_relationship();
+$this->view->field[$field_key]->ensure_my_table();
+</pre>

@@ -1,0 +1,25 @@
+---
+layout: post
+title: ''
+tags:
+- ubuntu
+status: trash
+type: post
+published: false
+meta:
+  _wp_trash_meta_time: '1368978492'
+  _wp_trash_meta_status: private
+  _edit_last: '1'
+---
+Summary
+Block types现在被定义为block plugins 而不是hook_block_info().。
+Blocks现在支持多个block接口所以同一个 block 可以多次被放置在同一个主题上（一次或者一次也没有），.每一个block i端口有属于它自己的配置并且可以被删除。
+配置快的端口现在被储存在配置系统中.。
+API 的改变
+hook_block_info()已经被删除 Block types 现在被新增加的 block plugin定义.
+hook_block_info_alter(已经被删除。这个新的 hook_block_alter() 应该取而代之的被利用hook_block_configure(), hook_block_save(), and hook_block_view() 已经被 block plugin 的方法代替了.。
+hook_block_list_alter()已经被删除， Modules 能够改变block 的可视性通过实施hook_block_access()来代替。
+hook_block_MODULE_DELTA_alter()已经被 hook_block_ID_alter() an和hook_block_NAME_alter().取代。
+举个例子
+定义block 类型
+为了确定 block类型，放置一个MyBlock.php plugin 类文件 下面不同的目录结构中：my_module/lib/Drupal/my_module/Plugin/Block。(在PSR-0 的说明书中可以找到更多信息)，当my_module 被利用的时候这个 plugin 类将会自动被发现和下载。

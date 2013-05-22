@@ -1,0 +1,24 @@
+---
+layout: post
+title: Drupal Views 不开启缓存
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+编辑 includes/cache.inc
+
+Function: _views_fetch_data
+
+将:
+<pre lang="php">
+$data = views_cache_get('views_data', TRUE);
+</pre>
+修改成
+<pre lang="php">
+$data = NULL;
+//$data = views_cache_get('views_data', TRUE);
+</pre>

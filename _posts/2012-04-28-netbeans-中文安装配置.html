@@ -1,0 +1,25 @@
+---
+layout: post
+title: netbeans 中文安装配置
+tags:
+- 其它
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+    找到安装目录/etc/netbeans.conf
+    7.2的配置文件在 : /usr/local/netbeans-7.2.1/etc/netbeans.conf
+
+    编辑:
+
+    netbeans_default_options="-J-client -J-Xss2m -J-Xms32m -J-XX:PermSize=32m -J-Dapple.laf.useScreenMenuBar=true -J-Dapple.awt.graphics.UseQuartz=true -J-Dsun.java2d.noddraw=true"
+
+    结果为:
+
+    netbeans_default_options="-J-client -J-Xss2m -J-Xms32m -J-XX:PermSize=32m -J-Dapple.laf.useScreenMenuBar=true -J-Dapple.awt.graphics.UseQuartz=true -J-Dsun.java2d.noddraw=true -J-Duser.language=en"
+
+     
+
+    打开编辑器 Tools -> option -> editor -> formatting -> 选中expand tabs to spaces -> 选中Tab size 改为4

@@ -1,0 +1,26 @@
+---
+layout: post
+title: php oauth
+tags:
+- archlinux
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<h4>安装</h4>
+通过 pecl 来安装:
+<pre>
+sudo pecl install oauth
+</pre>
+
+在php.ini 加入扩展
+<pre>
+#vim /etc/php/php.ini
+
+//添加
+extension=oauth.so
+</pre>
+

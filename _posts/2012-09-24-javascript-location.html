@@ -1,0 +1,43 @@
+---
+layout: post
+title: Javascript location
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">/*
+location.href 输出整个网址
+location.search 会输出get的字符串
+location.search.substring(1)  用substring把前面的?截取掉
+history.back(); 往回一个历史记录跳
+history.forward(); 向后一个历史记录跳
+history.length 可以输出记录条数
+
+获取地址返回一个数组
+*/
+
+function getArgs(){
+	var args = [];
+	var qs = location.search.length &gt; 0 ? location.search.substring(1) : &#039;&#039;;	
+	if(qs != &#039;&#039;)
+	{
+		//以&amp;符号分割qs字符串
+		var items = qs.split(&#039;&amp;&#039;);
+		if(items.length == 0) return args;
+
+		var item = null, name = null, value = null;
+
+		for(var i=0; i&lt;items.length; i++)
+		{
+			item = items[i].split(&#039;=&#039;);
+			name = item[0];
+			value = item[1];
+			args[name] = value;
+		}
+	}
+	return args;
+}</pre>

@@ -1,0 +1,50 @@
+---
+layout: post
+title: Drupal Menu/菜单 Api
+tags:
+- Drupal 培训
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Menu 总共有三个数据表:
+
+menu_links  :  Link的些详细信息比如link标题。选项. 分类
+
+menu_custom :  这个是菜单列表
+
+menu_router :  Link的路由情况. 比如到了这个页面要执行什么function. 
+
+-----------------------------------------------------------------
+
+下面是如何让每次都加载你的menu,而没有缓存:
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+function hook_init () { 
+ menu_rebuild();
+}
+</pre>
+
+路由解析(menu_get_item)这个函数是查询menu_route表，获取路由信息
+
+menu_execute_active_handler 这个函数是执行路由
+
+<h2>Menu 的生成</h2>
+menu生成函数: menu_rebuild();这个函数会重建你数据库中所有保存的记录 .一般在清空缓存后都会执行这个函数
+这个函数有这些操作:
+<pre>
+module_implements('menu')   #执行所有hook_menu,menu_router_build函数中.把所有数组保存于$callbacks中
+drupal_alter('menu', $callbacks); #执行调用所有 hook_menu_alter($callbacks); 将$callbacks这个数组传过去过滤
+_menu_router_build #执行全部的路由关系重建
+_menu_router_save  #保存到数据库
+_menu_navigation_links_rebuild  #更新menu_links
+menu_cache_clear_all  #清空cache_menu缓存
+_menu_clear_page_cache #清空页面缓存
+</pre>
+
+<strong>Hook_menu</strong>  这个hook判断如何处理请求的URL
+<a href="http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_menu/7" target="_blank">http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_menu/7</a>
+
+<strong>Function</strong>
+<a href="http://api.drupal.org/api/drupal/includes%21menu.inc/7">http://api.drupal.org/api/drupal/includes%21menu.inc/7</a>

@@ -1,0 +1,18 @@
+---
+layout: post
+title: Git patch/打补丁
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false"> git format-patch bb4e7cb79f32f..549019ebae8fbd51  打包两个哈希之间变更为patch
+ git apply a.patch 或者 *.patch 应用补丁</pre>
+
+使用Git Diff区生成一个补丁文件:
+<pre class="brush: bash; gutter: true; first-line: 1; highlight: []; html-script: false">
+git diff index.php > index.patch
+</pre>

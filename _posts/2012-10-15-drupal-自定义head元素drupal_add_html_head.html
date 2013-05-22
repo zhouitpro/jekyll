@@ -1,0 +1,27 @@
+---
+layout: post
+title: Drupal 自定义Head元素,drupal_add_html_head
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+使用drupal_add_html_head 设置keyword,description
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+/**
+* Implements template_preprocess_html().
+*/
+function YOUR_THEME_preprocess_html(&amp;$vars) {
+  $_meta = array(
+    &#039;#tag&#039; =&gt; &#039;meta&#039;,
+    &#039;#attributes&#039; =&gt; array(
+      &#039;name&#039; =&gt; &#039;Creator&#039;,
+      &#039;content&#039; =&gt; &#039;this is your custom content&#039;,
+    ),
+  );
+  drupal_add_html_head($_meta, &#039;my_meta&#039;);
+}
+</pre>

@@ -1,0 +1,35 @@
+---
+layout: post
+title: Views Hook
+tags:
+- Views
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+http://api.drupal.org/api/views/views.api.php/7  API
+http://drupal.org/documentation/modules/views    DOcument
+
+hook_views_data  
+<strong>hook_views_data_alter(&amp;$data)</strong>   把你自已模块中的数据字段加进views,过滤表结构
+hook_views_plugins
+hook_views_plugins_alter
+<strong>hook_views_api</strong>                 用来告诉views从哪个目录去寻找MODULENAME.views.inc的文件,注册一个View API信息
+hook_views_default_views
+hook_views_default_views_alter  
+<strong>hook_views_pre_view</strong>            
+hook_views_pre_build           
+hook_views_post_build          查询现在完全建成，但是还没有运行db_rewrite_sql
+hook_views_pre_execute    
+hook_views_post_execute    此Hook是查询处理后. 到pre_render()前提供
+hook_views_pre_render      
+hook_views_post_render     输出所有渲染的数据
+
+<strong><a href="http://api.drupal.org/api/views/views.api.php/function/hook_views_query_alter/7">hook_views_query_alter(&$view, &$query)</a></strong>         修改views生成的sql
+
+hook_views_preview_info_alter
+hook_views_ui_display_top_links_alter
+<a href="http://api.drupal.org/api/views/views.api.php/function/hook_views_ajax_data_alter/7">hook_views_ajax_data_alter</a>    它允许你修改views的ajax请求
+hook_views_invalidate_cache

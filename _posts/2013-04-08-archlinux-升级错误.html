@@ -1,0 +1,44 @@
+---
+layout: post
+title: Archlinux 升级错误
+tags:
+- archlinux
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+当我运行<strong>pacman -Syu</strong>的时候出现下面的错误: 
+<pre lang="bash">
+└──> sudo pacman -Syu
+:: 正在同步软件包数据库...
+ core 已经是最新版本
+ extra 已经是最新版本
+ community 已经是最新版本
+ multilib 已经是最新版本
+ archlinuxfr 已经是最新版本        0.00B/s 00:00 [----------------------------------------------------]   0%
+ archlinuxfr 已经是最新版本
+ mate 已经是最新版本
+:: 下列软件包应当首先更新：
+    pacman
+:: 打算取消当前操作
+:: 并马上安装这些软件包吗？  [Y/n] y
+
+正在解决依赖关系...
+正在查找内部冲突...
+错误：无法准备事务处理 (无法满足依赖关系)
+:: package-query: 要求 pacman<4.1
+</pre>
+
+错误解决页面:
+<a href="https://aur.archlinux.org/packages/yaourt/?comments=all">https://aur.archlinux.org/packages/yaourt/?comments=all</a>
+
+包页面:
+<a href="http://repo.archlinux.fr/x86_64/">http://repo.archlinux.fr/x86_64/</a>
+找到: <strong>package-query-1.2-2-x86_64.pkg.tar.xz</strong>, 使用pacman -U来进行安装
+
+<pre lang="bash">
+$sudo pacman -U http://repo.archlinux.fr/x86_64/package-query-1.2-2-x86_64.pkg.tar.xz
+</pre>

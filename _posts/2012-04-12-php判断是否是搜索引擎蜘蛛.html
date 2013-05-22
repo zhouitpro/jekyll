@@ -1,0 +1,29 @@
+---
+layout: post
+title: PHP判断是否是搜索引擎蜘蛛
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+    function getrobot() {  
+        if(!defined(&#039;IS_ROBOT&#039;)) {  
+            $kw_spiders = &#039;Bot|Crawl|Spider|slurp|sohu-search|lycos|robozilla&#039;;  
+            $kw_browsers = &#039;MSIE|Netscape|Opera|Konqueror|Mozilla&#039;;  
+            if(!strexists($_SERVER[&#039;HTTP_USER_AGENT&#039;], &#039;http://&#039;) &amp;&amp; preg_match(&quot;/($kw_browsers)/i&quot;, $_SERVER[&#039;HTTP_USER_AGENT&#039;])) {  
+                define(&#039;IS_ROBOT&#039;, FALSE);  
+            } elseif(preg_match(&quot;/($kw_spiders)/i&quot;, $_SERVER[&#039;HTTP_USER_AGENT&#039;])) {  
+                define(&#039;IS_ROBOT&#039;, TRUE);  
+            } else {  
+                define(&#039;IS_ROBOT&#039;, FALSE);  
+            }  
+        }  
+        return IS_ROBOT;  
+    }
+
+IS_ROBOT?: &#039;你是搜索引擎蜘蛛吧&#039;  :  &#039;你是人&#039;  ;
+</pre>

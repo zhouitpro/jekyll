@@ -1,0 +1,39 @@
+---
+layout: post
+title: Git 打包
+tags:
+- Git
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Git 文件打包
+<a href="http://www.kernel.org/pub/software/scm/git/docs/git-archive.html" target="_blank">http://www.kernel.org/pub/software/scm/git/docs/git-archive.html</a>
+<pre lang="enc__php" class="1">
+/**
+打包所有文件
+如果没有--format。可以设置包名来控制格式
+*/
+git archive --format=zip -o filename.zip HEAD
+HEAD 还可以是指定的哈希值. Tag标签. 分支名
+
+/**
+打包指定哈希值前的文件
+*/
+git archive --format=zip -o filename.zip 09916b25d87c7ea
+
+/**
+打包指定对象的指定目录
+将最新的文件目录下面的demos和srv进行打包
+*/
+git archive -o filename.zip HEAD^ demos srv
+
+--format   压缩格式  git archive --format=zip
+--prefix   对你当前的所有目录与文件加上前缀  git archive --prefix=mypre, 如果前缀是--prefix=mypre/  
+这样的话就会把文件压缩在你的mypre目录下面
+
+-o   压缩成指定文件名
+
+</pre>

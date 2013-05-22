@@ -1,0 +1,32 @@
+---
+layout: post
+title: drupal 创建文章编辑器与代码高亮和图片上传
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+首先代码高亮模块:<a href="http://drupal.org/project/syntaxhighlighter" target="_blank">syntaxhighlighter</a>
+<pre>$drush dl syntaxhighlighter</pre>
+下载<a href="http://alexgorbatchev.com/SyntaxHighlighter/download/" target="_blank">syntaxhighlighter</a> 插件
+移到sites/all/libraries.而不是sites/all/modules/libraries. 我被这个问题搞得头晕眼花.
+最后你的目录结构应该是这样的:
+sites/all/libraries/syntaxhighlighter_3.0.83
+
+下载<a href="http://drupal.org/project/wysiwyg" target="_blank">wysiwyg</a>模块
+<pre>$drush dl wysiwyg
+$drush en wysiwyg -y
+$drush dl imce && drush en imce -y
+$drush dl imce_wysiwyg && drush en imce_wysiwyg -y
+</pre>
+
+
+下载<a href="http://ckeditor.com/download" target="_blank">ckeditor</a>非Drupal版,而且目录只支持3.x版本. 解压到sites/all/libraries
+
+然后设置:
+admin/config/content/syntaxhighlighter 设置你要高亮的语言
+admin/config/content/wysiwyg 把Full HTML选择成你的编辑器保存后再编辑
+展开: SHOWBUTTONS AND PLUGINS 选择你要用的工具。但是至少你要选择Insert syntaxhighlighter tag

@@ -1,0 +1,50 @@
+---
+layout: post
+title: Drupal  User/用户
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/drupal/modules!user!user.module/7" target="_blank">http://api.drupal.org/api/drupal/modules!user!user.module/7</a>
+
+在Drupal中有一个全局$user函数，他会打印出当前登陆用户的信息,如果用户处于登陆状态，$user->uid = 0
+<pre>
+global $user;
+var_dump($user);
+</pre>
+
+常用函数：
+<pre>
+user_is_logged_in()  #判断用户是否登陆
+user_load($uid)      #根据uid加载user
+user_load_by_mail    #根据email加载user
+user_load_by_name    #根据用户名加载用户
+</pre>
+
+用户登陆
+<pre>
+$account = user_load_by_name('admin');
+GLOBAL $form_state;
+$form_state['uid'] = $account->uid; 
+user_login_submit(array(), $form_state);
+</pre>
+
+超级管理员登陆
+<pre>
+function ty_blog_init() {    
+$i = 0;
+do{
+   $account = user_load($i);
+   $i++;
+}while($account->uid == 0 && array_search('administrator', $account->roles) === FALSE);
+
+
+GLOBAL $form_state;
+$form_state['uid'] = $account->uid; 
+user_login_submit(array(), $form_state);
+</pre>
+

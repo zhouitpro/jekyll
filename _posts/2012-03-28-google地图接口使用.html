@@ -1,0 +1,51 @@
+---
+layout: post
+title: Google地图接口使用
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+这里去下载最新的 http://code.google.com/p/php-google-map-api/source/checkout
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+&lt;?php
+
+/**
+ * @Time       Mar 28, 2012 8:51:39 AM
+ * @Filename   index.php
+ * @Encoding   UTF-8
+ * @author zhouitpro zhouitpro@gmail.com
+ */
+header(&#039;Content-Type:text/html;charset=utf-8&#039;);
+include_once(&quot;./GoogleMap.php&quot;);
+
+$MAP_OBJECT = new GoogleMapAPI();
+$MAP_OBJECT-&gt;_minify_js = isset($_REQUEST[&quot;min&quot;])?FALSE:TRUE;
+/**
+ * 参数:
+ * 地址
+ * 标题
+ * 描述
+ */
+$MAP_OBJECT-&gt;addMarkerByAddress(&quot;Ningbo, Zhejiang Province, China&quot;,&quot;标题&quot;, &quot;描述&quot;);
+$MAP_OBJECT-&gt;enableStreetViewControls();
+$MAP_OBJECT-&gt;setWidth(&#039;998&#039;);    //地图宽
+$MAP_OBJECT-&gt;setHeight(&#039;400&#039;);   //地图高
+$MAP_OBJECT-&gt;setZoomLevel(&#039;10&#039;);  //离地的距离
+$MAP_OBJECT-&gt;setMapType(&#039;map&#039;); //地图类型
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;?=$MAP_OBJECT-&gt;getHeaderJS();?&gt;
+&lt;?=$MAP_OBJECT-&gt;getMapJS();?&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?=$MAP_OBJECT-&gt;printOnLoad();?&gt;
+&lt;?=$MAP_OBJECT-&gt;printMap();?&gt;
+&lt;?=$MAP_OBJECT-&gt;printSidebar();?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>

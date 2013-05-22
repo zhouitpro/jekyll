@@ -1,0 +1,36 @@
+---
+layout: post
+title: Drupal Cache/缓存
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<a href="http://api.drupal.org/api/drupal/includes%21cache.inc/7" target="_blank">http://api.drupal.org/api/drupal/includes%21cache.inc/7</a>
+
+缓存一般用法:
+<pre lang="php">
+
+$data = '';
+$cacheid = 'my_custom_cache_id';
+if ($cached = cache_get($cacheid, 'cache_menu')) {
+     $data = $cached->data;
+}else{
+   /**
+     这里进行很复杂的数据库查询和计算
+   */
+   $data = get_data();
+   //设置缓存
+   cache_set($cacheid, $pro_data);
+}
+return $data;
+</pre>
+
+清空所有缓存
+<pre>
+drupal_flush_all_caches()      #清除所有缓存
+cache_clear_all($cid); #清空指定缓存
+</pre>

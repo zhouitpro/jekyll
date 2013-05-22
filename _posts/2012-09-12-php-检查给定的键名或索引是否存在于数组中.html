@@ -1,0 +1,28 @@
+---
+layout: post
+title: PHP  检查给定的键名或索引是否存在于数组中
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+一般可能都会用两种来判断 isset和array_key_exists('key',$array);
+
+区别在于:
+
+isset() 对于数组中为 NULL 的值不会返回 TRUE，而 array_key_exists() 会。
+
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+$search_array = array(&#039;first&#039; =&gt; null, &#039;second&#039; =&gt; 4);
+
+// returns false
+isset($search_array[&#039;first&#039;]);
+
+// returns true
+array_key_exists(&#039;first&#039;, $search_array);
+
+</pre>

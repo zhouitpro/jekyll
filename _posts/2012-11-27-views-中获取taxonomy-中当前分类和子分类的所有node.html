@@ -1,0 +1,48 @@
+---
+layout: post
+title: Views 中获取taxonomy 中当前分类和子分类的所有node
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+function ty_blog_get_all_taxonomy() {
+    $all_tax = array();
+    $taxname = '';
+    $i=1;
+    while (arg($i) !== NULL) {
+        $taxname = (arg($i));
+        $i++;
+    }
+    if($taxname!='' && $current_tax = taxonomy_get_term_by_name($taxname)){
+        $current_tax = reset($current_tax);
+        $all_tax[] = $current_tax->name;    
+        $childrens = taxonomy_get_tree($current_tax->vid,$current_tax->tid);
+        foreach($childrens as $children) {
+            $all_tax[] = $children->name;
+        }
+    }
+    return $all_tax;
+}
+
+/**
+ * implements Hook_views_query_alter
+ */
+function ty_blog_views_query_alter(&$view, &$query){
+    
+    if($view->name == 'page_views') {
+        $all_taxonomy = ty_blog_get_all_taxonomy();
+        if(empty($all_taxonomy) && arg(0)!=='admin') {
+           drupal_not_found();
+        }
+
+        $query->where[0]['conditions'][0]['value'] = $all_taxonomy;
+        $query->where[0]['conditions'][0]['operator'] = 'in';
+    }
+}
+
+</pre>

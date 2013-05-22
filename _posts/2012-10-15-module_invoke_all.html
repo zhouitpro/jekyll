@@ -1,0 +1,44 @@
+---
+layout: post
+title: module_invoke_all
+tags:
+- Drupal 函数和方法原码解析
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+/**
+ * @param return Array
+ * 调用指定所有模块中有 hook_$hook的方法,并将后面的参数传过去.执行后返回数组
+ */
+function module_invoke_all($hook) {
+  //接收传过来的参数
+  $args = func_get_args();
+  // Remove $hook from the arguments.
+  unset($args[0]);  //因为args[0]是要调用的hook_name,所以要删除掉.现在$args变量就只剩下纯的参数了
+  $return = array();
+  
+  /**
+   * 循环所有模块中带有指定$hook的方法,调用并且把参数传过去
+   * 
+   * 执行后将数据返回
+   */
+  foreach (module_implements($hook) as $module) {
+    $function = $module . '_' . $hook;
+    if (function_exists($function)) {
+      $result = call_user_func_array($function, $args);
+      if (isset($result) && is_array($result)) {
+        $return = array_merge_recursive($return, $result);
+      }
+      elseif (isset($result)) {
+        $return[] = $result;
+      }
+    }
+  }
+
+  return $return;
+}
+</pre>

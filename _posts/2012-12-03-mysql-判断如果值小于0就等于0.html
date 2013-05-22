@@ -1,0 +1,22 @@
+---
+layout: post
+title: Mysql 判断如果值小于0就等于0
+tags:
+- mysql
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+方案1:
+使用if来判断 
+<pre lang="mysql">
+SELECT IF(value<0,0,value) as value FROM user;
+</pre>
+
+方案2: 
+使用abs
+<pre lang="mysql">
+SELECT (abs(value)+value)/2 FROM `user` WHERE 1
+</pre>

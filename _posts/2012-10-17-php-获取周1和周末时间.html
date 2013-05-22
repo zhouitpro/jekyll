@@ -1,0 +1,28 @@
+---
+layout: post
+title: PHP strtotime
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_7909b90b26e16ce6068993b38cf93337: '{{unknown}}'
+---
+<a href="http://cn2.php.net/manual/zh/function.strtotime.php">Strotime manual</a>
+
+<h2>获取周1和周末时间</h2>
+<pre lang="php">
+/**
+http://php.net/manual/en/function.strtotime.php
+*/
+$sunday = strtotime("sunday",time());
+$monday = strtotime("-1 monday",time());
+</pre>
+
+<h2>计算出今天的开始和结束的时间戳</h2>
+<pre lang="php">
+$start_time = strtotime(date('Y-m-d'));
+$end_time = strtotime('+1 day', $start_time);
+</pre>

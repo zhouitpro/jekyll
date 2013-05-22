@@ -1,0 +1,10 @@
+markdown: rdiscount
+permalink: /:year/:month/:day/:title/
+url: http://blog.xiukun.me
+author: zhouitpro 
+pygments: true
+safe: true
+paginate: 16
+auto: true
+disqus:
+  id: inftechnotes

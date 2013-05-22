@@ -1,0 +1,30 @@
+---
+layout: post
+title: Drupal 核心升级
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+1. 备份网站
+2. 下载Drupal最新版本
+3. 解压Drupal 包
+4. 对网站开启维护模式(admin/config/development/maintenance)
+5. 删除网站目录下sites/目录的所有Drupal文件,当然不能把你的Git,Svn这些创建的文件给删除了
+6. 将解压的Drupal最新文件复制到你的网站目录
+7. 登陆到网站运行 /update.php 更新数据库
+8. 关闭维护模式
+
+<a href="http://drupal.org/node/1494290">http://drupal.org/node/1494290</a>
+
+&nbsp;
+
+Drush 操作
+<pre lang="bash">
+drush pm-update drupal  #升级drupal
+drush upc   #升级所额模块
+drush updb #更新数据库
+</pre>

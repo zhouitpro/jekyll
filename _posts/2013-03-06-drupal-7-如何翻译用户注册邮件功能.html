@@ -1,0 +1,27 @@
+---
+layout: post
+title: Drupal 7 如何翻译用户注册邮件功能
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在默认情况下用户注册发送的邮件是无法翻译的. 
+需要启用i18n 的子模块 variable translation. 然后进入
+<pre>
+admin/config/regional/i18n/variable
+</pre>
+
+选择左边的 User emails
+右边列表分别对应用户信息里面的内容，将要翻译的勾选中并且保存
+<pre>
+admin/config/people/accounts
+</pre>
+
+然后可以根据切换语言来进行翻译内容
+
+
+

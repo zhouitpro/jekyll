@@ -1,0 +1,9 @@
+Options -Indexes
+order deny,allow
+
+DirectoryIndex index.htm index.html index.php
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ 404.html [QSA,L]

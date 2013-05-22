@@ -1,0 +1,26 @@
+---
+layout: post
+title: 在Ubuntu下安装PHP的ssh2扩展
+tags:
+- PHP
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在Ubuntu 10.04下安装不需要任何编译了
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+apt-get install libssh2-1-dev libssh2-php
+</pre>
+现在你可以测试新安装的PHP的SSH2扩展运行
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+php -m |grep ssh2
+</pre>
+
+
+不要忘记重启
+<pre class="brush: shell; gutter: true; first-line: 1; highlight: []; html-script: false">
+service apache2 restart
+</pre>

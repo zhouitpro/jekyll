@@ -1,0 +1,35 @@
+---
+layout: post
+title: Drupal 7 货币格式过滤和重写
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+在Drupal. 每一个货币格式都有一个format_callback,是用过后期处理的
+以下是对货币增加class方便写样式。并且把CNY变成了￥符号
+
+<a href="http://drupalcontrib.org/api/drupal/contributions!commerce!commerce.api.php/function/hook_commerce_currency_info_alter/7" target="_blank">http://drupalcontrib.org/api/drupal/contributions!commerce!commerce.api.php/function/hook_commerce_currency_info_alter/7</a>
+<pre lang="php">
+/**
+ * Implements hook_commerce_currency_info_alter()
+ */
+function sigvaris_product_commerce_currency_info_alter(&$currencies) {
+  $currencies['CNY']['format_callback'] = 'sigvaris_commerce_currency_format';
+}
+
+function sigvaris_commerce_currency_format($amount, $currency, $object) {
+  return '<span class="currency">￥</span><span class="price">'.$amount.'</span>';
+}
+</pre>
+
+相应的函数还有 hook_commerce_currency_info  定义一种货币
+如果只需要替换显示的格式不同，可以直接使用以下方法
+<pre lang="php">
+function sigvaris_product_commerce_currency_info_alter(&$currencies) {
+  $currencies['CNY']['symbol'] = '¥';
+}
+</pre>

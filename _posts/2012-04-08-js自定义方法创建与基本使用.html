@@ -1,0 +1,81 @@
+---
+layout: post
+title: Js自定义方法创建与基本使用
+tags:
+- JavaScript
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: javascript; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+
+//自定义方法声明
+var box = function(){
+	alert(&#039;11&#039;);
+}
+box();
+
+function box(){
+	alert(&#039;hello world&#039;);
+}
+box();
+
+var box = new Function(&#039;num1&#039;,&#039;num2&#039;,&#039;return num1+num2&#039;);
+alert(box(1,2));
+
+//阶乘
+function box(num){
+	if(num&lt;=1){
+		return 1;
+	}
+	//4 * 3 * 2 * 1
+	//arguments.callee表示自身
+	return num * arguments.callee(num-1);
+}
+
+//window是js里面最大的对象，最外围的对象
+//在最外围this就是window,所以可以使用this.color
+var color = &#039;red&#039;;
+alert(window.color);
+alert(this.color)
+alert(box(4));
+
+//所以下面的方法也是定义一个color属性
+window.color = &#039;红色&#039;;
+alert(color);
+
+//每个函数都包含两个方法，一个是length,一个是prototype
+//prototype包含两个方法一个是apply,call，在特定的作用域中调用函数
+function box(name,age){
+	return name+age;
+}
+
+function sum(arg1,arg2){
+	//调用box,this是作用域，后面的数组是要传的参数
+	//return box.apply(this,[arg1,arg2]);
+	return box.apply(this,arguments);
+	//以下为call
+	//return box.call(this,arg1,arg2);
+}
+alert(sum(10,1));
+
+
+//以下为call,apply实用，其实就是可以冒充作用域
+var color = &#039;red&#039;;
+
+var box={
+	color:&#039;blue&#039;
+}
+
+function SayColor(){
+	 alert(this.color);
+}
+
+SayColor(); //全局
+SayColor.call(window);  //window下面的
+SayColor.call(box);		//box对象下
+
+</pre>

@@ -1,0 +1,30 @@
+---
+layout: post
+title: Java判断输入6位以上字符串
+tags:
+- ubuntu
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre class="brush: java; gutter: true; first-line: 1; highlight: []; html-script: false">
+
+String InputValue = &quot;&quot;;
+
+do{
+	
+	Scanner in = new Scanner(System.in);
+
+	System.out.println(&quot;请输入6位以上的字符串!&quot;);
+	
+	//获取输入值
+	InputValue = in.nextLine();
+	
+	//循环判断输入的内容是否小于6位
+}while(InputValue.length() &lt; 6);
+
+System.out.println(&quot;你输入的字符串是:&quot;+InputValue);
+
+</pre>

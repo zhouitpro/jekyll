@@ -1,0 +1,84 @@
+---
+layout: post
+title: PHP Dom
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_ec597834260fdb831fda807ef68f6fd9: '{{unknown}}'
+  _oembed_fb55777c9a204170ce71bb53d451d3b4: '{{unknown}}'
+  _oembed_2b366df87a7b0494dd6ce9a086e6c115: '{{unknown}}'
+---
+http://cn2.php.net/manual/en/class.domdocument.php
+
+/获取所有的Link链接,可以不再用正则了/
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+function get_links($url) { 
+  
+    // Create a new DOM Document to hold our webpage structure 
+    $xml = new DOMDocument(); 
+  
+    // Load the url&#039;s contents into the DOM 
+    $xml-&gt;loadHTMLFile($url); 
+  
+    // Empty array to hold all links to return 
+    $links = array(); 
+  
+    //Loop through each &lt;a&gt; tag in the dom and add it to the link array 
+    foreach($xml-&gt;getElementsByTagName(&#039;a&#039;) as $link) { 
+        $links[] = array(&#039;url&#039; =&gt; $link-&gt;getAttribute(&#039;href&#039;), &#039;text&#039; =&gt; $link-&gt;nodeValue); 
+    } 
+  
+    //Return the links 
+    return $links; 
+} 
+</pre>
+
+/获取节点,以后会改成curl/
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+function getNode($url = &#039;&#039;, $node = &#039;title&#039;) {
+    
+    $nodes = array();
+    
+    $html = file_get_contents($url);
+    
+    if(strlen($html) == 0) return $nodes;   
+    
+    $dom = new DOMDocument();
+    
+    $dom-&gt;loadHTML($html);  
+    
+    $node = $dom-&gt;getElementsByTagName($node);
+    
+    if($node-&gt;length == 0) return $nodes;
+    
+    for($i = 0; $i&lt;$node-&gt;length; $i++) {
+        $nodes[$i][&#039;value&#039;] = $node-&gt;item($i)-&gt;nodeValue;
+        $nodes[$i][&#039;tagname&#039;] = $node-&gt;item($i)-&gt;tagName;
+        if ($node-&gt;item($i)-&gt;hasAttributes()) 
+        { 
+            foreach ($node-&gt;item($i)-&gt;attributes as $attr) 
+            {
+                $nodes[$i][&#039;attr&#039;][$attr-&gt;nodeName] = $attr-&gt;nodeValue; 
+            } 
+        } 
+     }
+    
+    return $nodes;
+    
+}
+</pre>
+
+/正则获取Title/
+<pre class="brush: php; gutter: true; first-line: 1; highlight: []; html-script: false">
+function getTitle($Url){
+    $str = file_get_contents($Url);
+    if(strlen($str)&gt;0){
+        preg_match(&quot;/\&lt;title\&gt;(.*)\&lt;\/title\&gt;/&quot;,$str,$title);
+        return $title[1];
+    }
+}
+</pre>

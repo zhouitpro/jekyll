@@ -1,0 +1,20 @@
+---
+layout: post
+title: Drupal 根据theme名获取所有 Block
+tags:
+- Drupal
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<pre lang="php">
+$theme = 'twitter_bootstrap';
+$all_regions = system_region_list($theme);
+$blocks = array();
+foreach (array_keys($all_regions) as $region) {
+  $blocks += block_list($region);
+} 
+var_dump($blocks);
+</pre>
